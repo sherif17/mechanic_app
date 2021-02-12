@@ -23,11 +23,31 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  provider: ^4.3.2+3
+  flutter_svg: ^0.18.0
+  firebase_auth: ^0.20.0+1
+  firebase_core: "^0.7.0"
+  google_sign_in: ^4.5.9
+  http: ^0.12.2
+  jwt_decoder: ^1.0.3
+  shared_preferences: ^0.5.12+2
+  flutter_localizations:
+      sdk: flutter
+  mask_text_input_formatter: ^1.2.1
+  flutter_masked_text: ^0.8.0
+  image_picker: ^0.6.7+14
+  dio: ^3.0.10
+  #path: ^1.7.0
+  google_maps_flutter: ^1.2.0
+  geolocator: ^6.2.0
+  #flutter_facebook_login: ^3.0.0
+
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
+  cloud_firestore: ^0.16.0
 
 dev_dependencies:
   flutter_test:
@@ -48,6 +68,12 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/icons/
+    - assets/images/
+    - assets/illustrations/
+    - lib/lang/ar.json
+    - lib/lang/en.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -71,6 +97,19 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+  fonts:
+    - family: MPLUSRounded1c
+      fonts:
+        - asset: assets/fonts/MPLUSRounded1c-Black.ttf
+          weight: 700
+    - family: Lato
+      fonts:
+        - asset: assets/fonts/Lato-Black.ttf
+        - asset: assets/fonts/Lato-Bold.ttf
+        - asset: assets/fonts/Lato-BlackItalic.ttf
+        - asset: assets/fonts/Lato-BoldItalic.ttf
+        - asset: assets/fonts/Lato-Regular.ttf
+        - asset: assets/fonts/Lato-Thin.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
