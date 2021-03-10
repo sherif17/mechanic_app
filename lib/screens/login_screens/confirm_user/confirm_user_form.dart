@@ -164,7 +164,8 @@ class _ConfirmUserFormState extends State<ConfirmUserForm> {
                               isApiCallProcess = false;
                             });
                             printAllWinchUserCurrentData();
-                            Navigator.pushNamed(context, DashBoard.routeName);
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, DashBoard.routeName, (route) => false);
                           } else
                             print(value.error);
                         },

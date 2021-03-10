@@ -71,6 +71,10 @@ class _BodyState extends State<Body> {
             "$prefFName  $prefLName",
             style: Theme.of(context).textTheme.headline2,
           ),
+          Text(
+            "Working City : $workingCity",
+            style: Theme.of(context).textTheme.headline6,
+          ),
           RoundedButton(
               text: 'Yes, its Me',
               color: Theme.of(context).primaryColor,
@@ -78,7 +82,7 @@ class _BodyState extends State<Body> {
                 Map<String, dynamic> decodedToken =
                     JwtDecoder.decode(prefJwtToken);
                 setPrefBackendID(decodedToken["_id"]);
-                Navigator.pushNamed(context, DashBoard.routeName);
+                Navigator.pushReplacementNamed(context, DashBoard.routeName);
               }),
           Theme(
             data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
@@ -154,22 +158,28 @@ class _BodyState extends State<Body> {
         prefJwtToken = value;
       });
     });
-    getPrefCurrentLang().then((value) => currentLang = value);
-    getPrefWorkingCity().then((value) => workingCity = value);
+    getPrefCurrentLang().then((value) {
+      setState(() {
+        currentLang = value;
+      });
+    });
+    getPrefWorkingCity().then((value) {
+      return workingCity = value;
+    });
   }
 }
 
 Future buildStepperShowModalBottomSheet(BuildContext context, size) {
   return showModalBottomSheet(
     context: context,
-    //isScrollControlled: true,
+    isScrollControlled: true,
     enableDrag: true,
     backgroundColor: Colors.transparent,
     builder: (context) {
       return StatefulBuilder(
         builder: (BuildContext context, setState) {
           return Stack(
-            fit: StackFit.expand,
+            //fit: StackFit.expand,
             clipBehavior: Clip.antiAliasWithSaveLayer,
             overflow: Overflow.visible,
             children: [

@@ -10,7 +10,8 @@ import 'package:mechanic_app/widgets/form_error.dart';
 
 class CompleteProfile extends StatefulWidget {
   GlobalKey<FormState> firstStepFormKey = GlobalKey<FormState>();
-  CompleteProfile({this.firstStepFormKey});
+  String Fname;
+  CompleteProfile({this.firstStepFormKey, this.Fname});
   @override
   _CompleteProfileState createState() => _CompleteProfileState();
 }
@@ -95,8 +96,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
                 top: MediaQuery.of(context).size.height * 0.01,
                 bottom: MediaQuery.of(context).size.height * 0.03),
             child: Text(
-              "Complete Your Profile",
-              style: Theme.of(context).textTheme.headline2,
+              "Let's Complete Your Profile, ${widget.Fname}",
+              style: Theme.of(context).textTheme.headline6,
             ),
           ),
         ),

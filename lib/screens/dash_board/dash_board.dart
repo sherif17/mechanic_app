@@ -49,7 +49,7 @@ class _DashBoard extends State<DashBoard> {
         shape: CircularNotchedRectangle(),
         notchMargin: 5,
         child: Container(
-          height: size.height * 0.08,
+          height: size.height * 0.09,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[

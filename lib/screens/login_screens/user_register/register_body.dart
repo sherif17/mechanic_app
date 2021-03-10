@@ -191,7 +191,9 @@ class _BodyState extends State<Body> {
                     print(Gdecode);
                     setPrefFirstName(Gdecode[0]);
                     setPrefLastName(Gdecode[1]);
-                    Navigator.pushNamed(context, MainStepper.routeName);
+                    showRegisterModalBottomSheet(
+                        context, size.height * 0.45, true, "byGoogle", "");
+                    // Navigator.pushNamed(context, MainStepper.routeName);
                     printAllWinchUserCurrentData();
                     /* print("Request body: ${winchRegisterRequestModel.toJson()}.");
                   setState(() {
@@ -360,12 +362,12 @@ showRegisterModalBottomSheet(
           ),
           SizedBox(height: size.height * 0.02),
           RoundedButton(
-            text: state ? "Go To Home Page" : "Try again",
+            text: state ? "Continue" : "Try again",
             color: Theme.of(context).primaryColorLight,
             press: () {
               state
-                  ? Navigator.pushNamed(context, MainStepper.routeName,
-                      arguments: arguments)
+                  ? Navigator.pushNamedAndRemoveUntil(
+                      context, MainStepper.routeName, (route) => false)
                   : Navigator.pop(context);
             },
           )

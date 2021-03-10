@@ -27,8 +27,8 @@ class StepperBody extends StatefulWidget {
 class _StepperBodyState extends State<StepperBody> {
   GlobalKey<FormState> firstStepFormKey = GlobalKey<FormState>();
   WinchRegisterRequestModel winchRegisterRequestModel;
-  //String charPlate;
-  //String numPlate;
+  String Fname;
+  String Lang;
   String JwtToken;
   // String title = 'Stepper';
   int _currentstep = 0;
@@ -47,6 +47,7 @@ class _StepperBodyState extends State<StepperBody> {
   void initState() {
     super.initState();
     winchRegisterRequestModel = new WinchRegisterRequestModel();
+    getCurrentMechanicUserData();
   }
 
   /* uploadAllFiles() async {
@@ -62,6 +63,21 @@ class _StepperBodyState extends State<StepperBody> {
     }
   }
 */
+
+  getCurrentMechanicUserData() {
+    getPrefCurrentLang().then((value) {
+      setState(() {
+        Lang = value;
+      });
+    });
+
+    getPrefFirstName().then((value) {
+      setState(() {
+        Fname = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ProgressHUD(
@@ -234,7 +250,8 @@ class _StepperBodyState extends State<StepperBody> {
                             print(response.reasonPhrase);
                         }
                       } else {
-                        Navigator.pushNamed(context, DashBoard.routeName);
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, DashBoard.routeName, (route) => false);
                         printAllWinchUserCurrentData();
                       }
 
@@ -284,6 +301,7 @@ class _StepperBodyState extends State<StepperBody> {
         title: Text(""),
         content: CompleteProfile(
           firstStepFormKey: this.firstStepFormKey,
+          Fname: Fname,
         ),
         isActive: true,
         state: StepState.indexed,
