@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
+import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/models/files_upload_model.dart';
 import 'package:mechanic_app/models/user_register_model.dart';
 import 'package:mechanic_app/screens/dash_board/dash_board.dart';
@@ -20,6 +21,9 @@ import 'package:mechanic_app/shared_prefrences/winch_user_model.dart';
 import 'package:mechanic_app/widgets/rounded_button.dart';
 
 class StepperBody extends StatefulWidget {
+  String lango;
+
+  StepperBody(this.lango);
   @override
   _StepperBodyState createState() => _StepperBodyState();
 }
@@ -132,7 +136,9 @@ class _StepperBodyState extends State<StepperBody> {
               Expanded(
                 flex: 2,
                 child: RoundedButton(
-                    text: _currentstep == 3 ? "Let's Start" : "Next",
+                    text: _currentstep == 3
+                        ? getTranslated(context, "Let's Start")
+                        : getTranslated(context, "Next"),
                     color: Theme.of(context).primaryColor,
                     textColor: Theme.of(context).accentColor,
                     press: () async {
@@ -302,6 +308,7 @@ class _StepperBodyState extends State<StepperBody> {
         content: CompleteProfile(
           firstStepFormKey: this.firstStepFormKey,
           Fname: Fname,
+          Lang: widget.lango,
         ),
         isActive: true,
         state: StepState.indexed,

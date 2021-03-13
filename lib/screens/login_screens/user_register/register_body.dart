@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/models/user_register_model.dart';
 import 'package:mechanic_app/screens/login_screens/file_upload/main_stepper.dart';
 import 'package:mechanic_app/screens/login_screens/otp/componants/progress_bar.dart';
@@ -47,7 +48,18 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
+    getCurrentPrefData();
     winchRegisterRequestModel = new WinchRegisterRequestModel();
+  }
+
+  String currentLang;
+
+  void getCurrentPrefData() {
+    getPrefCurrentLang().then((value) {
+      setState(() {
+        currentLang = value;
+      });
+    });
   }
 
   Widget build(BuildContext context) {
@@ -71,23 +83,50 @@ class _BodyState extends State<Body> {
         child: Column(
           children: <Widget>[
             // SizedBox(height: size.height * 0.00005),
-            Text(
-              "What's Your Name",
-              style: Theme.of(context).textTheme.headline1,
+            Padding(
+              padding: EdgeInsets.only(
+                  left: size.width * 0.03, right: size.width * 0.03),
+              child: Align(
+                alignment: currentLang == "en"
+                    ? Alignment.centerLeft
+                    : Alignment.centerRight,
+                child: Text(
+                  getTranslated(context, "What's Your Name ?"),
+                  style: Theme.of(context).textTheme.headline1,
+                ),
+              ),
             ),
-
+            SizedBox(height: size.height * 0.02),
+            Padding(
+              padding: EdgeInsets.only(
+                  left: size.width * 0.04, right: size.width * 0.04),
+              child: Align(
+                alignment: currentLang == "en"
+                    ? Alignment.centerLeft
+                    : Alignment.centerRight,
+                child: FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Text(
+                    getTranslated(context,
+                        "Your name helps Captains to confirm who they 're picking up"),
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                ),
+              ),
+            ),
             SizedBox(height: size.height * 0.02),
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: RegisterForm(
-                    /*otpResponse_jwt: otpResponse.jwtToken,
+                  currentLang: currentLang,
+                  /*otpResponse_jwt: otpResponse.jwtToken,
                     otpResponse_phone: otpResponse.Phone*/
-                    )),
+                )),
             SizedBox(height: size.height * 0.02),
             OrDivider(),
             SizedBox(height: size.height * 0.02),
             borderedRoundedButton(
-              text: 'Continue with Facebook',
+              text: getTranslated(context, 'Continue with Facebook'),
               iconSrc: 'assets/icons/facebook.svg',
               CornerRadius: 29,
               press: () async {
@@ -167,7 +206,7 @@ class _BodyState extends State<Body> {
 
             SizedBox(height: size.height * 0.02),
             borderedRoundedButton(
-                text: 'Continue with Google',
+                text: getTranslated(context, "Continue with Google"),
                 iconSrc: 'assets/icons/google_logo.svg',
                 CornerRadius: 29,
                 press: () async {
@@ -191,8 +230,8 @@ class _BodyState extends State<Body> {
                     print(Gdecode);
                     setPrefFirstName(Gdecode[0]);
                     setPrefLastName(Gdecode[1]);
-                    showRegisterModalBottomSheet(
-                        context, size.height * 0.45, true, "byGoogle", "");
+                    showRegisterModalBottomSheet(context, size.height * 0.48,
+                        true, "byGoogle", LangModel(language: currentLang));
                     // Navigator.pushNamed(context, MainStepper.routeName);
                     printAllWinchUserCurrentData();
                     /* print("Request body: ${winchRegisterRequestModel.toJson()}.");
@@ -246,24 +285,30 @@ class _BodyState extends State<Body> {
                     setState(() {
                       isApiCallProcess = false;
                     });
-                    showRegisterModalBottomSheet(
-                        context, size.height * 0.4, false, "byGoogleError", "");
+                    showRegisterModalBottomSheet(context, size.height * 0.45,
+                        false, "byGoogleError", "");
                   }
                 }),
 
             SizedBox(height: size.height * 0.02),
             borderedRoundedButton(
               CornerRadius: 29,
-              text: 'Continue with Apple ID',
+              text: getTranslated(context, "Continue with Apple ID"),
               iconSrc: 'assets/icons/apple.svg',
               press: () {},
             ),
-            SizedBox(height: size.height * 0.02),
+            //SizedBox(height: size.height * 0.02),
           ],
         ),
       ),
     );
   }
+}
+
+class LangModel {
+  String language;
+
+  LangModel({this.language});
 }
 
 showRegisterModalBottomSheet(
@@ -272,46 +317,53 @@ showRegisterModalBottomSheet(
   switch (errorCausal) {
     case "byName":
       {
-        processMsg = "You registered by first & last name";
+        processMsg =
+            getTranslated(context, "You registered by first & last name");
       }
       break;
 
     case "byGoogle":
       {
-        processMsg = "You registered by your Google account";
+        processMsg =
+            getTranslated(context, "You registered by your Google account");
       }
       break;
 
     case "ByFacebook":
       {
-        processMsg = "You registered by your Facebook account";
+        processMsg =
+            getTranslated(context, "You registered by your Facebook account");
       }
       break;
 
     case "byNameError":
       {
-        processMsg = "Failed to sync your Data to the server";
+        processMsg =
+            getTranslated(context, "Failed to sync your Data to the server");
+        ;
       }
       break;
 
     case "byGoogleError":
       {
-        processMsg = "Failed to fetch your Data from google account";
+        processMsg = getTranslated(
+            context, "Failed to fetch your Data from google account");
       }
       break;
     case "byFacebookError":
       {
-        processMsg = "Failed to fetch your Data from your facebook account";
+        processMsg = getTranslated(
+            context, "Failed to fetch your Data from your facebook account");
       }
       break;
     case "InvalidUserToken":
       {
-        processMsg = "Invalid User Token";
+        processMsg = getTranslated(context, "Invalid User Token");
       }
       break;
     default:
       {
-        processMsg = "server response error";
+        processMsg = getTranslated(context, "server response error");
       }
       break;
   }
@@ -344,13 +396,18 @@ showRegisterModalBottomSheet(
             ),
           ),
           SizedBox(height: size.height * 0.015),
-          Text(state ? "Successfully Signed Up" : "Getting Your Data Failed ",
+          Text(
+              state
+                  ? getTranslated(context, "Successfully Signed Up")
+                  : getTranslated(context, "Getting Your Data Failed"),
               style: Theme.of(context).textTheme.headline3),
           SizedBox(height: size.height * 0.015),
           Text(
             state
-                ? "You successfully created account in our app"
-                : "There is something wrong while fetching your data",
+                ? getTranslated(
+                    context, "You successfully created account in our app")
+                : getTranslated(context,
+                    "There is something wrong while fetching your data"),
             style: Theme.of(context).textTheme.caption,
             textAlign: TextAlign.center,
           ),
@@ -362,12 +419,15 @@ showRegisterModalBottomSheet(
           ),
           SizedBox(height: size.height * 0.02),
           RoundedButton(
-            text: state ? "Continue" : "Try again",
+            text: state
+                ? getTranslated(context, "Next")
+                : getTranslated(context, "Try again"),
             color: Theme.of(context).primaryColorLight,
             press: () {
               state
                   ? Navigator.pushNamedAndRemoveUntil(
-                      context, MainStepper.routeName, (route) => false)
+                      context, MainStepper.routeName, (route) => false,
+                      arguments: arguments)
                   : Navigator.pop(context);
             },
           )

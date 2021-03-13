@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/models/user_register_model.dart';
 import 'package:mechanic_app/screens/login_screens/file_upload/main_stepper.dart';
 import 'package:mechanic_app/screens/login_screens/otp/componants/progress_bar.dart';
+import 'package:mechanic_app/screens/login_screens/user_register/register_body.dart';
 import 'package:mechanic_app/shared_prefrences/winch_user_model.dart';
 import 'package:mechanic_app/utils/constants.dart';
 import 'package:mechanic_app/widgets/rounded_button.dart';
@@ -12,7 +14,12 @@ import '../../../widgets/form_error.dart';
 class RegisterForm extends StatefulWidget {
   String otpResponse_jwt;
   String otpResponse_phone;
-  RegisterForm({Key key, this.otpResponse_jwt, this.otpResponse_phone});
+  String currentLang;
+  RegisterForm(
+      {Key key,
+      this.otpResponse_jwt,
+      this.otpResponse_phone,
+      this.currentLang});
 
   @override
   _RegisterFormState createState() => _RegisterFormState();
@@ -89,17 +96,16 @@ class _RegisterFormState extends State<RegisterForm> {
         FormError(size: size, errors: errors),
         SizedBox(height: size.height * 0.03),
         RoundedButton(
-          text: 'Create Account',
+          text: getTranslated(context, "Continue"),
           color: Theme.of(context).primaryColor,
           press: () async {
             if (registerValidateAndSave()) {
               print("Request body: ${winchRegisterRequestModel.toJson()}.");
-              Navigator.pushNamed(context, MainStepper.routeName);
-              print(await getPrefJwtToken());
-              print(await getPrefPhoneNumber());
-              print(await getPrefLastName());
-              print(await getPrefFirstName());
-              print(await getPrefFirebaseID());
+              setPrefSocialImage(null);
+              setPrefSocialEmail(null);
+              Navigator.pushNamed(context, MainStepper.routeName,
+                  arguments: LangModel(language: widget.currentLang));
+              printAllWinchUserCurrentData();
               /* setState(() {
                 isApiCallProcess = true;
               });
@@ -154,8 +160,8 @@ class _RegisterFormState extends State<RegisterForm> {
     return TextFormField(
       keyboardType: TextInputType.name,
       decoration: InputDecoration(
-        hintText: 'Your First Name',
-        labelText: 'First Name',
+        hintText: widget.currentLang == "en" ? 'Your First Name' : "اسمك الاول",
+        labelText: widget.currentLang == "en" ? 'First Name' : "الاسم الاول",
         floatingLabelBehavior: FloatingLabelBehavior.auto,
       ),
       onSaved: (newValue) {
@@ -192,8 +198,8 @@ class _RegisterFormState extends State<RegisterForm> {
     return TextFormField(
       keyboardType: TextInputType.name,
       decoration: InputDecoration(
-        hintText: 'Your Last Name',
-        labelText: 'Last Name',
+        hintText: widget.currentLang == "en" ? 'Your Last Name' : "اسم عائلتك",
+        labelText: widget.currentLang == "en" ? 'Last Name' : "اسم العائله",
         floatingLabelBehavior: FloatingLabelBehavior.auto,
       ),
       onSaved: (newValue) {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/screens/login_screens/file_upload/step_one/city_modal_list.dart';
 import 'package:mechanic_app/shared_prefrences/winch_user_model.dart';
 import 'package:mechanic_app/utils/constants.dart';
@@ -10,8 +11,8 @@ import 'package:mechanic_app/widgets/form_error.dart';
 
 class CompleteProfile extends StatefulWidget {
   GlobalKey<FormState> firstStepFormKey = GlobalKey<FormState>();
-  String Fname;
-  CompleteProfile({this.firstStepFormKey, this.Fname});
+  String Fname, Lang;
+  CompleteProfile({this.firstStepFormKey, this.Fname, this.Lang});
   @override
   _CompleteProfileState createState() => _CompleteProfileState();
 }
@@ -19,7 +20,7 @@ class CompleteProfile extends StatefulWidget {
 class _CompleteProfileState extends State<CompleteProfile> {
   String Lang;
 
-  List<CityItem> _cities = CityItem.getCompanies();
+  List<CityItem> _cities;
   List<DropdownMenuItem<CityItem>> _dropdownMenuItems;
   CityItem _selectedCity;
   @override
@@ -31,10 +32,14 @@ class _CompleteProfileState extends State<CompleteProfile> {
 
   @override
   void initState() {
+    setState(() {
+      _cities = widget.Lang == 'ar'
+          ? CityItem.getArabCompanies()
+          : CityItem.getEngCompanies();
+    });
     _dropdownMenuItems = buildDropdownMenuItems(_cities);
     _selectedCity = _dropdownMenuItems[0].value;
-    getCurrentLang();
-    CityItem.lang = Lang;
+
     // TODO: implement initState
     super.initState();
   }
@@ -56,14 +61,6 @@ class _CompleteProfileState extends State<CompleteProfile> {
     setState(() {
       _selectedCity = selectedCity;
       setPrefWorkingCity(selectedCity.city);
-    });
-  }
-
-  getCurrentLang() async {
-    await getPrefCurrentLang().then((value) {
-      CityItem.lang = value;
-      _dropdownMenuItems = buildDropdownMenuItems(_cities);
-      print("lang val :${CityItem.lang}");
     });
   }
 
@@ -93,10 +90,11 @@ class _CompleteProfileState extends State<CompleteProfile> {
           alignment: Alignment.center,
           child: Padding(
             padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.01,
+                top: MediaQuery.of(context).size.height * 0.1,
                 bottom: MediaQuery.of(context).size.height * 0.03),
             child: Text(
-              "Let's Complete Your Profile, ${widget.Fname}",
+              getTranslated(context, "Let's Complete Your Profile") +
+                  widget.Fname,
               style: Theme.of(context).textTheme.headline6,
             ),
           ),
@@ -105,9 +103,6 @@ class _CompleteProfileState extends State<CompleteProfile> {
           height: size.height * 0.05,
         ),
         // Text("Please Enter Winch Plates information"),
-        SizedBox(
-          height: size.height * 0.04,
-        ),
         Form(
           key: widget.firstStepFormKey,
           child: Column(
@@ -128,7 +123,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
         SizedBox(
           height: size.height * 0.05,
         ),
-        Text("Select Desired Working City"),
+        Text(getTranslated(context, "Select Desired Working City")),
         SizedBox(
           height: size.height * 0.05,
         ),

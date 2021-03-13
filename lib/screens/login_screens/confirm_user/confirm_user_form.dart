@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/models/user_register_model.dart';
 import 'package:mechanic_app/screens/dash_board/dash_board.dart';
 import 'package:mechanic_app/screens/login_screens/otp/componants/progress_bar.dart';
@@ -125,7 +126,7 @@ class _ConfirmUserFormState extends State<ConfirmUserForm> {
                 width: size.width * 0.5,
                 child: DecoratedPhoneTField()),
             RoundedButton(
-                text: "Edit my info",
+                text: getTranslated(context, "Edit my info"),
                 color: Theme.of(context).primaryColor,
                 press: () async {
                   if (confirmValidateAndSave()) {
@@ -200,7 +201,7 @@ class _ConfirmUserFormState extends State<ConfirmUserForm> {
       initialValue: widget.prefFName,
       style: Theme.of(context).textTheme.bodyText2,
       decoration: InputDecoration(
-        labelText: 'First Name',
+        labelText: widget.currentLang == "en" ? 'First Name' : "الاسم الاول",
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
       onSaved: (newValue) {
@@ -240,7 +241,7 @@ class _ConfirmUserFormState extends State<ConfirmUserForm> {
       initialValue: widget.prefLName,
       style: Theme.of(context).textTheme.bodyText2,
       decoration: InputDecoration(
-        labelText: 'Last Name',
+        labelText: widget.currentLang == "en" ? 'Last Name' : "اسم العائله",
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
       onSaved: (newValue) {
@@ -282,7 +283,7 @@ class _ConfirmUserFormState extends State<ConfirmUserForm> {
       initialValue: widget.prefPhone,
       style: Theme.of(context).textTheme.bodyText2,
       decoration: InputDecoration(
-        labelText: 'Phone',
+        labelText: widget.currentLang == "en" ? 'Phone number' : "رقم الهاتف",
         //disabledBorder: disableInputBorder(),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),

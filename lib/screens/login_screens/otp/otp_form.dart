@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/models/phone_num_model.dart';
 import 'package:mechanic_app/screens/login_screens/confirm_user/confirm_is_that_user.dart';
 import 'package:mechanic_app/screens/login_screens/file_upload/step_three/confirmationcode.dart';
@@ -96,7 +97,7 @@ class _OtpFormState extends State<OtpForm> {
       key: _pinKey_two,
       child: Column(
         children: [
-          SizedBox(height: size.height * 0.08),
+          SizedBox(height: size.height * 0.02),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
@@ -199,9 +200,9 @@ class _OtpFormState extends State<OtpForm> {
               ],
             ),
           ),
-          SizedBox(height: size.height * 0.07),
+          SizedBox(height: size.height * 0.04),
           RoundedButton(
-              text: "Verify",
+              text: getTranslated(context, "Verify"),
               color: Theme.of(context).primaryColor,
               textColor: Theme.of(context).accentColor,
               press: () async {
@@ -226,7 +227,7 @@ class _OtpFormState extends State<OtpForm> {
                   print("invalid otp");
                   checkFirebase = false;
                   _showModalBottomSheet(context, size.height * 0.45, code,
-                      "failed to get user fire token");
+                      getTranslated(context, "failed to get user fire token"));
                 }
                 if (checkFirebase == true) {
                   widget.phoneRequestModel.fireBaseId = fireToken;
@@ -361,13 +362,19 @@ _showModalBottomSheet(context, container_size, otpcode, errorCousal) {
               ),
             ),
             SizedBox(height: size.height * 0.015),
-            Text(x ? "Invalid OTP" : "Empty Fields",
+            Text(
+                x
+                    ? getTranslated(context, "Invalid OTP")
+                    : getTranslated(context, "Empty Fields"),
                 style: Theme.of(context).textTheme.headline3),
             SizedBox(height: size.height * 0.015),
             Text(
               x
-                  ? "This Code ${otpcode} doesn't match with the code we sent to you"
-                  : "Please Enter the Received code",
+                  ? getTranslated(context, "This Code") +
+                      otpcode +
+                      getTranslated(
+                          context, "doesn't match with the code we sent to you")
+                  : getTranslated(context, "Please Enter the Received code"),
               style: Theme.of(context).textTheme.caption,
               textAlign: TextAlign.center,
             ),
@@ -379,7 +386,7 @@ _showModalBottomSheet(context, container_size, otpcode, errorCousal) {
             ),
             SizedBox(height: size.height * 0.005),
             RoundedButton(
-              text: "Try Again",
+              text: getTranslated(context, "Try Again"),
               color: Theme.of(context).primaryColor,
               press: () {
                 Navigator.pop(context);

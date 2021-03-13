@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:path/path.dart';
 
 class RequiredFiles extends StatefulWidget {
@@ -41,14 +42,14 @@ class _RequiredFilesState extends State<RequiredFiles> {
                 top: MediaQuery.of(context).size.height * 0.01,
                 bottom: MediaQuery.of(context).size.height * 0.03),
             child: Text(
-              "Upload Required Files",
+              getTranslated(context, "Upload Required Files"),
               style: Theme.of(context).textTheme.headline2,
             ),
           ),
           BuildFileUpload(
               context,
-              'Personal Photo',
-              "Please upload clear photo",
+              getTranslated(context, 'Personal Photo'),
+              getTranslated(context, "Please upload clear photo for you"),
               "assets/icons/profile.png",
               true,
               widget.personalPhoto,
@@ -134,7 +135,9 @@ class _RequiredFilesState extends State<RequiredFiles> {
                         flex: 3,
                         child: Padding(
                             padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * 0.04),
+                                left: MediaQuery.of(context).size.width * 0.04,
+                                right:
+                                    MediaQuery.of(context).size.width * 0.04),
                             child: Text(
                               content,
                               style: TextStyle(
@@ -159,7 +162,7 @@ class _RequiredFilesState extends State<RequiredFiles> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Upload"),
+                        Text(getTranslated(context, "Upload")),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.03),
                         SvgPicture.asset(

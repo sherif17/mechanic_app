@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/screens/dash_board/earnings/earnings.dart';
 import 'package:mechanic_app/screens/dash_board/home/home.dart';
 import 'package:mechanic_app/screens/dash_board/profile/profile.dart';
@@ -49,7 +50,7 @@ class _DashBoard extends State<DashBoard> {
         shape: CircularNotchedRectangle(),
         notchMargin: 5,
         child: Container(
-          height: size.height * 0.09,
+          height: size.height * 0.099,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -76,7 +77,7 @@ class _DashBoard extends State<DashBoard> {
                               : Colors.grey,
                         ),
                         Text(
-                          'Home',
+                          getTranslated(context, "Home"),
                           style: TextStyle(
                             color: currentTab == 0
                                 ? Theme.of(context).primaryColorLight
@@ -91,7 +92,7 @@ class _DashBoard extends State<DashBoard> {
               Padding(
                 padding: const EdgeInsets.only(top: 36.0),
                 child: Text(
-                  'Earnings',
+                  getTranslated(context, "Earnings"),
                   style: TextStyle(
                     fontSize: 20,
                     color: currentTab == 1
@@ -123,7 +124,7 @@ class _DashBoard extends State<DashBoard> {
                               : Colors.grey,
                         ),
                         Text(
-                          'Profile',
+                          getTranslated(context, "Profile"),
                           style: TextStyle(
                             color: currentTab == 2
                                 ? Theme.of(context).primaryColorLight

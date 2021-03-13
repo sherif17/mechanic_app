@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/screens/dash_board/dash_board.dart';
 import 'package:mechanic_app/screens/login_screens/common_widgets/background.dart';
 import 'package:mechanic_app/screens/login_screens/otp/componants/navigation_args.dart';
@@ -33,20 +34,6 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     getCurrentPrefData();
-    //getCurrentPrefFName();
-    /* getPrefFirstName().then((value) {
-      setState(() {
-        fName = value.toUpperCase();
-      });
-    });
-    getPrefLastName().then((value) {
-      setState(() {
-        lName = value.toUpperCase();
-      });
-    });*/
-    //final prefs = await SharedPreferences.getInstance();
-    //yarab = prefs.getString("firstName") ?? " ";
-
     // TODO: implement initState
     super.initState();
   }
@@ -60,7 +47,7 @@ class _BodyState extends State<Body> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(
-            "$prefFName ,Is That You ?",
+            prefFName.toUpperCase() + getTranslated(context, "Is That You ?"),
             style: Theme.of(context).textTheme.headline1,
           ),
           UserAvatar(
@@ -72,11 +59,11 @@ class _BodyState extends State<Body> {
             style: Theme.of(context).textTheme.headline2,
           ),
           Text(
-            "Working City : $workingCity",
+            getTranslated(context, "Working City:") + workingCity,
             style: Theme.of(context).textTheme.headline6,
           ),
           RoundedButton(
-              text: 'Yes, its Me',
+              text: getTranslated(context, "Yes, its Me"),
               color: Theme.of(context).primaryColor,
               press: () {
                 Map<String, dynamic> decodedToken =
@@ -87,7 +74,7 @@ class _BodyState extends State<Body> {
           Theme(
             data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
             child: borderedRoundedButton(
-                text: 'No, Edit Info',
+                text: getTranslated(context, "No, Edit Info"),
                 CornerRadius: 10,
                 press: () async {
                   await buildStepperShowModalBottomSheet(context, size);
@@ -143,16 +130,6 @@ class _BodyState extends State<Body> {
         prefPhone = value;
       });
     });
-    // getPrefWinchPlates().then((value) {
-    //   setState(() {
-    //     prefWinchPlatesNum = value.substring(0, 4);
-    //     String part1 = value.substring(4);
-    //     //String part2 = value.substring(4, 7);
-    //     prefWinchPlatesChar = part1;
-    //     print(prefWinchPlatesNum);
-    //     print(prefWinchPlatesChar);
-    //   });
-    // });
     getPrefJwtToken().then((value) {
       setState(() {
         prefJwtToken = value;
