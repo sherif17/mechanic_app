@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mechanic_app/localization/localization_constants.dart';
 
 class ProgressHUD extends StatelessWidget {
   final Widget child;
@@ -55,7 +56,7 @@ class ProgressHUD extends StatelessWidget {
                 ),
                 SizedBox(width: size.width * 0.05),
                 Text(
-                  "Processing ",
+                  getTranslated(context, "Please wait"),
                   style: Theme.of(context).textTheme.headline2,
                 ),
               ],
