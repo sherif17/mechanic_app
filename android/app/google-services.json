@@ -1,0 +1,129 @@
+{
+  "project_info": {
+    "project_number": "748745160924",
+    "project_id": "rescuemycarapp",
+    "storage_bucket": "rescuemycarapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:748745160924:android:fed532892ea622faa79c19",
+        "android_client_info": {
+          "package_name": "com.example.customer_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "748745160924-j7n5g7n3lqrsrjg4i0494ev3hmoppenu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.customer_app",
+            "certificate_hash": "25787234dc1354db3a83ea62a95f87294c31031e"
+          }
+        },
+        {
+          "client_id": "748745160924-nab6ra8dtfjobieg04nfc1sjmurbshh1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.customer_app",
+            "certificate_hash": "e68331dfd694b509ae5c74c2047db4e02a1048b5"
+          }
+        },
+        {
+          "client_id": "748745160924-587rjgcsbvp74j9rop62vgoehm7edigm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLtXlHwK8wnkhH7i4TYbU0Hdf_mDmWDX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "748745160924-587rjgcsbvp74j9rop62vgoehm7edigm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:748745160924:android:ef8e316f5c4fca0da79c19",
+        "android_client_info": {
+          "package_name": "com.example.mechanic_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "748745160924-b5d4rgu5r9p6mlohc49jpl2l7q032li2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mechanic_app",
+            "certificate_hash": "e68331dfd694b509ae5c74c2047db4e02a1048b5"
+          }
+        },
+        {
+          "client_id": "748745160924-587rjgcsbvp74j9rop62vgoehm7edigm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLtXlHwK8wnkhH7i4TYbU0Hdf_mDmWDX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "748745160924-587rjgcsbvp74j9rop62vgoehm7edigm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:748745160924:android:9585f756f23e0075a79c19",
+        "android_client_info": {
+          "package_name": "com.example.winch_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "748745160924-kc0l3oulokmmh077sr583fig960a6g1l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.winch_app",
+            "certificate_hash": "e68331dfd694b509ae5c74c2047db4e02a1048b5"
+          }
+        },
+        {
+          "client_id": "748745160924-587rjgcsbvp74j9rop62vgoehm7edigm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLtXlHwK8wnkhH7i4TYbU0Hdf_mDmWDX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "748745160924-587rjgcsbvp74j9rop62vgoehm7edigm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
