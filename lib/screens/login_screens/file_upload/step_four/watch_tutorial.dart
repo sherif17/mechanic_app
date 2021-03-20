@@ -9,7 +9,7 @@ class WatchTutorial extends StatefulWidget {
 }
 
 class _WatchTutorialState extends State<WatchTutorial> {
-  String CurrentWinchUserFname;
+  String CurrentWinchUserFname = " ";
   @override
   void initState() {
     getWinchUserData();
@@ -20,35 +20,42 @@ class _WatchTutorialState extends State<WatchTutorial> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Column(
-      children: <Widget>[
-        Padding(
-            padding: EdgeInsets.only(top: size.height * 0),
-            child: SvgPicture.asset(
-              "assets/icons/checkmark.svg",
-              height: size.height * 0.4,
-              color: Colors.greenAccent,
-            )),
-        SizedBox(height: size.height * 0.05),
-        Text(
-          getTranslated(context, "Congratulations") + CurrentWinchUserFname,
-          style: Theme.of(context).textTheme.headline3,
-        ),
-        SizedBox(height: size.height * 0.04),
-        Text(
-          getTranslated(context,
-              "You Have Successfully Registered as Mechanic In Our App"),
-          style: Theme.of(context).textTheme.bodyText1,
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: size.height * 0.03),
-        Text(
-          getTranslated(context, "Let's Start Your Mission With Us"),
-          style: Theme.of(context).textTheme.bodyText2,
-          textAlign: TextAlign.center,
-        ),
+    return CurrentWinchUserFname == " "
+        ? CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.indigoAccent))
+        : Column(
+            children: <Widget>[
+              Padding(
+                  padding: EdgeInsets.only(top: size.height * 0),
+                  child: SvgPicture.asset(
+                    "assets/icons/checkmark.svg",
+                    height: size.height * 0.4,
+                    color: Colors.greenAccent,
+                  )),
+              SizedBox(height: size.height * 0.05),
+              Text(
+                getTranslated(context, "Congratulations") +
+                    CurrentWinchUserFname,
+                style: Theme.of(context).textTheme.headline3,
+              ),
+              SizedBox(height: size.height * 0.04),
+              FittedBox(
+                fit: BoxFit.fitWidth,
+                child: Text(
+                  getTranslated(context,
+                      "You Have Successfully Registered as Mechanic In Our App"),
+                  style: Theme.of(context).textTheme.bodyText1,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(height: size.height * 0.03),
+              Text(
+                getTranslated(context, "Let's Start Your Mission With Us"),
+                style: Theme.of(context).textTheme.bodyText2,
+                textAlign: TextAlign.center,
+              ),
 
-        /*Padding(
+              /*Padding(
           padding:
           const EdgeInsets.only(top: 60.0, left: 10.0, bottom: 10.0),
           child: Text(
@@ -86,8 +93,8 @@ class _WatchTutorialState extends State<WatchTutorial> {
             ),
           ),
         ),*/
-      ],
-    );
+            ],
+          );
   }
 
   getWinchUserData() async {

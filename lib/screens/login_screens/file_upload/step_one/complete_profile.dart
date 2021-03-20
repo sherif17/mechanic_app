@@ -92,10 +92,13 @@ class _CompleteProfileState extends State<CompleteProfile> {
             padding: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 0.1,
                 bottom: MediaQuery.of(context).size.height * 0.03),
-            child: Text(
-              getTranslated(context, "Let's Complete Your Profile") +
-                  widget.Fname,
-              style: Theme.of(context).textTheme.headline6,
+            child: FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Text(
+                getTranslated(context, "Let's Complete Your Profile") +
+                    widget.Fname,
+                style: Theme.of(context).textTheme.headline6,
+              ),
             ),
           ),
         ),
@@ -130,7 +133,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
         Align(
           alignment: Alignment.center,
           child: Container(
-            width: size.width * 0.5,
+            width: size.width * 0.6,
             decoration: BoxDecoration(
                 border: Border.all(
                     color: Theme.of(context).primaryColorDark, width: 1.2),
