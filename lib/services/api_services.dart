@@ -11,7 +11,7 @@ class ApiService {
 
   Future<PhoneResponseModel> phoneCheck(
       PhoneRequestModel phoneRequestModel) async {
-    String url = baseUrl + 'registeration/mechanicUser';
+    var url = Uri.parse(baseUrl + 'registeration/mechanicUser');
     final response = await http.post(url,
         headers: {'charset': 'utf-8'}, body: phoneRequestModel.toJson());
     if (response.statusCode == 200 || response.statusCode == 400) {
@@ -24,7 +24,7 @@ class ApiService {
 
   Future<WinchRegisterResponseModel> registerUser(
       WinchRegisterRequestModel userRegisterRequestModel, token, lang) async {
-    String url = baseUrl + 'mechanic/me/updateprofile';
+    var url = Uri.parse(baseUrl + 'mechanic/me/updateprofile');
     final response = await http.post(url,
         headers: {"x-auth-token": "$token", 'language': "$lang"},
         body: userRegisterRequestModel.toJson());
