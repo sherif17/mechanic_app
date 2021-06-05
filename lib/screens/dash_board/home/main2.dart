@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'bottombar.dart';
-
+import 'button.dart';
+import 'checklist.dart';
+import 'timer.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'center.dart';
 import 'individual.dart';
@@ -30,7 +32,12 @@ class tabs extends StatefulWidget {
 
 class _tabsState extends State<tabs> with SingleTickerProviderStateMixin {
   List list_name = ["individual", "center"];
-
+  DateTime now = DateTime.now();
+  String firstname = 'first last';
+  String brand = 'seat';
+  String model = 'lbiza';
+  String time = '1:15';
+  String production = '2019';
   SwiperController _scrollController = new SwiperController();
 
   TabController tabController;
@@ -284,6 +291,294 @@ class _tabsState extends State<tabs> with SingleTickerProviderStateMixin {
                     child: Home(),
                   ),
                 ],
+              ),
+            ),
+            Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(left: 25.0),
+                          child: Text(
+                            'Time Passed',
+                            style: TextStyle(
+                              fontSize: 22.0,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Container(
+                          width: 280.0,
+                          height: 130.0,
+                          child: timer(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Container(
+                          width: 330.0,
+                          height: 425.0,
+                          child: checklist(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Container(
+                          width: 330.0,
+                          height: 100.0,
+                          child: button(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 40.0),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 120.0),
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 0.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              top: BorderSide(
+                                color: Colors.lightBlueAccent[100],
+                                // width: 3.0 --> you can set a custom width too!
+                              ),
+                              bottom: BorderSide(
+                                color: Colors.lightBlueAccent[100],
+                              ),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Text(
+                                  'customer name:',
+                                  style: TextStyle(
+                                    fontSize: 22.0,
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 20.0),
+                                  child: Text(
+                                    firstname,
+                                    style: TextStyle(
+                                      fontSize: 22.0,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 40.0, right: 20.0),
+                        child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                top: BorderSide(
+                                  color: Colors.lightBlueAccent[100],
+                                  // width: 3.0 --> you can set a custom width too!
+                                ),
+                                bottom: BorderSide(
+                                  color: Colors.lightBlueAccent[100],
+                                ),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Text(
+                                    'Trip start Time:',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 60.0),
+                                    child: Text(
+                                      '${now.hour}:${now.minute}',
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20.0, right: 220.0),
+                        child: Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Text(
+                                'Car Details:',
+                                style: TextStyle(
+                                  fontSize: 23.0,
+                                  color: Colors.lightBlueAccent,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 0.0),
+                        child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                top: BorderSide(
+                                  color: Colors.lightBlueAccent[100],
+                                  // width: 3.0 --> you can set a custom width too!
+                                ),
+                                bottom: BorderSide(
+                                  color: Colors.lightBlueAccent[100],
+                                ),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Text(
+                                    'Brand',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 120.0),
+                                    child: Text(
+                                      brand,
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 0.0),
+                        child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                top: BorderSide(
+                                  color: Colors.lightBlueAccent[100],
+                                  // width: 3.0 --> you can set a custom width too!
+                                ),
+                                bottom: BorderSide(
+                                  color: Colors.lightBlueAccent[100],
+                                ),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 20.0, top: 20.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Text(
+                                    'Model',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 120.0),
+                                    child: Text(
+                                      model,
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 80.0),
+                        child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                top: BorderSide(
+                                  color: Colors.lightBlueAccent[100],
+                                  // width: 3.0 --> you can set a custom width too!
+                                ),
+                                bottom: BorderSide(
+                                  color: Colors.lightBlueAccent[100],
+                                ),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Text(
+                                    'Production Year',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${now.year} ',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],
