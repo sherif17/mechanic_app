@@ -3,12 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:http/http.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/models/phone_num_model.dart';
 import 'package:mechanic_app/screens/login_screens/confirm_user/confirm_is_that_user.dart';
-import 'package:mechanic_app/screens/login_screens/file_upload/step_three/confirmationcode.dart';
 import 'package:mechanic_app/screens/login_screens/user_register/register_body.dart';
 import 'package:mechanic_app/screens/login_screens/user_register/register_new_user.dart';
 import 'package:mechanic_app/services/api_services.dart';
@@ -16,7 +14,6 @@ import 'package:mechanic_app/shared_prefrences/winch_user_model.dart';
 import 'package:mechanic_app/utils/constants.dart';
 import 'package:mechanic_app/utils/size_config.dart';
 import 'package:mechanic_app/widgets/rounded_button.dart';
-import 'componants/navigation_args.dart';
 import 'componants/otp_code_field.dart';
 import 'componants/progress_bar.dart';
 
@@ -103,6 +100,7 @@ class _OtpFormState extends State<OtpForm> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
               children: [
                 SizedBox(
                   width: getProportionateScreenWidth(45),

@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import 'home2.dart';
-import 'Profile.dart';
-import 'wallet.dart';
+import 'package:mechanic_app/screens/dash_board/home/home_body.dart';
+import 'package:mechanic_app/screens/dash_board/profile/profile.dart';
+import 'package:mechanic_app/screens/dash_board/earnings/wallet.dart';
 
-class Home extends StatefulWidget {
+class BottomNav extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _BottomNavState createState() => _BottomNavState();
 }
 
-class _HomeState extends State<Home> {
+class _BottomNavState extends State<BottomNav> {
   // Properties & Variables needed
 
   int currentTab = 0; // to keep track of active tab index
   final List<Widget> screens = [
     wallet(),
-    home2(),
+    HomeBody(),
     Profile(),
   ]; // to store nested tabs
   final PageStorageBucket bucket = PageStorageBucket();
 
-  Widget currentScreen = home2(); // Our first view in viewport
+  Widget currentScreen = HomeBody(); // Our first view in viewport
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class _HomeState extends State<Home> {
         child: Icon(Icons.home_outlined),
         onPressed: () {
           setState(() {
-            currentScreen = home2(); // if user taps on this dashboard tab will be active
+            currentScreen = HomeBody(); // if user taps on this dashboard tab will be active
             currentTab = 1;
           });
         },

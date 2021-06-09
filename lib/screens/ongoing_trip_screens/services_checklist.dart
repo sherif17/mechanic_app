@@ -1,35 +1,40 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class checklist extends StatefulWidget {
-  checklist({Key key, this.title}) : super(key: key);
+class Checklist extends StatefulWidget {
+  Checklist({Key key, this.title}) : super(key: key);
   final String title;
   @override
-  _checklistState createState() => _checklistState();
+  _ChecklistState createState() => _ChecklistState();
 }
 
-class _checklistState extends State<checklist> {
+class _ChecklistState extends State<Checklist> {
   @override
-  List _selecteCategorys = List();
-  Map<String, dynamic> _categories = {
+  List _doneServices = List();
+  Map<String, dynamic> _services = {
     "responseBody": [
-      {"category_id": "5", "category_name": "Tiro"},
-      {"category_id": "3", "category_name": "Fuel"},
-      {"category_id": "7", "category_name": "Check Motor"},
-      {"category_id": "8", "category_name": "Oil"}
+      {"service_id": "5", "service_name": "Tire"},
+      {"service_id": "3", "service_name": "Fuel"},
+      {"service_id": "7", "service_name": "Check Motor"},
+      {"service_id": "8", "service_name": "Oil"}
     ],
-    "responseTotalResult": 4 // Total result is 3 here becasue we have 3 categories in responseBody.
+    "responseTotalResult": 4
   };
-  void _onCategorySelected(bool selected, category_id) {
+  void _onServiceSelected(bool selected, service_id) {
     if (selected == true) {
       setState(() {
-        _selecteCategorys.add(category_id);
+        _doneServices.add(service_id);
+        if(_doneServices.length == _services.length)
+          {
+              print("all selected");
+              print("_doneServices length =  ${_doneServices.length}");
+              print("_Services length =  ${_services.length}");
+
+          }
       });
     } else {
       setState(() {
-        _selecteCategorys.remove(category_id);
+        _doneServices.remove(service_id);
       });
     }
   }
@@ -63,23 +68,31 @@ class _checklistState extends State<checklist> {
                     child: Container(
                       child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: _categories['responseTotalResult'],
+                          itemCount: _services['responseTotalResult'],
                           itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.blue[100],
+                            return Column(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.black26,
+                                    ),
+                                  ),
+                                  child: CheckboxListTile(
+                                    activeColor: Theme.of(context).primaryColorDark,
+                                    value: _doneServices
+                                        .contains(_services['responseBody'][index]['service_id']),
+                                    onChanged: (bool selected) {
+                                      _onServiceSelected(
+                                          selected, _services['responseBody'][index]['service_id']);
+                                    },
+                                    title: Text(_services['responseBody'][index]['service_name']),
+
+
+                                  ),
                                 ),
-                              ),
-                              child: CheckboxListTile(
-                                value: _selecteCategorys
-                                    .contains(_categories['responseBody'][index]['category_id']),
-                                onChanged: (bool selected) {
-                                  _onCategorySelected(
-                                      selected, _categories['responseBody'][index]['category_id']);
-                                },
-                                title: Text(_categories['responseBody'][index]['category_name']),
-                              ),
+                                SizedBox(height: 8.0,),
+                              ],
                             );
                           }),
                     ),
@@ -90,7 +103,7 @@ class _checklistState extends State<checklist> {
                       child: TextField(
                         controller: inputtextField,
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(), labelText: 'Enter some text'),
+                           labelText: 'Type extra service'),
                       ),
                     ),
                   ),
@@ -105,8 +118,8 @@ class _checklistState extends State<checklist> {
                               _inputtext = inputtextField.text;
                             });
                           },
-                          color: Colors.blue,
-                          textColor: Colors.white,
+                          color: Theme.of(context).primaryColor,
+                          textColor: Theme.of(context).accentColor,
                           child: Icon(
                             Icons.add,
                             size: 18,

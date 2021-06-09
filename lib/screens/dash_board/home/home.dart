@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/ongoing_trip.dart';
 
-import 'home_body.dart';
+import 'package:mechanic_app/screens/dash_board/home/home_body.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -41,7 +42,9 @@ class _HomeState extends State<Home> {
         ),
         centerTitle: false,
       ),*/
-      body: HomeBody(),
+      body:
+      HomeBody(),
+      //OnGoingTrip(),
     );
   }
 }

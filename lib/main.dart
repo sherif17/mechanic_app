@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/screens/dash_board/dash_board.dart';
-import 'package:mechanic_app/screens/onboarding_screens/intro_screens/intro.dart';
 import 'package:mechanic_app/shared_prefrences/winch_user_model.dart';
 import 'package:mechanic_app/utils/routes.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'localization/demo_localization.dart';
 import 'themes/light_theme.dart';
 
@@ -97,9 +95,10 @@ class _MyAppState extends State<MyApp> {
       return new MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: lightTheme(),
-        initialRoute: TOKEN == null || BACKEND_ID == null
-            ? Intro.routeName
-            : DashBoard.routeName,
+        initialRoute: DashBoard.routeName,
+        // TOKEN == null || BACKEND_ID == null
+        //     ? Intro.routeName
+        //     : DashBoard.routeName,
         routes: routes,
         locale: _locale,
         supportedLocales: [

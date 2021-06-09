@@ -50,7 +50,7 @@ class ConfirmationBody extends StatelessWidget {
           duration: Duration(seconds: 30),
           builder: (context, value, child) => Text(
             "00:${value.toInt()}",
-            style: Theme.of(context).textTheme.headline4,
+            style: Theme.of(context).textTheme.bodyText2,
           ),
           onEnd: () {},
         ),

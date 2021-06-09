@@ -10,7 +10,7 @@ ThemeData lightTheme() {
         color: Color(0xFF564FCC),
       ),
       headline2: base.headline2.copyWith(
-          fontSize: 25.0,
+          fontSize: 23.0,
           fontWeight: FontWeight.bold,
           fontFamily: 'Lato',
           color: Color(0xFF636780)
@@ -28,9 +28,9 @@ ThemeData lightTheme() {
         color: Color(0xFFFF718D),
       ),
       headline5: base.headline4.copyWith(
-        fontSize: 17.0,
+        fontSize: 25.0,
         fontFamily: 'Lato',
-        color: Colors.grey[700],
+        color: Color(0xFF413B99),
         //buttons
       ),
       headline6: base.headline6.copyWith(

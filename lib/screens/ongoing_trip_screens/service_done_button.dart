@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class button extends StatefulWidget {
+class Button extends StatefulWidget {
   @override
-  _buttonState createState() => _buttonState();
+  _ButtonState createState() => _ButtonState();
 }
 
-class _buttonState extends State<button> {
+class _ButtonState extends State<Button> {
   bool _enabled = false;
   @override
   Widget build(BuildContext context) {
@@ -28,6 +28,7 @@ class _buttonState extends State<button> {
             disabledColor: Colors.white,
             disabledElevation: 1,
             disabledTextColor: Colors.blueGrey,
+           color: Theme.of(context).primaryColorDark,
           ),
         ),
       ),
