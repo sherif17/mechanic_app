@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/shared_prefrences/winch_user_model.dart';
 
@@ -9,10 +10,10 @@ class WatchTutorial extends StatefulWidget {
 }
 
 class _WatchTutorialState extends State<WatchTutorial> {
-  String CurrentWinchUserFname = " ";
+  String CurrentWinchUserFname = loadFirstNameFromDB(); // " ";
   @override
   void initState() {
-    getWinchUserData();
+    // getWinchUserData();
     // TODO: implement initState
     super.initState();
   }
@@ -97,11 +98,11 @@ class _WatchTutorialState extends State<WatchTutorial> {
           );
   }
 
-  getWinchUserData() async {
-    getPrefFirstName().then((value) {
-      setState(() {
-        CurrentWinchUserFname = value;
-      });
-    });
-  }
+  // getWinchUserData() async {
+  //   getPrefFirstName().then((value) {
+  //     setState(() {
+  //       CurrentWinchUserFname = value;
+  //     });
+  //   });
+  // }
 }

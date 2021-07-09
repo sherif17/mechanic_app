@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/models/user_register_model.dart';
 import 'package:mechanic_app/screens/dash_board/dash_board.dart';
@@ -146,25 +147,20 @@ class _ConfirmUserFormState extends State<ConfirmUserForm> {
                           .then(
                         (value) {
                           if (value.error == null) {
-                            jwtToken = value.token;
-                            print(jwtToken);
-                            setPrefJwtToken(jwtToken);
+                            saveJwtTokenInDB(value.token);
+                            saveFirstNameInDB(
+                                winchRegisterRequestModel.firstName);
+                            saveLastNameInDB(
+                                winchRegisterRequestModel.lastName);
                             Map<String, dynamic> decodedToken =
                                 JwtDecoder.decode(jwtToken);
-                            responseID = decodedToken["_id"];
-                            setPrefBackendID(responseID);
-                            responseFName = decodedToken["firstName"];
-                            setPrefFirstName(responseFName);
-                            responseLName = decodedToken["lastName"];
-                            setPrefLastName(responseLName);
-                            responseGovernorate = decodedToken["governorate"];
-                            setPrefWorkingCity(responseGovernorate);
-                            responseIat = decodedToken["iat"];
-                            setPrefIAT(responseIat.toString());
+                            saveBackendIBInDB(decodedToken["_id"]);
+                            saveVerificationStateInDB(decodedToken["verified"]);
+                            saveIATInDB(decodedToken["iat"].toString());
                             setState(() {
                               isApiCallProcess = false;
                             });
-                            printAllWinchUserCurrentData();
+                            printAllMechanicSavedInfoInDB();
                             Navigator.pushNamedAndRemoveUntil(
                                 context, DashBoard.routeName, (route) => false);
                           } else

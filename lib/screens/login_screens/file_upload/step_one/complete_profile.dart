@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/screens/login_screens/file_upload/step_one/city_modal_list.dart';
 import 'package:mechanic_app/shared_prefrences/winch_user_model.dart';
@@ -59,7 +60,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
   onChangeDropdownItem(CityItem selectedCity) {
     setState(() {
       _selectedCity = selectedCity;
-      setPrefWorkingCity(selectedCity.city);
+      saveWorkingCityInDB(selectedCity.city);
+      //setPrefWorkingCity(selectedCity.city);
     });
   }
 

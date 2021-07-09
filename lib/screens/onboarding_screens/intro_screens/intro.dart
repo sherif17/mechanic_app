@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mechanic_app/lang/language_list.dart';
+import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/shared_prefrences/winch_user_model.dart';
 import 'package:mechanic_app/utils/size_config.dart';
@@ -45,7 +46,7 @@ class _IntroState extends State<Intro> {
       ),
       onChanged: (Language language) async {
         _changeLanguage(language);
-        print("current lang: ${await getPrefCurrentLang()}");
+        print("current lang: ${loadCurrentLangFromDB()}");
       },
       items: Language.languageList()
           .map<DropdownMenuItem<Language>>(

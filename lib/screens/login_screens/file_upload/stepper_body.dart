@@ -5,8 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
+import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/models/files_upload_model.dart';
 import 'package:mechanic_app/models/user_register_model.dart';
@@ -17,7 +17,6 @@ import 'package:mechanic_app/screens/login_screens/file_upload/step_three/confir
 import 'package:mechanic_app/screens/login_screens/file_upload/step_two/required_files.dart';
 import 'package:mechanic_app/screens/login_screens/otp/componants/progress_bar.dart';
 import 'package:mechanic_app/services/api_services.dart';
-import 'package:mechanic_app/shared_prefrences/winch_user_model.dart';
 import 'package:mechanic_app/widgets/rounded_button.dart';
 
 class StepperBody extends StatefulWidget {
@@ -31,13 +30,13 @@ class StepperBody extends StatefulWidget {
 class _StepperBodyState extends State<StepperBody> {
   GlobalKey<FormState> firstStepFormKey = GlobalKey<FormState>();
   WinchRegisterRequestModel winchRegisterRequestModel;
-  String Fname;
-  String Lang;
-  String JwtToken;
+  String Fname = loadFirstNameFromDB();
+  String Lang = loadCurrentLangFromDB();
+  String JwtToken = loadJwtTokenFromDB();
   // String title = 'Stepper';
   int _currentstep = 0;
-  List<String> filesList = List<String>();
-  List<String> filesPathList = List<String>();
+  List<String> filesList = <String>[];
+  List<String> filesPathList = <String>[];
   File personalPhoto;
   // File driverLicense;
   //File winchLicenseFront;
@@ -51,7 +50,7 @@ class _StepperBodyState extends State<StepperBody> {
   void initState() {
     super.initState();
     winchRegisterRequestModel = new WinchRegisterRequestModel();
-    getCurrentMechanicUserData();
+    // getCurrentMechanicUserData();
   }
 
   /* uploadAllFiles() async {
@@ -68,19 +67,19 @@ class _StepperBodyState extends State<StepperBody> {
   }
 */
 
-  getCurrentMechanicUserData() {
-    getPrefCurrentLang().then((value) {
-      setState(() {
-        Lang = value;
-      });
-    });
-
-    getPrefFirstName().then((value) {
-      setState(() {
-        Fname = value;
-      });
-    });
-  }
+  // getCurrentMechanicUserData() {
+  //   getPrefCurrentLang().then((value) {
+  //     setState(() {
+  //       Lang = value;
+  //     });
+  //   });
+  //
+  //   getPrefFirstName().then((value) {
+  //     setState(() {
+  //       Fname = value;
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -143,9 +142,11 @@ class _StepperBodyState extends State<StepperBody> {
                     textColor: Theme.of(context).accentColor,
                     press: () async {
                       // print("current lang: ${await getPrefCurrentLang()}");
-                      String currentLang = await getPrefCurrentLang();
+                      String currentLang =
+                          loadCurrentLangFromDB(); //await getPrefCurrentLang();
                       print("current lang: $currentLang");
-                      String currentJwtToken = await getPrefJwtToken();
+                      String currentJwtToken =
+                          loadJwtTokenFromDB(); //await getPrefJwtToken();
                       print(currentJwtToken);
                       print(_currentstep);
                       if (_currentstep == 0) {
@@ -153,16 +154,12 @@ class _StepperBodyState extends State<StepperBody> {
                           setState(() {
                             isApiCallProcess = true;
                           });
-                          /* setPrefWinchPlates(await getPrefWinchPlatesChars() +
-                              await getPrefWinchPlatesNum());*/
                           winchRegisterRequestModel.firstName =
-                              await getPrefFirstName();
+                              loadFirstNameFromDB();
                           winchRegisterRequestModel.lastName =
-                              await getPrefLastName();
-                          /* winchRegisterRequestModel.winchPlates =
-                              await getPrefWinchPlates();*/
+                              loadLastNameFromDB();
                           winchRegisterRequestModel.governorate =
-                              await getPrefWorkingCity();
+                              loadWorkingCityFromDB();
                           print(
                               "Request body: ${winchRegisterRequestModel.toJson()}.");
                           ApiService apiService = new ApiService();
@@ -174,15 +171,17 @@ class _StepperBodyState extends State<StepperBody> {
                             print("error value : ${value.error}");
                             if (value.token != null) {
                               // setPrefJwtToken(value.token);
+                              saveJwtTokenInDB(value.token);
                               print(value.token);
                               print(value.error);
                               JwtToken = value.token;
                               Map<String, dynamic> decodedToken =
                                   JwtDecoder.decode((JwtToken));
-                              setPrefWorkingCity(decodedToken["governorate"]);
+                              // setPrefWorkingCity(decodedToken["governorate"]);
                               setState(() {
                                 isApiCallProcess = false;
-                                printAllWinchUserCurrentData();
+                                printAllMechanicSavedInfoInDB();
+                                // printAllWinchUserCurrentData();
                                 if (value.error == null) {
                                   setState(() {
                                     if (this._currentstep <
@@ -226,27 +225,17 @@ class _StepperBodyState extends State<StepperBody> {
                                 isApiCallProcess = false;
                               });
                               print(value.token);
-                              setPrefJwtToken(value.token);
+                              saveJwtTokenInDB(value.token);
                               Map<String, dynamic> decodedToken =
                                   JwtDecoder.decode((value.token));
-                              String responseID = decodedToken["_id"];
-                              String responseFName = decodedToken["firstName"];
-                              String responseLName = decodedToken["lastName"];
-                              String personalPhoto =
-                                  decodedToken["personalPicture"];
-                              var responseIat = decodedToken["iat"];
-                              setPrefBackendID(responseID);
-                              setPrefFirstName(responseFName);
-                              setPrefLastName(responseLName);
-                              print(personalPhoto);
-                              print(responseIat);
-                              setPrefIAT(responseIat.toString());
+                              saveBackendIBInDB(decodedToken["_id"]);
+                              saveIATInDB(decodedToken["iat"].toString());
                               setState(() {
                                 isApiCallProcess = false;
                                 if (value.error == null) if (this._currentstep <
                                     _stepper().length - 1) {
                                   this._currentstep = this._currentstep + 2;
-                                  printAllWinchUserCurrentData();
+                                  printAllMechanicSavedInfoInDB();
                                 }
                               });
                             } else
@@ -258,7 +247,8 @@ class _StepperBodyState extends State<StepperBody> {
                       } else {
                         Navigator.pushNamedAndRemoveUntil(
                             context, DashBoard.routeName, (route) => false);
-                        printAllWinchUserCurrentData();
+                        // printAllWinchUserCurrentData();
+                        printAllMechanicSavedInfoInDB();
                       }
 
                       /* setState(() {

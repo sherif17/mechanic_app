@@ -39,6 +39,11 @@ dependencies:
   #path: ^1.7.0
   google_maps_flutter: ^2.0.2
   geolocator: ^7.0.1
+  hive: ^2.0.2
+  hive_flutter: ^1.0.0
+  path_provider: ^2.0.1
+  hive_generator: ^1.0.1
+  build_runner: ^1.12.2
   #flutter_facebook_login: ^3.0.0
 
 

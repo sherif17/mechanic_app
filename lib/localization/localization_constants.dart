@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/shared_prefrences/winch_user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'demo_localization.dart';
@@ -14,12 +15,13 @@ const String ENGLISH = 'en';
 const String ARABIC = 'ar';
 
 Future<Locale> setLocale(String languageCode) async {
-  setPrefCurrentLang(languageCode);
+  //setPrefCurrentLang(languageCode);
+  saveCurrentLangInDB(languageCode);
   return _locale(languageCode);
 }
 
 Future<Locale> getLocale() async {
-  String languageCode = await getPrefCurrentLang();
+  String languageCode = loadCurrentLangFromDB(); // await getPrefCurrentLang();
   return _locale(languageCode);
 }
 

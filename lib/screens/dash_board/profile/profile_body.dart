@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/screens/login_screens/confirm_user/confirm_body.dart';
 import 'package:mechanic_app/shared_prefrences/winch_user_model.dart';
@@ -11,24 +12,24 @@ class ProfileBody extends StatefulWidget {
   _ProfileBodyState createState() => _ProfileBodyState();
 }
 
-String token = " ";
-String ID = " ";
-String Fname = " ";
-String Lname = " ";
-String Phone = " ";
-String WinchPlates = " ";
-String currentLang = " ";
-String WorkingCity = " ";
-String profilePhoto = " ";
-String email = " ";
-String iat = " ";
+String token = loadJwtTokenFromDB(); // " ";
+String ID = loadBackendIDFromDB(); // " ";
+String Fname = loadFirstNameFromDB(); // " ";
+String Lname = loadLastNameFromDB(); // " ";
+String Phone = loadPhoneNumberFromDB(); // " ";
+//String WinchPlates = " ";
+String currentLang = loadCurrentLangFromDB(); // " ";
+String WorkingCity = loadWorkingCityFromDB(); // " ";
+String profilePhoto = loadSocialImageFromDB(); // " ";
+String email = loadSocialEmailFromDB(); //" ";
+String iat = loadIATFromDB(); // " ";
 
 class _ProfileBodyState extends State<ProfileBody> {
   @override
   void initState() {
     // getCurrentPrefData();
     super.initState();
-    loadAllWinchUserData();
+    //loadAllWinchUserData();
   }
 
   Widget _greenColors() {
@@ -327,7 +328,7 @@ class _ProfileBodyState extends State<ProfileBody> {
     );
   }
 
-  loadAllWinchUserData() {
+  /*loadAllWinchUserData() {
     getPrefBackendID().then((value) {
       setState(() {
         ID = value;
@@ -379,5 +380,5 @@ class _ProfileBodyState extends State<ProfileBody> {
         email = value;
       });
     });
-  }
+  }*/
 }

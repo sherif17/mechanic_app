@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hive/hive.dart';
+import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/screens/dash_board/dash_board.dart';
 import 'package:mechanic_app/screens/onboarding_screens/intro_screens/intro.dart';
@@ -9,11 +11,15 @@ import 'package:mechanic_app/utils/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'localization/demo_localization.dart';
 import 'themes/light_theme.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //SharedPreferences.setMockInitialValues({});
-  //Firebase.initializeApp();
+  Firebase.initializeApp();
+  final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
+  Hive.init(appDocumentDir.path);
+  await Hive.openBox<String>("MechanicInfoDBBox"); // for customer info
   runApp(App());
 }
 
@@ -54,8 +60,9 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Locale _locale;
-  String TOKEN;
-  String BACKEND_ID;
+  String TOKEN = loadJwtTokenFromDB();
+  String BACKEND_ID = loadBackendIDFromDB();
+  bool MECHANIC_VERIFCATION_STATE = loadVerificationStateFromDB();
 
   void setLocale(Locale locale) {
     setState(() {
@@ -70,16 +77,16 @@ class _MyAppState extends State<MyApp> {
             _locale = local;
           })
         });
-    getPrefJwtToken().then((value) {
-      setState(() {
-        TOKEN = value;
-      });
-    });
-    getPrefBackendID().then((value) {
-      setState(() {
-        BACKEND_ID = value;
-      });
-    });
+    // getPrefJwtToken().then((value) {
+    //   setState(() {
+    //     TOKEN = value;
+    //   });
+    // });
+    // getPrefBackendID().then((value) {
+    //   setState(() {
+    //     BACKEND_ID = value;
+    //   });
+    // });
     super.didChangeDependencies();
   }
 
@@ -97,9 +104,13 @@ class _MyAppState extends State<MyApp> {
       return new MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: lightTheme(),
-        initialRoute: TOKEN == null || BACKEND_ID == null
-            ? Intro.routeName
-            : DashBoard.routeName,
+        initialRoute:
+            // MECHANIC_VERIFCATION_STATE == true
+            //     ? DashBoard.routeName
+            //     : Intro.routeName,
+            TOKEN == "" || BACKEND_ID == ""
+                ? Intro.routeName
+                : DashBoard.routeName,
         routes: routes,
         locale: _locale,
         supportedLocales: [

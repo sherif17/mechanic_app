@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/models/user_register_model.dart';
 import 'package:mechanic_app/screens/login_screens/file_upload/main_stepper.dart';
@@ -48,19 +49,19 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
-    getCurrentPrefData();
+    //  getCurrentPrefData();
     winchRegisterRequestModel = new WinchRegisterRequestModel();
   }
 
   String currentLang;
 
-  void getCurrentPrefData() {
-    getPrefCurrentLang().then((value) {
-      setState(() {
-        currentLang = value;
-      });
-    });
-  }
+  // void getCurrentPrefData() {
+  //   getPrefCurrentLang().then((value) {
+  //     setState(() {
+  //       currentLang = value;
+  //     });
+  //   });
+  // }
 
   Widget build(BuildContext context) {
     return ProgressHUD(
@@ -215,8 +216,10 @@ class _BodyState extends State<Body> {
                     googleName = _googleSignIn.currentUser.displayName;
                     googleImage = _googleSignIn.currentUser.photoUrl;
                     googleEmail = _googleSignIn.currentUser.email;
-                    setPrefSocialEmail(googleEmail);
-                    setPrefSocialImage(googleImage);
+                    saveSocialImageInDB(googleImage);
+                    saveSocialEmailInDB(googleEmail);
+                    // setPrefSocialEmail(googleEmail);
+                    // setPrefSocialImage(googleImage);
                     print(googleName);
                     print(googleImage);
                   } catch (err) {
@@ -228,12 +231,13 @@ class _BodyState extends State<Body> {
                       googleEmail != null) {
                     Gdecode = googleName.split(new RegExp('\\s+'));
                     print(Gdecode);
-                    setPrefFirstName(Gdecode[0]);
-                    setPrefLastName(Gdecode[1]);
+                    saveFirstNameInDB(Gdecode[0]);
+                    saveLastNameInDB(Gdecode[1]);
                     showRegisterModalBottomSheet(context, size.height * 0.48,
                         true, "byGoogle", LangModel(language: currentLang));
                     // Navigator.pushNamed(context, MainStepper.routeName);
-                    printAllWinchUserCurrentData();
+                    //printAllWinchUserCurrentData();
+                    printAllMechanicSavedInfoInDB();
                     /* print("Request body: ${winchRegisterRequestModel.toJson()}.");
                   setState(() {
                     isApiCallProcess = true;
