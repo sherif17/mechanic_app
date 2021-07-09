@@ -1,6 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
+import 'package:mechanic_app/provider/appControlProvider.dart';
+import 'package:mechanic_app/provider/maps_prepration/maps_provider.dart';
+import 'package:mechanic_app/provider/maps_prepration/polyLineProvider.dart';
+import 'package:mechanic_app/screens/dash_board/home/home_body.dart';
+import 'package:provider/provider.dart';
+
+import 'home_map.dart';
 
 class HomeHeader extends StatefulWidget {
 
@@ -12,16 +19,28 @@ class _HomeHeaderState extends State<HomeHeader> {
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
     String mechanicName = "Sherif Ahmed";
-    return  Container(
+
+    return Consumer<AppControlProvider>(
+    builder: (context, val,
+    child) =>
+    Container(
       child: Padding(
         padding: const EdgeInsets.only(bottom: 25.0, top: 25.0),
         child: Container(
           width: 500.0,
-          height: 153.0,
+          height: 157.0,
           color: Theme.of(context).primaryColorLight,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
+              LinearProgressIndicator(
+                backgroundColor: (val.mechanicState == true)
+                    ? Colors.white
+                    : Theme.of(context).primaryColorLight,
+                color: (val.mechanicState == true)
+                    ? Colors.greenAccent
+                    : Theme.of(context).primaryColorLight,
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Container(
@@ -72,6 +91,35 @@ class _HomeHeaderState extends State<HomeHeader> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
+                      (val.currentPage == "Main")?
+                      GestureDetector(
+                        child: CircleAvatar(
+                          radius: 20.0,
+                          backgroundColor: Theme.of(context).accentColor,
+                          backgroundImage: AssetImage("assets/icons/map-icon-white-21.jpg"),
+                        ),
+                        onTap: () {
+                          val.updateCurrentPage("Map");
+                          Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              HomeMap.routeName,
+                                  (route) => false);
+                        },
+                      ):
+                      GestureDetector(
+                        child: CircleAvatar(
+                          radius: 20.0,
+                          backgroundColor: Theme.of(context).accentColor,
+                          backgroundImage: AssetImage("assets/icons/3425038.png"),
+                        ),
+                        onTap: () {
+                           val.updateCurrentPage("Main");
+                          Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              HomeBody.routeName,
+                                  (route) => false);
+                        },
+                      ),
                       LiteRollingSwitch(
                         //initial value
                         value: true,
@@ -84,9 +132,11 @@ class _HomeHeaderState extends State<HomeHeader> {
                         textSize: 16.0,
                         onChanged: (bool state) {
                           //Use it to manage the different states
+                          val.updateMechanicState(state);
                           print('Current State of SWITCH IS: $state');
                         },
                       ),
+                      Container(),
                     ],
                   ),
                 ),
@@ -95,6 +145,7 @@ class _HomeHeaderState extends State<HomeHeader> {
           ),
         ),
       ),
+    ),
     );
   }
 }

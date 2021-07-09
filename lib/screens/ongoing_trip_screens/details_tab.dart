@@ -17,6 +17,7 @@ class _DetailsTabState extends State<DetailsTab> {
     String customerCarProductionYear = '2019';
     DateTime now = DateTime.now();
 
+    Size size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(
       child: Column(

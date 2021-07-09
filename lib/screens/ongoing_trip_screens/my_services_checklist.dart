@@ -3,51 +3,49 @@ import 'package:flutter/material.dart';
 import 'package:mechanic_app/provider/appControlProvider.dart';
 import 'package:provider/provider.dart';
 
-class Checklist extends StatefulWidget {
-  Checklist({Key key, this.title}) : super(key: key);
+class ServicesChecklist extends StatefulWidget {
+  ServicesChecklist({Key key, this.title}) : super(key: key);
   final String title;
   @override
-  _ChecklistState createState() => _ChecklistState();
+  _ServicesChecklistState createState() => _ServicesChecklistState();
 }
 
-class _ChecklistState extends State<Checklist> {
+class _ServicesChecklistState extends State<ServicesChecklist> {
   @override
-  List _doneServices = List();
-  Map<String, dynamic> _services = {
-    "responseBody": [
-      {"service_id": "5", "service_name": "Tire"},
-      {"service_id": "3", "service_name": "Fuel"},
-      {"service_id": "7", "service_name": "Check Motor"},
-      {"service_id": "8", "service_name": "Oil"}
-    ],
-    "responseTotalResult": 4
-  };
-  void _onServiceSelected(bool selected, service_id) {
-    if (selected == true) {
-      setState(() {
-        _doneServices.add(service_id);
-        if(_doneServices.length == _services.length)
-          {
-              print("all selected");
-              print("_doneServices length =  ${_doneServices.length}");
-              print("_Services length =  ${_services.length}");
-
-          }
-      });
-    } else {
-      setState(() {
-        _doneServices.remove(service_id);
-      });
-    }
-  }
+  // List _doneServices = [];
+  //
+  // void _onServiceSelected(bool selected, service_id) {
+  //   if (selected == true) {
+  //     setState(() {
+  //       _doneServices.add(service_id);
+  //       if(_doneServices.length == _services.length)
+  //         {
+  //             print("all selected");
+  //             print("_doneServices length =  ${_doneServices.length}");
+  //             print("_Services length =  ${_services.length}");
+  //
+  //         }
+  //     });
+  //   } else {
+  //     setState(() {
+  //       _doneServices.remove(service_id);
+  //     });
+  //   }
+  // }
 
   String result = '';
   TextEditingController textController = new TextEditingController();
   String text = '';
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     String _inputtext;
     TextEditingController inputTextField = TextEditingController();
+    List<bool> checked = [false, false, false, false];
 
     Size size = MediaQuery.of(context).size;
     void _processText() {
@@ -75,7 +73,7 @@ class _ChecklistState extends State<Checklist> {
                       child: Container(
                         child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: _services['responseTotalResult'],
+                            itemCount: val.services.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Column(
                                 children: [
@@ -86,16 +84,14 @@ class _ChecklistState extends State<Checklist> {
                                       ),
                                     ),
                                     child: CheckboxListTile(
+                                      title: Text(val.services[index]),
                                       activeColor: Theme.of(context).primaryColorDark,
-                                      value: _doneServices
-                                          .contains(_services['responseBody'][index]['service_id']),
+                                      value: val.checked[index],
                                       onChanged: (bool selected) {
-                                        _onServiceSelected(
-                                            selected, _services['responseBody'][index]['service_id']);
+                                        (selected)? val.checkThisBox(index) : val.uncheckThisBox(index);
+                                        // _onServiceSelected(
+                                        //     selected, _services['responseBody'][index]['service_id']);
                                       },
-                                      title: Text(_services['responseBody'][index]['service_name']),
-
-
                                     ),
                                   ),
                                   SizedBox(height: 8.0,),
@@ -119,6 +115,11 @@ class _ChecklistState extends State<Checklist> {
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
                                 child: Text("Submit", style: Theme.of(context).textTheme.subtitle1),
+                                onTap: () {
+                                  val.addNewService(inputTextField.text);
+                                  inputTextField.clear();
+                                  val.updateAddServiceButtonState(true);
+                                },
                               ),
                             ),
                           ],

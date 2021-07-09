@@ -4,6 +4,8 @@ import 'package:mechanic_app/screens/ongoing_trip_screens/my_timer.dart';
 import 'package:mechanic_app/screens/ongoing_trip_screens/service_done_button.dart';
 import 'package:mechanic_app/screens/ongoing_trip_screens/services_checklist.dart';
 
+import 'my_services_checklist.dart';
+
 class ActionsTab extends StatefulWidget {
 
   @override
@@ -57,7 +59,7 @@ class _ActionsTabState extends State<ActionsTab> {
                       Container(
                         width: 330.0,
                         height: 425.0,
-                        child: Checklist(),
+                        child: ServicesChecklist(),
                       ),
                     ],
                   ),

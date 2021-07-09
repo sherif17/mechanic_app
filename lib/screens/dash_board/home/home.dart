@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/accepted_service_map.dart';
 import 'package:mechanic_app/screens/ongoing_trip_screens/ongoing_trip.dart';
 
 import 'package:mechanic_app/screens/dash_board/home/home_body.dart';
@@ -43,8 +44,9 @@ class _HomeState extends State<Home> {
         centerTitle: false,
       ),*/
       body:
-      HomeBody(),
-      //OnGoingTrip(),
+      //AcceptedServiceScreen(),
+       //HomeBody(),
+      OnGoingTrip(),
     );
   }
 }

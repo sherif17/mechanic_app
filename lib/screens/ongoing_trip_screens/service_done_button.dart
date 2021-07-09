@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mechanic_app/provider/appControlProvider.dart';
+import 'package:provider/provider.dart';
 
 class Button extends StatefulWidget {
   @override
@@ -11,7 +13,7 @@ class _ButtonState extends State<Button> {
   @override
   Widget build(BuildContext context) {
     var _onpressed;
-    if (_enabled) {
+    if (Provider.of<AppControlProvider>(context).completeServiceButtonEnabled) {
       _onpressed = () {
         print("tap");
       };
