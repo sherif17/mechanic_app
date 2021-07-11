@@ -64,7 +64,12 @@ ThemeData lightTheme() {
         fontWeight: FontWeight.w900,
         color: Color(0xFF564FCC),
       ),
-      subtitle2: base.subtitle1.copyWith(),
+      subtitle2: base.subtitle2.copyWith(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Lato',
+        color: Colors.black,
+      ),
       overline: base.subtitle1.copyWith(),
     );
   }

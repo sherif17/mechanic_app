@@ -13,6 +13,7 @@ import 'package:mechanic_app/provider/maps_prepration/maps_provider.dart';
 import 'package:mechanic_app/provider/maps_prepration/polyLineProvider.dart';
 import 'package:mechanic_app/screens/dash_board/home/home.dart';
 import 'package:mechanic_app/screens/dash_board/home/home_body.dart';
+import 'package:mechanic_app/screens/dash_board/home/upcoming_request/upcoming_request.dart';
 import 'package:provider/provider.dart';
 
 import 'home_map.dart';
@@ -111,7 +112,13 @@ class _HomeHeaderState extends State<HomeHeader> {
                           width: size.width * 0.18,
                           height: size.height * 0.04,
                           onChanged: (v) {
-                            AppControlProvider.updateMechanicState(v);
+                            AppControlProvider.updateMechanicState(v, context);
+                            if (v == true) {
+                              Navigator.of(context).push(PageRouteBuilder(
+                                  opaque: false,
+                                  pageBuilder: (BuildContext context, _, __) =>
+                                      UpcomingRequest()));
+                            }
                           },
                           closeChild: Text(
                             "Offline",

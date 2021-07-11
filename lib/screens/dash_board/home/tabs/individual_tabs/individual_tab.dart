@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mechanic_app/models/service_request.dart';
 import 'package:mechanic_app/provider/appControlProvider.dart';
 import 'package:mechanic_app/screens/dash_board/home/requestTile.dart';
-import 'package:mechanic_app/screens/dash_board/home/upComingRequestCard.dart';
+import 'package:mechanic_app/screens/dash_board/home/upcoming_request/upComingRequestCard.dart';
 import 'package:provider/provider.dart';
 
 class IndividualTab extends StatefulWidget {

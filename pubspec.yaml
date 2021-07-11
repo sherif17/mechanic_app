@@ -52,7 +52,8 @@ dependencies:
  # flutter_mapbox_navigation: ^0.0.24
   url_launcher: ^6.0.3
   animated_text_kit: ^4.2.1
-  slider_button: ^1.0.0
+  #slider_button: ^1.0.0
+  slider_button: ^0.6.0
   location_permissions: ^4.0.0
 
 

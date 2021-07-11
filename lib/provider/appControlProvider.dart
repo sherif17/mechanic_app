@@ -1,9 +1,10 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:mechanic_app/screens/dash_board/home/upcoming_request/upcoming_request.dart';
 
 class AppControlProvider extends ChangeNotifier {
 
-  bool mechanicState = true;
+  bool mechanicState = false;
   bool newRequestAvailable = false;
   bool addServiceButtonState = true;
   String currentPage = "Main";
@@ -12,9 +13,11 @@ class AppControlProvider extends ChangeNotifier {
   bool completeServiceButtonEnabled = false;
   int checkedBoxes = 0;
 
-  updateMechanicState(bool mechState)
+  updateMechanicState(bool mechState,BuildContext context)
   {
     mechanicState = mechState;
+    if(mechanicState==true){
+    }
     notifyListeners();
   }
 

@@ -9,13 +9,14 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:fswitch/fswitch.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mechanic_app/provider/appControlProvider.dart';
+import 'package:mechanic_app/screens/dash_board/home/upcoming_request/upcoming_request_sheet.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:mechanic_app/models/maps/address.dart';
 import 'package:mechanic_app/models/maps/direction_details.dart';
 import 'package:mechanic_app/provider/maps_prepration/maps_provider.dart';
 import 'package:mechanic_app/provider/maps_prepration/polyLineProvider.dart';
-import 'package:mechanic_app/screens/dash_board/home/upComingRequestCard.dart';
+import 'package:mechanic_app/screens/dash_board/home/upcoming_request/upComingRequestCard.dart';
 import 'package:mechanic_app/screens/dash_board/profile/profile_body.dart';
 import 'package:mechanic_app/services/Maps_Assistants/maps_services.dart';
 import 'package:mechanic_app/widgets/progress_Dialog.dart';
@@ -43,10 +44,6 @@ class HomeMap extends StatefulWidget {
 
 class _HomeMapState extends State<HomeMap> with TickerProviderStateMixin {
   Completer<GoogleMapController> _completerGoogleMap = Completer(); //////
-  final CameraPosition _initialPosition = CameraPosition(
-    target: LatLng(31.2001, 29.9187),
-    zoom: 15.4746,
-  );
   AnimationController _controller;
 
   DirectionDetails tripDirectionDetails;
@@ -70,6 +67,12 @@ class _HomeMapState extends State<HomeMap> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext ctx) {
     Size size = MediaQuery.of(ctx).size;
+    var initialPos =
+        Provider.of<MapsProvider>(ctx, listen: false).currentLocation;
+    final CameraPosition _initialPosition = CameraPosition(
+      target: LatLng(initialPos.latitude, initialPos.longitude),
+      zoom: 15.4746,
+    );
     double WIDTH = double.maxFinite;
     return Consumer3<MapsProvider, PolyLineProvider, AppControlProvider>(
       builder: (context, MapsProvider, PolyLineProvider, AppControlProvider,
@@ -206,7 +209,7 @@ class _HomeMapState extends State<HomeMap> with TickerProviderStateMixin {
                         width: size.width * 0.18,
                         height: size.height * 0.04,
                         onChanged: (v) {
-                          AppControlProvider.updateMechanicState(v);
+                          AppControlProvider.updateMechanicState(v, context);
                         },
                         closeChild: Text(
                           "Offline",
@@ -242,7 +245,10 @@ class _HomeMapState extends State<HomeMap> with TickerProviderStateMixin {
                     stopPauseOnTap: true,
                   ),
                 ),
-              )
+              ),
+              Align(
+                  alignment: Alignment.bottomCenter,
+                  child: UpcomingRequestSheet()),
               //HomeHeader(),
               // WinchRequestProvider.CUSTOMER_FOUNDED == true &&
               //     WinchRequestProvider.isPopRequestDataReady == true
