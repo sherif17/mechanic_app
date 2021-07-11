@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:mechanic_app/screens/dash_board/dash_board.dart';
+import 'package:mechanic_app/screens/dash_board/home/home.dart';
 import 'package:mechanic_app/screens/dash_board/home/home_body.dart';
-import 'package:mechanic_app/screens/dash_board/home/home_map.dart';
+import 'package:mechanic_app/screens/dash_board/home/home_components/home_map.dart';
 import 'package:mechanic_app/screens/login_screens/confirm_user/confirm_is_that_user.dart';
 import 'package:mechanic_app/screens/login_screens/file_upload/main_stepper.dart';
 import 'package:mechanic_app/screens/login_screens/otp/phone_verification.dart';
@@ -18,5 +19,5 @@ final Map<String, WidgetBuilder> routes = {
   MainStepper.routeName: (context) => MainStepper(),
   DashBoard.routeName: (context) => DashBoard(),
   HomeMap.routeName: (context) => HomeMap(),
-  HomeBody.routeName: (context) => HomeBody(),
+  Home.routeName: (context) => Home(),
 };

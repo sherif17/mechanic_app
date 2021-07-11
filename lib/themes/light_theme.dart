@@ -17,7 +17,7 @@ ThemeData lightTheme() {
           //color: Colors.black54
           ),
       headline3: base.headline3.copyWith(
-        fontSize: 30.0,
+        fontSize: 25.0,
         fontWeight: FontWeight.bold,
         fontFamily: 'Lato',
         color: Colors.black,
