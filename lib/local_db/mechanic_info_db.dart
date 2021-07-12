@@ -18,7 +18,7 @@ const String _SOCIAL_EMAIL = 'socialEmail';
 
 Box winchDriverInfo = Hive.box<String>("MechanicInfoDBBox");
 
-saveVerificationStateInDB(bool state) {
+saveVerificationStateInDB(state) {
   winchDriverInfo.put(_VERIFICATION_STATE, state);
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
@@ -76,6 +77,7 @@ class _RegisterFormState extends State<RegisterForm> {
       child: Column(children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.ideographic,
           children: [
             Expanded(
                 child: Column(

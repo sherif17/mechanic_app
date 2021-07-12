@@ -230,6 +230,8 @@ class _StepperBodyState extends State<StepperBody> {
                                   JwtDecoder.decode((value.token));
                               saveBackendIBInDB(decodedToken["_id"]);
                               saveIATInDB(decodedToken["iat"].toString());
+                              saveVerificationStateInDB(
+                                  decodedToken["verified"].toString());
                               setState(() {
                                 isApiCallProcess = false;
                                 if (value.error == null) if (this._currentstep <

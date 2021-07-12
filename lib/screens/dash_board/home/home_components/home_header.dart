@@ -8,9 +8,11 @@ import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
 import 'package:fswitch/fswitch.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
+import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/provider/appControlProvider.dart';
 import 'package:mechanic_app/provider/maps_prepration/maps_provider.dart';
 import 'package:mechanic_app/provider/maps_prepration/polyLineProvider.dart';
+import 'package:mechanic_app/provider/upcoming_mechanic_service/mechanic_request_provider.dart';
 import 'package:mechanic_app/screens/dash_board/home/home.dart';
 import 'package:mechanic_app/screens/dash_board/home/home_body.dart';
 import 'package:mechanic_app/screens/dash_board/home/upcoming_request/upcoming_request.dart';
@@ -32,10 +34,11 @@ class _HomeHeaderState extends State<HomeHeader> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     DateTime now = DateTime.now();
-    String mechanicName = "Sherif Ahmed";
-    return Consumer3<AppControlProvider, MapsProvider, PolyLineProvider>(
-      builder: (context, AppControlProvider, MapsProvider, PolyLineProvider,
-              child) =>
+    String mechanicName =
+        "${loadFirstNameFromDB() + " " + loadLastNameFromDB()}";
+    return Consumer3<MechanicRequestProvider, MapsProvider, PolyLineProvider>(
+      builder: (context, MechanicRequestProvider, MapsProvider,
+              PolyLineProvider, child) =>
           Stack(alignment: Alignment(0.66, 0.10), children: [
         Container(
           child: Padding(
@@ -77,12 +80,14 @@ class _HomeHeaderState extends State<HomeHeader> {
                 //mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   LinearProgressIndicator(
-                    backgroundColor: (AppControlProvider.mechanicState == true)
-                        ? Colors.white
-                        : Theme.of(context).primaryColorLight,
-                    color: (AppControlProvider.mechanicState == true)
-                        ? Colors.greenAccent
-                        : Theme.of(context).primaryColorLight,
+                    backgroundColor:
+                        (MechanicRequestProvider.mechanicCurrentState == true)
+                            ? Colors.white
+                            : Theme.of(context).primaryColorLight,
+                    color:
+                        (MechanicRequestProvider.mechanicCurrentState == true)
+                            ? Colors.greenAccent
+                            : Theme.of(context).primaryColorLight,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -92,12 +97,16 @@ class _HomeHeaderState extends State<HomeHeader> {
                         AdvancedAvatar(
                           image: AssetImage("assets/icons/profile.png"),
                           size: MediaQuery.of(context).size.height * 0.06,
-                          statusColor: AppControlProvider.mechanicState == true
-                              ? Colors.greenAccent
-                              : Colors.grey,
+                          statusColor:
+                              MechanicRequestProvider.mechanicCurrentState ==
+                                      true
+                                  ? Colors.greenAccent
+                                  : Colors.grey,
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: AppControlProvider.mechanicState == true
+                              color: MechanicRequestProvider
+                                          .mechanicCurrentState ==
+                                      true
                                   ? Colors.green
                                   : Colors.grey,
                               width: 3,
@@ -107,18 +116,14 @@ class _HomeHeaderState extends State<HomeHeader> {
                           ),
                         ),
                         FSwitch(
-                          open: AppControlProvider.mechanicState,
+                          open: MechanicRequestProvider.mechanicCurrentState,
                           openColor: Colors.green,
                           width: size.width * 0.18,
                           height: size.height * 0.04,
                           onChanged: (v) {
-                            AppControlProvider.updateMechanicState(v, context);
-                            if (v == true) {
-                              Navigator.of(context).push(PageRouteBuilder(
-                                  opaque: false,
-                                  pageBuilder: (BuildContext context, _, __) =>
-                                      UpcomingRequest()));
-                            }
+                            MechanicRequestProvider.getMechanicCurrentState(v,
+                                context: context);
+                            if (v == true) {}
                           },
                           closeChild: Text(
                             "Offline",
@@ -136,30 +141,27 @@ class _HomeHeaderState extends State<HomeHeader> {
                     padding: const EdgeInsets.symmetric(vertical: 0.0),
                     child: Row(
                       children: <Widget>[
-                        Container(
-                          width: size.width * 0.5,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Hey, $mechanicName',
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    color: Theme.of(context).accentColor,
-                                  ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Hey, $mechanicName',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: Theme.of(context).accentColor,
                                 ),
-                                Text(
-                                  '${now.day}/${now.month}/${now.year} ',
-                                  style: TextStyle(
-                                    fontSize: 13.0,
-                                    color: Theme.of(context).accentColor,
-                                  ),
+                              ),
+                              Text(
+                                '${now.day}/${now.month}/${now.year} ',
+                                style: TextStyle(
+                                  fontSize: 13.0,
+                                  color: Theme.of(context).accentColor,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                         // Expanded(child: Container()),

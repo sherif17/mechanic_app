@@ -9,6 +9,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:fswitch/fswitch.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mechanic_app/provider/appControlProvider.dart';
+import 'package:mechanic_app/provider/upcoming_mechanic_service/mechanic_request_provider.dart';
 import 'package:mechanic_app/screens/dash_board/home/upcoming_request/upcoming_request_sheet.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
@@ -66,6 +67,8 @@ class _HomeMapState extends State<HomeMap> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext ctx) {
+    Provider.of<MechanicRequestProvider>(ctx, listen: false).isHomeMapOpened =
+        true;
     Size size = MediaQuery.of(ctx).size;
     var initialPos =
         Provider.of<MapsProvider>(ctx, listen: false).currentLocation;
@@ -74,9 +77,9 @@ class _HomeMapState extends State<HomeMap> with TickerProviderStateMixin {
       zoom: 15.4746,
     );
     double WIDTH = double.maxFinite;
-    return Consumer3<MapsProvider, PolyLineProvider, AppControlProvider>(
-      builder: (context, MapsProvider, PolyLineProvider, AppControlProvider,
-              child) =>
+    return Consumer3<MapsProvider, PolyLineProvider, MechanicRequestProvider>(
+      builder: (context, MapsProvider, PolyLineProvider,
+              MechanicRequestProvider, child) =>
           Scaffold(
         backgroundColor: Colors.white.withOpacity(0.3),
         body: SafeArea(
@@ -204,12 +207,13 @@ class _HomeMapState extends State<HomeMap> with TickerProviderStateMixin {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: FSwitch(
-                        open: AppControlProvider.mechanicState,
+                        open: MechanicRequestProvider.mechanicCurrentState,
                         openColor: Colors.green,
                         width: size.width * 0.18,
                         height: size.height * 0.04,
                         onChanged: (v) {
-                          AppControlProvider.updateMechanicState(v, context);
+                          MechanicRequestProvider.getMechanicCurrentState(v,
+                              context: context);
                         },
                         closeChild: Text(
                           "Offline",
@@ -225,30 +229,70 @@ class _HomeMapState extends State<HomeMap> with TickerProviderStateMixin {
                 ),
               ),
               Align(
-                alignment: Alignment.bottomCenter,
-                child: DefaultTextStyle(
-                  style: Theme.of(context).textTheme.headline5,
-                  child: AnimatedTextKit(
-                    animatedTexts: [
-                      ScaleAnimatedText(
-                        'You are currently online',
-                        duration: const Duration(seconds: 3),
-                      ),
-                      ScaleAnimatedText(
-                        'Searching for a request',
-                        duration: const Duration(seconds: 3),
-                      ),
-                    ],
-                    repeatForever: true,
-                    pause: const Duration(milliseconds: 2),
-                    displayFullTextOnTap: true,
-                    stopPauseOnTap: true,
-                  ),
+                alignment: Alignment.topCenter,
+                child: LinearProgressIndicator(
+                  color: Colors.white,
+                  backgroundColor:
+                      MechanicRequestProvider.SEARCHING_FOR_CUSTOMER == true
+                          ? Colors.greenAccent
+                          : Colors.white,
                 ),
               ),
+              MechanicRequestProvider.CUSTOMER_FOUNDED == true
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Text(
+                          "New Mechanic request",
+                          style: TextStyle(color: Colors.green),
+                        ),
+                      ),
+                    )
+                  : Container(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: MechanicRequestProvider.mechanicCurrentState == true
+                      ? DefaultTextStyle(
+                          style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontSize:
+                                  20), //Theme.of(context).textTheme.headline5,
+                          child: AnimatedTextKit(
+                            animatedTexts: [
+                              ScaleAnimatedText(
+                                'You are currently online',
+                                duration: const Duration(seconds: 3),
+                              ),
+                              ScaleAnimatedText(
+                                'Searching for a request',
+                                duration: const Duration(seconds: 3),
+                              ),
+                            ],
+                            repeatForever: true,
+                            pause: const Duration(milliseconds: 2),
+                            displayFullTextOnTap: true,
+                            stopPauseOnTap: true,
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("You Are Currently Offline",
+                              style: TextStyle(
+                                  color: Colors.blueGrey, fontSize: 20)),
+                        ),
+                ),
+              ),
+
               Align(
                   alignment: Alignment.bottomCenter,
-                  child: UpcomingRequestSheet()),
+                  child:
+                      MechanicRequestProvider.isPopRequestDataReady == true &&
+                              MechanicRequestProvider.isHomeMapOpened == true
+                          ? UpcomingRequestSheet()
+                          : Container()),
               //HomeHeader(),
               // WinchRequestProvider.CUSTOMER_FOUNDED == true &&
               //     WinchRequestProvider.isPopRequestDataReady == true

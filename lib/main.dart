@@ -67,7 +67,7 @@ class _MyAppState extends State<MyApp> {
   Locale _locale;
   String TOKEN = loadJwtTokenFromDB();
   String BACKEND_ID = loadBackendIDFromDB();
-  bool MECHANIC_VERIFCATION_STATE = loadVerificationStateFromDB();
+  String MECHANIC_VERIFCATION_STATE = loadVerificationStateFromDB();
 
   void setLocale(Locale locale) {
     setState(() {
@@ -119,13 +119,15 @@ class _MyAppState extends State<MyApp> {
         child: new MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: lightTheme(),
-          initialRoute: DashBoard.routeName,
-          // MECHANIC_VERIFCATION_STATE == true
-          //     ? DashBoard.routeName
-          // //     : Intro.routeName,
-          // TOKEN == "" || BACKEND_ID == ""
-          //     ? Intro.routeName
-          //     : DashBoard.routeName,
+          initialRoute: //DashBoard.routeName,
+              // MECHANIC_VERIFCATION_STATE == true
+              //     ? DashBoard.routeName
+              // //     : Intro.routeName,
+              //TOKEN == "" || BACKEND_ID == ""
+              MECHANIC_VERIFCATION_STATE == "true" &&
+                      MECHANIC_VERIFCATION_STATE != null
+                  ? DashBoard.routeName
+                  : Intro.routeName,
           routes: routes,
           locale: _locale,
           supportedLocales: [

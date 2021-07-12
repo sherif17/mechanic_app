@@ -71,7 +71,7 @@ class _BodyState extends State<Body> {
                     JwtDecoder.decode(prefJwtToken);
                 //setPrefBackendID(decodedToken["_id"]);
                 saveBackendIBInDB(decodedToken["_id"]);
-                saveVerificationStateInDB(decodedToken["verified"]);
+                saveVerificationStateInDB(decodedToken["verified"].toString());
                 saveIATInDB(decodedToken["iat"].toString());
                 printAllMechanicSavedInfoInDB();
                 Navigator.pushReplacementNamed(context, DashBoard.routeName);

@@ -43,16 +43,17 @@ String liveTrackerResponseModelToJson(LiveTrackerResponseModel data) =>
 class LiveTrackerResponseModel {
   LiveTrackerResponseModel({
     this.done,
+    this.error,
   });
 
   String done;
+  String error;
 
   factory LiveTrackerResponseModel.fromJson(Map<String, dynamic> json) =>
-      LiveTrackerResponseModel(
-        done: json["Done"],
-      );
+      LiveTrackerResponseModel(done: json["Done"], error: json["Error"]);
 
   Map<String, dynamic> toJson() => {
         "Done": done,
+        "Error": error,
       };
 }

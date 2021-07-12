@@ -57,9 +57,12 @@ class GetNearestClientResponseModel {
 
   factory GetNearestClientResponseModel.fromJson(Map<String, dynamic> json) =>
       GetNearestClientResponseModel(
-        nearestRidePickupLocation:
-            Location.fromJson(json["Nearest Ride: Pickup Location"]),
-        dropoffLocation: Location.fromJson(json["Dropoff Location"]),
+        nearestRidePickupLocation: json["Nearest Ride: Pickup Location"] != null
+            ? Location.fromJson(json["Nearest Ride: Pickup Location"])
+            : null,
+        dropoffLocation: json["Dropoff Location"] != null
+            ? Location.fromJson(json["Dropoff Location"])
+            : null,
         error: json["error"],
         requestId: json["requestId"],
       );

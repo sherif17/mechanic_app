@@ -12,18 +12,6 @@ class ProfileBody extends StatefulWidget {
   _ProfileBodyState createState() => _ProfileBodyState();
 }
 
-String token = loadJwtTokenFromDB(); // " ";
-String ID = loadBackendIDFromDB(); // " ";
-String Fname = loadFirstNameFromDB(); // " ";
-String Lname = loadLastNameFromDB(); // " ";
-String Phone = loadPhoneNumberFromDB(); // " ";
-//String WinchPlates = " ";
-String currentLang = loadCurrentLangFromDB(); // " ";
-String WorkingCity = loadWorkingCityFromDB(); // " ";
-String profilePhoto = loadSocialImageFromDB(); // " ";
-String email = loadSocialEmailFromDB(); //" ";
-String iat = loadIATFromDB(); // " ";
-
 class _ProfileBodyState extends State<ProfileBody> {
   @override
   void initState() {
@@ -307,6 +295,18 @@ class _ProfileBodyState extends State<ProfileBody> {
 
   @override
   Widget build(BuildContext context) {
+    String token = loadJwtTokenFromDB(); // " ";
+    String ID = loadBackendIDFromDB(); // " ";
+    String Fname = loadFirstNameFromDB(); // " ";
+    String Lname = loadLastNameFromDB(); // " ";
+    String Phone = loadPhoneNumberFromDB(); // " ";
+//String WinchPlates = " ";
+    String currentLang = loadCurrentLangFromDB(); // " ";
+    String WorkingCity = loadWorkingCityFromDB(); // " ";
+    String profilePhoto = loadSocialImageFromDB(); // " ";
+    String email = loadSocialEmailFromDB(); //" ";
+    String iat = loadIATFromDB(); // " ";
+
     return SingleChildScrollView(
       child: Fname == " "
           ? CircularProgressIndicator(

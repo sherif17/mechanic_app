@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:mechanic_app/models/upcoming_requests/arrival_to_customer_location_model.dart';
+import 'package:mechanic_app/models/upcoming_requests/canceling_mechanic_service.dart';
 import 'package:mechanic_app/models/upcoming_requests/ending_mechanic_service.dart';
 import 'package:mechanic_app/models/upcoming_requests/get_nearest_client_model.dart';
 import 'package:http/http.dart' as http;
@@ -119,6 +120,22 @@ class MechanicRequestService {
     if (response.statusCode == 200 || response.statusCode == 400) {
       print("response.body:${response.body}");
       return StartingMechanicServiceResponseModel.fromJson(
+          json.decode(response.body));
+    } else {
+      throw Exception("failed to load Data");
+    }
+  }
+
+  Future<CancelingMechanicServiceResponseModel> cancelMechanicService(
+      token) async {
+    var url = Uri.parse('http://161.97.155.244/api/Mechanic/MechanicCancel');
+    final response = await http.get(
+      url,
+      headers: {"x-auth-token": "$token"},
+    );
+    if (response.statusCode == 200 || response.statusCode == 400) {
+      print("response.body:${response.body}");
+      return CancelingMechanicServiceResponseModel.fromJson(
           json.decode(response.body));
     } else {
       throw Exception("failed to load Data");

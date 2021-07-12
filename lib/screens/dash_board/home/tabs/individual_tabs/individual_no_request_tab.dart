@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mechanic_app/provider/appControlProvider.dart';
+import 'package:mechanic_app/provider/upcoming_mechanic_service/mechanic_request_provider.dart';
 import 'package:provider/provider.dart';
 
 class IndividualNoRequestTab extends StatefulWidget {
@@ -14,8 +15,8 @@ class _IndividualNoRequestTabState extends State<IndividualNoRequestTab> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Consumer<AppControlProvider>(
-      builder: (context, val, child) => val.mechanicState == false
+    return Consumer<MechanicRequestProvider>(
+      builder: (context, val, child) => val.mechanicCurrentState == false
           ? Column(
               children: [
                 Container(

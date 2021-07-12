@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mechanic_app/local_db/mechanic_info_db.dart';
@@ -96,6 +97,7 @@ class _ConfirmUserFormState extends State<ConfirmUserForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.ideographic,
               children: [
                 SizedBox(
                     height: size.height * 0.1,
@@ -153,9 +155,10 @@ class _ConfirmUserFormState extends State<ConfirmUserForm> {
                             saveLastNameInDB(
                                 winchRegisterRequestModel.lastName);
                             Map<String, dynamic> decodedToken =
-                                JwtDecoder.decode(jwtToken);
+                                JwtDecoder.decode(value.token);
                             saveBackendIBInDB(decodedToken["_id"]);
-                            saveVerificationStateInDB(decodedToken["verified"]);
+                            saveVerificationStateInDB(
+                                decodedToken["verified"].toString());
                             saveIATInDB(decodedToken["iat"].toString());
                             setState(() {
                               isApiCallProcess = false;
