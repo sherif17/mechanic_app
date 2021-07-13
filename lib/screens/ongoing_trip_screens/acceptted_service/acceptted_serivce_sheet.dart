@@ -2,6 +2,8 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mechanic_app/provider/upcoming_mechanic_service/mechanic_request_provider.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/sarting_mechanic_service.dart';
 import 'package:provider/provider.dart';
 import 'package:slider_button/slider_button.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,23 +21,27 @@ class AcceptedServiceSheet extends StatelessWidget {
       : throw 'Could not launch tel:$number';
   @override
   Widget build(BuildContext context) {
-    String customerFirstName = "Jomana";
-    //String customerFirstName = MechanicRequestProvider.upcomingRequestResponseModel.firstName;
-    String customerLastName = "Hossam";
-    //String customerLastName = MechanicRequestProvider.upcomingRequestResponseModel.lastName;
-    String customerCarPlates = "س ن ت 7932";
-    //String customerCarPlates = MechanicRequestProvider.upcomingRequestResponseModel.carPlates;
-    String customerCarBrand = "Seat";
-    //String customerCarBrand = MechanicRequestProvider.upcomingRequestResponseModel.carBrand;
-    String customerCarModel = "Ibiza";
-    //String customerCarModel = MechanicRequestProvider.upcomingRequestResponseModel.carModel;
-
-
+    final mechanicRequestProvider =
+        Provider.of<MechanicRequestProvider>(context);
+    //String customerFirstName = "Jomana";
+    String customerFirstName =
+        mechanicRequestProvider.upcomingRequestResponseModel.firstName;
+    //String customerLastName = "Hossam";
+    String customerLastName =
+        mechanicRequestProvider.upcomingRequestResponseModel.lastName;
+    // String customerCarPlates = "س ن ت 7932";
+    String customerCarPlates =
+        mechanicRequestProvider.getNearestClientResponseModel.CarPlates;
+    //String customerCarBrand = "Seat";
+    String customerCarBrand =
+        mechanicRequestProvider.getNearestClientResponseModel.CarBrand;
+    //String customerCarModel = "Ibiza";
+    String customerCarModel =
+        mechanicRequestProvider.getNearestClientResponseModel.CarModel;
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: Consumer<MapsProvider>(
-        builder: (context, MapsProvider, child) =>
-            DraggableScrollableSheet(
+        builder: (context, MapsProvider, child) => DraggableScrollableSheet(
           initialChildSize: 0.1,
           minChildSize: 0.1,
           maxChildSize: 0.32,
@@ -96,10 +102,9 @@ class AcceptedServiceSheet extends StatelessWidget {
                                       alignment: Alignment.centerLeft,
                                       child: GestureDetector(
                                         onTap: () {
-                                          _launchDial(
-                                              // MechanicRequestProvider
-                                              //     .upcomingRequestResponseModel
-                                              //     .phoneNumber ??
+                                          _launchDial(mechanicRequestProvider
+                                                  .upcomingRequestResponseModel
+                                                  .phoneNumber ??
                                               "0000");
                                         },
                                         child: Container(
@@ -135,17 +140,12 @@ class AcceptedServiceSheet extends StatelessWidget {
                                       child: AnimatedTextKit(
                                         animatedTexts: [
                                           ColorizeAnimatedText(
-                                            "${customerCarBrand ??
-                                                "Car Brand"
-                                            }-${customerCarModel ??
-                                            "Model"
-                                            }"
-                                            ,
+                                            "${customerCarBrand ?? "Car Brand"}-${customerCarModel ?? "Model"}",
                                             textStyle: colorizeTextStyle,
                                             colors: colorizeColors,
                                           ),
                                           ColorizeAnimatedText(
-                                            'Meet ${customerFirstName ??"FName"} at 2:30',
+                                            'Meet ${customerFirstName ?? "FName"} at 2:30',
                                             textStyle: TextStyle(
                                               fontSize: 20,
                                               fontFamily: 'Horizon',
@@ -212,7 +212,7 @@ class AcceptedServiceSheet extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                      "${customerFirstName ??"FName"} ${customerLastName ??"LName"}",
+                                      "${customerFirstName ?? "FName"} ${customerLastName ?? "LName"}",
                                       style: TextStyle(
                                           color: Colors.black54,
                                           decoration: TextDecoration.none,
@@ -237,11 +237,7 @@ class AcceptedServiceSheet extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  Text(
-                                      "${customerCarPlates ??
-                                          "CarPlates"
-                                      }"
-                                      ,
+                                  Text("${customerCarPlates ?? "CarPlates"}",
                                       style: TextStyle(
                                           color: Colors.black54,
                                           decoration: TextDecoration.none,
@@ -254,44 +250,50 @@ class AcceptedServiceSheet extends StatelessWidget {
                               ),
                               // MechanicRequestProvider.DriverARRIVED == false ?
                               SliderButton(
-                                      //dismissible: false,
-                                      action: () async {
-                              //           await MechanicRequestProvider
-                              //               .arrivedToCustomerLocation(ctx);
-                              //           if (MechanicRequestProvider
-                              //                   .DriverARRIVED ==
-                              //               true) {
-                              //             await MechanicRequestProvider
-                              //                 .startingWinchService(ctx);
-                              //           }
+                                //dismissible: false,
+                                action: () async {
+                                  // await mechanicRequestProvider
+                                  //     .arrivedToCustomerLocation(context);
+                                  await mechanicRequestProvider
+                                      .arrivedToCustomerLocation(ctx);
+                                  if (mechanicRequestProvider.DriverARRIVED ==
+                                      true) {
+                                    Navigator.pushNamedAndRemoveUntil(
+                                        context,
+                                        StartingMechanicService.routeName,
+                                        (route) => false);
+                                    // await mechanicRequestProvider
+                                    //     .startingWinchService(ctx);
+                                    // if (mechanicRequestProvider
+                                    //     .SERVICE_STARTTED = true)
+                                  }
 
-                                        ///Do something here
-                                        print("slided");
-                                        //Navigator.of(context).pop();
-                                      },
-                                      label: Text(
-                                        "Slide To Start Trip",
-                                        style: TextStyle(
-                                            color: Color(0xff4a4a4a),
-                                            fontWeight: FontWeight.w500,
-                                            decoration: TextDecoration.none,
-                                            fontSize: 17),
-                                      ),
-                                      icon: Icon(
-                                        Icons.arrow_right_alt_rounded,
-                                        color: Colors.white,
-                                        size: 60,
-                                      ),
-                                      width: MediaQuery.of(context).size.width *
-                                          0.8,
-                                      radius: 20,
-                                      buttonColor: Colors.green.withOpacity(
-                                          0.9), //Color(0xffd60000),
-                                      backgroundColor: Colors.grey.withOpacity(
-                                          0.2), //Color(0xff534bae),
-                                      highlightedColor: Colors.greenAccent,
-                                      baseColor: Colors.green,
-                                    )
+                                  ///Do something here
+                                  print("slided");
+                                  //Navigator.of(context).pop();
+                                },
+                                label: Text(
+                                  "Slide when arrive",
+                                  style: TextStyle(
+                                      color: Color(0xff4a4a4a),
+                                      fontWeight: FontWeight.w500,
+                                      decoration: TextDecoration.none,
+                                      fontSize: 17),
+                                ),
+                                icon: Icon(
+                                  Icons.arrow_right_alt_rounded,
+                                  color: Colors.white,
+                                  size: 60,
+                                ),
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                radius: 20,
+                                buttonColor: Colors.green
+                                    .withOpacity(0.9), //Color(0xffd60000),
+                                backgroundColor: Colors.grey
+                                    .withOpacity(0.2), //Color(0xff534bae),
+                                highlightedColor: Colors.greenAccent,
+                                baseColor: Colors.green,
+                              )
                               //     :
                               // CircularProgressIndicator(
                               //         valueColor: AlwaysStoppedAnimation<Color>(

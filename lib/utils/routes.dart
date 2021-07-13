@@ -9,6 +9,10 @@ import 'package:mechanic_app/screens/login_screens/otp/phone_verification.dart';
 import 'package:mechanic_app/screens/login_screens/phone_number/enter_phone_number.dart';
 import 'package:mechanic_app/screens/login_screens/user_register/register_new_user.dart';
 import 'package:mechanic_app/screens/onboarding_screens/intro_screens/intro.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/acceptted_service/accepted_service_map.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/diagnosis_customer_car/checking_customer_car/checking_customer_car.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/diagnosis_customer_car/choosing_services_items/choosing_services_itemes.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/sarting_mechanic_service.dart';
 
 final Map<String, WidgetBuilder> routes = {
   Intro.routeName: (context) => Intro(),
@@ -20,4 +24,8 @@ final Map<String, WidgetBuilder> routes = {
   DashBoard.routeName: (context) => DashBoard(),
   HomeMap.routeName: (context) => HomeMap(),
   Home.routeName: (context) => Home(),
+  AcceptedServiceScreen.routeName: (context) => AcceptedServiceScreen(),
+  StartingMechanicService.routeName: (context) => StartingMechanicService(),
+  CheckingCustomerCar.routeName: (context) => CheckingCustomerCar(),
+  ChoosingServicesItems.routeName: (context) => ChoosingServicesItems(),
 };

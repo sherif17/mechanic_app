@@ -9,13 +9,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mechanic_app/models/maps/address.dart';
 import 'package:mechanic_app/models/maps/direction_details.dart';
+import 'package:mechanic_app/provider/upcoming_mechanic_service/mechanic_request_provider.dart';
 import 'package:provider/provider.dart';
 //import 'package:mechanic_app//local_db/winch_driver_info_db.dart';
 import 'package:mechanic_app/provider/maps_prepration/maps_provider.dart';
 import 'package:mechanic_app/provider/maps_prepration/polyLineProvider.dart';
 //import 'package:mechanic_app/provider/upcomming_winch_service/winch_request_provider.dart';
 //import 'package:mechanic_app/screens/dash_board/home/acceptted_winch_service/started_service_sheet.dart';
-import 'package:mechanic_app/screens/ongoing_trip_screens/acceptted_serivce_sheet.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/acceptted_service/acceptted_serivce_sheet.dart';
 
 class AcceptedServiceScreen extends StatefulWidget {
   static String routeName = '/AcceptedServiceScreen';
@@ -29,7 +30,8 @@ class _AcceptedServiceScreenState extends State<AcceptedServiceScreen> {
   // String jwtToken = loadJwtTokenFromDB();
   @override
   void initState() {
-    //Provider.of<WinchRequestProvider>(context, listen: false).trackWinchDriver(context);
+    Provider.of<MechanicRequestProvider>(context, listen: false)
+        .trackMechanic(context);
     super.initState();
     //getCurrentPrefData();
     setCustomMarker();
@@ -38,11 +40,11 @@ class _AcceptedServiceScreenState extends State<AcceptedServiceScreen> {
   BitmapDescriptor customerPickUpLocMarker;
   BitmapDescriptor dropOffLocMarker;
   //Address currentLocation = Address(latitude:31.22493642787668, longitude: 29.94973419633672, placeName: "27, Abd El Qader Ragab");
-  Address pickUpLocation = Address(
-      latitude: 31.206447,
-      longitude: 29.923386,
-      placeName: "Faculty of Engineering");
-  DirectionDetails tripDirectionDetails = DirectionDetails();
+  // Address pickUpLocation = Address(
+  //     latitude: 31.206447,
+  //     longitude: 29.923386,
+  //     placeName: "Faculty of Engineering");
+  // DirectionDetails tripDirectionDetails = DirectionDetails();
 
   void setCustomMarker() async {
     customerPickUpLocMarker = await BitmapDescriptor.fromAssetImage(
@@ -66,9 +68,10 @@ class _AcceptedServiceScreenState extends State<AcceptedServiceScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     //var initialPos = Provider.of<MapsProvider>(context, listen: false).currentLocation;
-
+    var initialPos =
+        Provider.of<MapsProvider>(context, listen: false).currentLocation;
     final CameraPosition _initialPosition = CameraPosition(
-      target: LatLng(31.2062, 29.9249),
+      target: LatLng(initialPos.latitude, initialPos.longitude),
       zoom: 15.4746,
     );
 
@@ -97,11 +100,11 @@ class _AcceptedServiceScreenState extends State<AcceptedServiceScreen> {
                           onMapCreated: (GoogleMapController controller) async {
                             _completerGoogleMap.complete(controller);
                             MapsProvider.googleMapController = controller;
-                            await MapsProvider.locatePosition(context);
+                            // await MapsProvider.locatePosition(context);
                             PolyLineProvider.getPlaceDirectionWithCustomMarker(
                               context,
                               MapsProvider.currentLocation,
-                              pickUpLocation,
+                              MapsProvider.customerPickUpLocation,
                               MapsProvider.googleMapController,
                               customerPickUpLocMarker,
                               dropOffLocMarker,
@@ -148,7 +151,7 @@ class _AcceptedServiceScreenState extends State<AcceptedServiceScreen> {
                                             child:
                                                 // WinchRequestProvider.SERVICE_STARTTED == false ?
                                                 Text(
-                                                    "${pickUpLocation.placeName ?? "Customer Pick Up Location Place Name"}",
+                                                    "${MapsProvider.customerPickUpLocation.placeName ?? "Customer Pick Up Location Place Name"}",
                                                     style: TextStyle(
                                                         color: Colors.white))
                                             // : Text(
@@ -193,10 +196,14 @@ class _AcceptedServiceScreenState extends State<AcceptedServiceScreen> {
                                               flex: 25,
                                               child:
                                                   // WinchRequestProvider.SERVICE_STARTTED == false ?
-                                                  Text(
-                                                      "Detailed Pickup Location",
-                                                      style: TextStyle(
-                                                          color: Colors.white))
+                                                  Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                    "Detailed Pickup Location",
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                              )
                                               // : Text(
                                               // "Detailed Drop Off Location Location",
                                               // style: TextStyle(

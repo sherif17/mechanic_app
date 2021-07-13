@@ -94,13 +94,15 @@ class _HomeMapState extends State<HomeMap> with TickerProviderStateMixin {
                 zoomGesturesEnabled: true,
                 zoomControlsEnabled: false,
                 mapToolbarEnabled: true,
+                cameraTargetBounds:
+                    CameraTargetBounds(PolyLineProvider.latLngBounds),
                 polylines: PolyLineProvider.polylineSet,
                 markers: PolyLineProvider.markersSet,
                 circles: PolyLineProvider.circlesSet,
                 onMapCreated: (GoogleMapController controller) async {
                   _completerGoogleMap.complete(controller);
                   MapsProvider.googleMapController = controller;
-                  MapsProvider.locatePosition(context);
+                  // MapsProvider.locatePosition(context);
                   // WinchRequestProvider.getNearestClientRequestModel =
                   //     GetNearestClientRequestModel(
                   //         locationLat:
@@ -192,7 +194,10 @@ class _HomeMapState extends State<HomeMap> with TickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
+                        await MechanicRequestProvider.rejectUpcomingRequest(
+                            context);
+                        MechanicRequestProvider.isHomeMapOpened = false;
                         Navigator.pop(context);
                       },
                       child: Padding(
@@ -213,7 +218,7 @@ class _HomeMapState extends State<HomeMap> with TickerProviderStateMixin {
                         height: size.height * 0.04,
                         onChanged: (v) {
                           MechanicRequestProvider.getMechanicCurrentState(v,
-                              context: context);
+                              cttx: context);
                         },
                         closeChild: Text(
                           "Offline",

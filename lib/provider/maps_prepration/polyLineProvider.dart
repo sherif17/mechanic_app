@@ -16,6 +16,7 @@ class PolyLineProvider extends ChangeNotifier {
   Set<Polyline> polylineSet = {};
   Set<Marker> markersSet = {};
   Set<Circle> circlesSet = {};
+  LatLngBounds latLngBounds;
 
   void resetPolyLine() {
     polylineSet.clear();
@@ -26,7 +27,8 @@ class PolyLineProvider extends ChangeNotifier {
   }
 
   Future<void> getPlaceDirection(context, Address initialPosition,
-      Address finalPosition, GoogleMapController _googleMapController) async {
+      Address finalPosition, GoogleMapController _googleMapController,
+      {double zoomLevel}) async {
     var winchLatLng =
         LatLng(initialPosition.latitude, initialPosition.longitude);
     var pickUpLatLng = LatLng(finalPosition.latitude, finalPosition.longitude);
@@ -79,8 +81,6 @@ class PolyLineProvider extends ChangeNotifier {
     );
     polylineSet.add(polyline);
 
-    LatLngBounds latLngBounds;
-
     if (winchLatLng.latitude > pickUpLatLng.latitude &&
         winchLatLng.longitude > pickUpLatLng.longitude) {
       latLngBounds =
@@ -99,7 +99,7 @@ class PolyLineProvider extends ChangeNotifier {
     }
 
     _googleMapController
-        .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 70));
+        .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 100));
 
     String initialSnippet = initialPosition.descriptor + " location";
     Marker winchLocMarker = Marker(

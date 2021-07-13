@@ -121,8 +121,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                           width: size.width * 0.18,
                           height: size.height * 0.04,
                           onChanged: (v) {
-                            MechanicRequestProvider.getMechanicCurrentState(v,
-                                context: context);
+                            MechanicRequestProvider.getMechanicCurrentState(v,cttx: context);
                             if (v == true) {}
                           },
                           closeChild: Text(
@@ -200,6 +199,8 @@ class _HomeHeaderState extends State<HomeHeader> {
                 //  myLocationEnabled: true,
                 zoomControlsEnabled: false,
                 mapToolbarEnabled: false,
+                cameraTargetBounds:
+                    CameraTargetBounds(PolyLineProvider.latLngBounds),
                 polylines: PolyLineProvider.polylineSet,
                 markers: PolyLineProvider.markersSet,
                 circles: PolyLineProvider.circlesSet,

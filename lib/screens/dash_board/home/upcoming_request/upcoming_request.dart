@@ -9,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mechanic_app/provider/appControlProvider.dart';
 import 'package:mechanic_app/provider/maps_prepration/maps_provider.dart';
 import 'package:mechanic_app/provider/maps_prepration/polyLineProvider.dart';
+import 'package:mechanic_app/provider/upcoming_mechanic_service/mechanic_request_provider.dart';
 import 'package:mechanic_app/widgets/divider.dart';
 import 'package:provider/provider.dart';
 
@@ -30,50 +31,55 @@ class UpcomingRequest extends StatelessWidget {
       target: LatLng(initialPos.latitude, initialPos.longitude),
       zoom: 15.4746,
     );
+    // final CameraPosition _initialPositionn = CameraPosition(
+    //   target: LatLng(initialPos.latitude, initialPos.longitude),
+    //   zoom: 15.4746,
+    // );
     Completer<GoogleMapController> _completerGoogleMap = Completer(); //////
     ScrollController controller = ScrollController();
-    return Scaffold(
-      backgroundColor: Colors.white.withOpacity(
-          0.95), // this is the main reason of transparency at next screen. I am ignoring rest implementation but what i have achieved is you can see.
-      appBar: AppBar(
-        title: Text(
-          "New Mechanic Request",
-          style: Theme.of(context).textTheme.bodyText2,
-        ),
-        backgroundColor: Colors.white.withOpacity(0.25),
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Icon(
-            Icons.close_rounded,
-            color: Theme.of(context).primaryColorDark, //Colors.black87,
-            size: 30,
+    return Consumer3<MapsProvider, PolyLineProvider, MechanicRequestProvider>(
+      builder:
+          (_, mapsProvider, polyLineProvider, mechanicRequestProvider, child) =>
+              Scaffold(
+        backgroundColor: Colors.white.withOpacity(
+            0.95), // this is the main reason of transparency at next screen. I am ignoring rest implementation but what i have achieved is you can see.
+        appBar: AppBar(
+          title: Text(
+            "New Mechanic Request",
+            style: Theme.of(context).textTheme.bodyText2,
           ),
+          backgroundColor: Colors.white.withOpacity(0.25),
+          leading: GestureDetector(
+            onTap: () async {
+              await mechanicRequestProvider.rejectUpcomingRequest(context);
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.close_rounded,
+              color: Theme.of(context).primaryColorDark, //Colors.black87,
+              size: 30,
+            ),
+          ),
+          actions: [
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: CircularCountDownTimer(
+            //     width: 40,
+            //     height: 40,
+            //     duration: 59,
+            //     fillColor: Colors.grey,
+            //     ringColor: Theme.of(context).primaryColorLight,
+            //     isReverse: true,
+            //     backgroundColor: Theme.of(context).accentColor,
+            //     onComplete: () {
+            //       // Navigator.pop(context);
+            //     },
+            //     isTimerTextShown: true,
+            //   ),
+            // ),
+          ],
         ),
-        actions: [
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: CircularCountDownTimer(
-          //     width: 40,
-          //     height: 40,
-          //     duration: 59,
-          //     fillColor: Colors.grey,
-          //     ringColor: Theme.of(context).primaryColorLight,
-          //     isReverse: true,
-          //     backgroundColor: Theme.of(context).accentColor,
-          //     onComplete: () {
-          //       // Navigator.pop(context);
-          //     },
-          //     isTimerTextShown: true,
-          //   ),
-          // ),
-        ],
-      ),
-      body: Consumer3<AppControlProvider, PolyLineProvider, MapsProvider>(
-        builder: (context, mechanicRequestProvider, PolyLineProvider,
-                MapsProvider, child) =>
-            Stack(
+        body: Stack(
           children: [
             Padding(
               padding: EdgeInsets.only(top: size.height * 0),
@@ -143,12 +149,15 @@ class UpcomingRequest extends StatelessWidget {
                             child: Column(
                               children: [
                                 Text(
-                                  "Seat Ibeza",
+                                  "${mechanicRequestProvider.getNearestClientResponseModel.CarBrand + " " + mechanicRequestProvider.getNearestClientResponseModel.CarModel}",
                                   style: TextStyle(fontSize: 18),
                                 ),
-                                Text(
-                                  "1234 سصم",
-                                  style: TextStyle(fontSize: 15),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "${mechanicRequestProvider.getNearestClientResponseModel.CarYear.toString() + " - " + mechanicRequestProvider.getNearestClientResponseModel.CarPlates}",
+                                    style: TextStyle(fontSize: 15),
+                                  ),
                                 )
                               ],
                             ),
@@ -178,9 +187,11 @@ class UpcomingRequest extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text("22 KM"),
+                                Text(
+                                    "${polyLineProvider.tripDirectionDetails.distanceText}"),
                                 Text("|"),
-                                Text(" 30 min away"),
+                                Text(
+                                    "${polyLineProvider.tripDirectionDetails.durationText}"),
                               ],
                             ),
                           ),
@@ -211,16 +222,18 @@ class UpcomingRequest extends StatelessWidget {
                                 myLocationButtonEnabled: true,
                                 myLocationEnabled: true,
                                 zoomGesturesEnabled: true,
-                                zoomControlsEnabled: false,
+                                zoomControlsEnabled: true,
                                 mapToolbarEnabled: true,
-                                polylines: PolyLineProvider.polylineSet,
-                                markers: PolyLineProvider.markersSet,
-                                circles: PolyLineProvider.circlesSet,
+                                cameraTargetBounds: CameraTargetBounds(
+                                    polyLineProvider.latLngBounds),
+                                polylines: polyLineProvider.polylineSet,
+                                markers: polyLineProvider.markersSet,
+                                circles: polyLineProvider.circlesSet,
                                 onMapCreated:
                                     (GoogleMapController controller) async {
                                   _completerGoogleMap.complete(controller);
-                                  MapsProvider.googleMapController = controller;
-                                  MapsProvider.locatePosition(context);
+                                  mapsProvider.googleMapController = controller;
+                                  //  MapsProvider.locatePosition(context);
                                   // WinchRequestProvider.getNearestClientRequestModel =
                                   //     GetNearestClientRequestModel(
                                   //         locationLat:
@@ -241,7 +254,8 @@ class UpcomingRequest extends StatelessWidget {
                                   padding: const EdgeInsets.all(5),
                                   child: Icon(Icons.add_location_alt_rounded),
                                 ),
-                                Text('1 Ash Park,Pembroke Dock,5A27'),
+                                Text(
+                                    '${mapsProvider.customerPickUpLocation.placeName}'),
                               ],
                             ),
                           )
@@ -301,7 +315,10 @@ class UpcomingRequest extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10),
                                       side: BorderSide(
                                           width: 0.7, color: Colors.red)))),
-                          onPressed: () {
+                          onPressed: () async {
+                            await mechanicRequestProvider
+                                .rejectUpcomingRequest(context);
+                            Navigator.pop(context);
                             // mechanicRequestProvider.rejectUpComingDiagnosis();
                           }),
                       //  SizedBox(width: size.width * 0.0),
@@ -316,8 +333,10 @@ class UpcomingRequest extends StatelessWidget {
                           //  isReverseAnimation: true,
                           isReverse: true,
                           backgroundColor: Theme.of(context).accentColor,
-                          onComplete: () {
-                            // Navigator.pop(context);
+                          onComplete: () async {
+                            await mechanicRequestProvider
+                                .rejectUpcomingRequest(context);
+                            Navigator.pop(context);
                           },
                           isTimerTextShown: true,
                         ),
@@ -337,8 +356,10 @@ class UpcomingRequest extends StatelessWidget {
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     side: BorderSide(color: Colors.green)))),
-                        onPressed: () {
+                        onPressed: () async {
                           //  mechanicRequestProvider.approveUpComingDiagnosis();
+                          await mechanicRequestProvider
+                              .acceptUpcomingRequest(context);
                         },
                       ),
                     ]),

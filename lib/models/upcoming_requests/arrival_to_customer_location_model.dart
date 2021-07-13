@@ -14,19 +14,19 @@ String arrivalToCustomerLocationRequestModelToJson(
 
 class ArrivalToCustomerLocationRequestModel {
   ArrivalToCustomerLocationRequestModel({
-    this.driverResponse,
+    this.mechanicResponse,
   });
 
-  String driverResponse;
+  String mechanicResponse;
 
   factory ArrivalToCustomerLocationRequestModel.fromJson(
           Map<String, dynamic> json) =>
       ArrivalToCustomerLocationRequestModel(
-        driverResponse: json["driverResponse"],
+        mechanicResponse: json["mechanicResponse"],
       );
 
   Map<String, dynamic> toJson() => {
-        "driverResponse": driverResponse,
+        "mechanicResponse": mechanicResponse,
       };
 }
 // To parse this JSON data, do

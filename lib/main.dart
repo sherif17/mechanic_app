@@ -7,9 +7,12 @@ import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/provider/appControlProvider.dart';
 import 'package:mechanic_app/provider/maps_prepration/maps_provider.dart';
 import 'package:mechanic_app/provider/maps_prepration/polyLineProvider.dart';
+import 'package:mechanic_app/provider/mechanic_service/mechanic_service_cart_provider.dart';
+import 'package:mechanic_app/provider/mechanic_service/mechanic_service_provider.dart';
 import 'package:mechanic_app/provider/upcoming_mechanic_service/mechanic_request_provider.dart';
 import 'package:mechanic_app/screens/dash_board/dash_board.dart';
 import 'package:mechanic_app/screens/onboarding_screens/intro_screens/intro.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/diagnosis_customer_car/checking_customer_car/checking_customer_car.dart';
 import 'package:mechanic_app/shared_prefrences/winch_user_model.dart';
 import 'package:mechanic_app/utils/routes.dart';
 import 'package:provider/provider.dart';
@@ -114,20 +117,24 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider<PolyLineProvider>(
               create: (_) => PolyLineProvider()),
           ChangeNotifierProvider<MechanicRequestProvider>(
-              create: (_) => MechanicRequestProvider())
+              create: (_) => MechanicRequestProvider()),
+          ChangeNotifierProvider<MechanicServiceProvider>(
+              create: (_) => MechanicServiceProvider()),
+          ChangeNotifierProvider<MechanicServicesCartProvider>(
+              create: (_) => MechanicServicesCartProvider())
         ],
         child: new MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: lightTheme(),
-          initialRoute: //DashBoard.routeName,
-              // MECHANIC_VERIFCATION_STATE == true
-              //     ? DashBoard.routeName
-              // //     : Intro.routeName,
-              //TOKEN == "" || BACKEND_ID == ""
-              MECHANIC_VERIFCATION_STATE == "true" &&
-                      MECHANIC_VERIFCATION_STATE != null
-                  ? DashBoard.routeName
-                  : Intro.routeName,
+          initialRoute: //CheckingCustomerCar.routeName, //DashBoard.routeName,
+          // MECHANIC_VERIFCATION_STATE == true
+          //     ? DashBoard.routeName
+          // //     : Intro.routeName,
+          //TOKEN == "" || BACKEND_ID == ""
+          MECHANIC_VERIFCATION_STATE == "true" &&
+                  MECHANIC_VERIFCATION_STATE != null
+              ? DashBoard.routeName
+              : Intro.routeName,
           routes: routes,
           locale: _locale,
           supportedLocales: [

@@ -14,19 +14,19 @@ String startingMechanicServiceRequestModelToJson(
 
 class StartingMechanicServiceRequestModel {
   StartingMechanicServiceRequestModel({
-    this.driverResponse,
+    this.mechanicResponse,
   });
 
-  String driverResponse;
+  String mechanicResponse;
 
   factory StartingMechanicServiceRequestModel.fromJson(
           Map<String, dynamic> json) =>
       StartingMechanicServiceRequestModel(
-        driverResponse: json["driverResponse"],
+        mechanicResponse: json["mechanicResponse"],
       );
 
   Map<String, dynamic> toJson() => {
-        "driverResponse": driverResponse,
+        "driverResponse": mechanicResponse,
       };
 }
 // To parse this JSON data, do

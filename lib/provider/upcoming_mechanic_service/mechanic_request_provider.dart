@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/models/maps/address.dart';
@@ -14,6 +15,7 @@ import 'package:mechanic_app/provider/maps_prepration/maps_provider.dart';
 import 'package:mechanic_app/provider/maps_prepration/polyLineProvider.dart';
 import 'package:mechanic_app/screens/dash_board/dash_board.dart';
 import 'package:mechanic_app/screens/dash_board/home/upcoming_request/upcoming_request.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/acceptted_service/accepted_service_map.dart';
 import 'package:mechanic_app/services/requesting_mechanic/mechanic_request_service.dart';
 import 'package:provider/provider.dart';
 
@@ -35,6 +37,7 @@ class MechanicRequestProvider extends ChangeNotifier {
   bool RATING_SUBMITTED = false;
   bool CANCELLING_SERVICE = false;
   bool isHomeMapOpened = false;
+  BuildContext cttx;
   //BuildContext ctx;
 
   MechanicRequestService requestService = MechanicRequestService();
@@ -65,13 +68,13 @@ class MechanicRequestProvider extends ChangeNotifier {
   LiveTrackerResponseModel liveTrackerResponseModel =
       LiveTrackerResponseModel();
   /////////////////////////////////////////////////////////////////////////////
-  ArrivalToCustomerLocationRequestModel arrivalOfWinchDriverRequestModel =
-      ArrivalToCustomerLocationRequestModel(driverResponse: "Arrived");
-  ArrivalToCustomerLocationResponseModel arrivalOfWinchDriverResponseModel =
+  ArrivalToCustomerLocationRequestModel arrivalMechanicRequestModel =
+      ArrivalToCustomerLocationRequestModel(mechanicResponse: "Arrived");
+  ArrivalToCustomerLocationResponseModel arrivalMechanicResponseModel =
       ArrivalToCustomerLocationResponseModel();
   /////////////////////////////////////////////////////////////////////////////
   StartingMechanicServiceRequestModel startingOfWinchTripRequestModel =
-      StartingMechanicServiceRequestModel(driverResponse: "Service Start");
+      StartingMechanicServiceRequestModel(mechanicResponse: "Service Start");
   StartingMechanicServiceResponseModel startingOfWinchTripResponseModel =
       StartingMechanicServiceResponseModel();
   /////////////////////////////////////////////////////////////////////////////
@@ -79,7 +82,7 @@ class MechanicRequestProvider extends ChangeNotifier {
       CancelingMechanicServiceResponseModel();
   /////////////////////////////////////////////////////////////////////////////
 
-  getMechanicCurrentState(state, {BuildContext context}) async {
+  getMechanicCurrentState(state, {BuildContext cttx}) async {
     mechanicCurrentState = state;
     //notifyListeners();
     print("current State $state");
@@ -89,37 +92,39 @@ class MechanicRequestProvider extends ChangeNotifier {
     if (mechanicCurrentState == true) {
       searchingForCustomerTimer =
           Timer.periodic(Duration(seconds: 10), (z) async {
-        await getNearestClientToMe(context);
+        await getNearestClientToMe(cttx);
         if (CUSTOMER_FOUNDED == true) {
           z.cancel();
           print("customer found");
           print(
               "CustomerPickUpLocation: Lat : ${getNearestClientResponseModel.nearestRidePickupLocation.lat} ,long : ${getNearestClientResponseModel.nearestRidePickupLocation.lng}");
-          print(
-              "CustomerDropOffLocation: Lat : ${getNearestClientResponseModel.dropoffLocation.lat} ,long : ${getNearestClientResponseModel.dropoffLocation.lng}");
+          //print("CustomerDropOffLocation: Lat : ${getNearestClientResponseModel.dropoffLocation.lat} ,long : ${getNearestClientResponseModel.dropoffLocation.lng}");
           Address finalPos = Address(descriptor: "PickUp");
           finalPos.latitude = double.parse(
               getNearestClientResponseModel.nearestRidePickupLocation.lat);
           finalPos.longitude = double.parse(
               getNearestClientResponseModel.nearestRidePickupLocation.lng);
+          Provider.of<MapsProvider>(cttx, listen: false).getPickUpAddress(
+              getNearestClientResponseModel.nearestRidePickupLocation.lat,
+              getNearestClientResponseModel.nearestRidePickupLocation.lng,
+              cttx);
           // print(finalPos.latitude);
           // print(finalPos.latitude.runtimeType);
           Address initial =
-              Provider.of<MapsProvider>(context, listen: false).currentLocation;
-          await Provider.of<PolyLineProvider>(context, listen: false)
+              Provider.of<MapsProvider>(cttx, listen: false).currentLocation;
+          await Provider.of<PolyLineProvider>(cttx, listen: false)
               .getPlaceDirection(
-                  context,
+                  cttx,
                   initial,
                   finalPos,
-                  Provider.of<MapsProvider>(context, listen: false)
+                  Provider.of<MapsProvider>(cttx, listen: false)
                       .googleMapController);
           isPopRequestDataReady = true;
           if (isHomeMapOpened == false && isPopRequestDataReady == true) {
-            Navigator.of(context)
+            Navigator.of(cttx)
                 .push(PageRouteBuilder(
                     opaque: false,
-                    pageBuilder: (BuildContext context, _, __) =>
-                        UpcomingRequest()))
+                    pageBuilder: (context, _, __) => UpcomingRequest()))
                 .then((value) {
               print("page poped");
               return isHomeMapOpened = false;
@@ -200,10 +205,12 @@ class MechanicRequestProvider extends ChangeNotifier {
           getNearestClientResponseModel.nearestRidePickupLocation.lat,
           getNearestClientResponseModel.nearestRidePickupLocation.lng,
           context);
-      Provider.of<MapsProvider>(context, listen: false).getDropOffAddress(
-          getNearestClientResponseModel.dropoffLocation.lat,
-          getNearestClientResponseModel.dropoffLocation.lng,
-          context);
+      Navigator.pushNamedAndRemoveUntil(
+          context, AcceptedServiceScreen.routeName, (route) => false);
+      // Provider.of<MapsProvider>(context, listen: false).getDropOffAddress(
+      //     getNearestClientResponseModel.dropoffLocation.lat,
+      //     getNearestClientResponseModel.dropoffLocation.lng,
+      //     context);
       // liveTrackerTimer = Timer.periodic(Duration(seconds: 30), (z) async {
       //   //trackWinchDriver(context);
       // });
@@ -218,14 +225,19 @@ class MechanicRequestProvider extends ChangeNotifier {
             upcomingRequestDenyRequestModel, loadJwtTokenFromDB());
     isLoading = false;
     if (upcomingRequestResponseModel.msg == "Check For Another Request") {
-      Provider.of<MapsProvider>(context, listen: false).locatePosition(context);
+      CANCELLING_SERVICE = true;
+      isPopRequestDataReady = false;
+      final snackBar = SnackBar(
+          content: Text('The request was cancelled !! Check for another one'));
+      ScaffoldMessenger.of(cttx).showSnackBar(snackBar);
+      Provider.of<MapsProvider>(cttx, listen: false).locatePosition(cttx);
       SEARCHING_FOR_CUSTOMER = true;
       CUSTOMER_FOUNDED = false;
-      Provider.of<PolyLineProvider>(context, listen: false).resetPolyLine();
+      Provider.of<PolyLineProvider>(cttx, listen: false).resetPolyLine();
       searchingForCustomerTimer =
           Timer.periodic(Duration(seconds: 10), (z) async {
         print("start");
-        await getNearestClientToMe(context);
+        await getNearestClientToMe(cttx);
         if (CUSTOMER_FOUNDED == true) {
           z.cancel();
           print("customer found");
@@ -238,15 +250,31 @@ class MechanicRequestProvider extends ChangeNotifier {
               getNearestClientResponseModel.nearestRidePickupLocation.lat);
           finalPos.longitude = double.parse(
               getNearestClientResponseModel.nearestRidePickupLocation.lng);
+          Provider.of<MapsProvider>(cttx, listen: false).getPickUpAddress(
+              getNearestClientResponseModel.nearestRidePickupLocation.lat,
+              getNearestClientResponseModel.nearestRidePickupLocation.lng,
+              cttx);
           Address initial =
-              Provider.of<MapsProvider>(context, listen: false).currentLocation;
-          Provider.of<PolyLineProvider>(context, listen: false)
+              Provider.of<MapsProvider>(cttx, listen: false).currentLocation;
+          await Provider.of<PolyLineProvider>(cttx, listen: false)
               .getPlaceDirection(
-                  context,
+                  cttx,
                   initial,
                   finalPos,
-                  Provider.of<MapsProvider>(context, listen: false)
+                  Provider.of<MapsProvider>(cttx, listen: false)
                       .googleMapController);
+          isPopRequestDataReady = true;
+          if (isHomeMapOpened == false && isPopRequestDataReady == true) {
+            Navigator.of(cttx)
+                .push(PageRouteBuilder(
+                    opaque: false,
+                    pageBuilder: (BuildContext context, _, __) =>
+                        UpcomingRequest()))
+                .then((value) {
+              print("page poped");
+              return isHomeMapOpened = false;
+            });
+          }
           notifyListeners();
         } else if (ALREADY_HAVE_RIDE == true) {
           z.cancel();
@@ -304,11 +332,14 @@ class MechanicRequestProvider extends ChangeNotifier {
     SEARCHING_FOR_CUSTOMER = true;
     CUSTOMER_FOUNDED = false;
     Provider.of<PolyLineProvider>(context, listen: false).resetPolyLine();
+    final snackBar =
+        SnackBar(content: Text('The service was cancelled by customer !!'));
+    ScaffoldMessenger.of(cttx).showSnackBar(snackBar);
     Navigator.pushNamedAndRemoveUntil(
         context, DashBoard.routeName, (route) => false);
   }
 
-  trackWinchDriver(context) async {
+  trackMechanic(context) async {
     print("live tracker started");
     print("live tracker request body: ${liveTrackerRequestModel.toJson()}");
     liveTrackerResponseModel = await requestService.liveTracker(
@@ -363,15 +394,19 @@ class MechanicRequestProvider extends ChangeNotifier {
   }
 
   arrivedToCustomerLocation(context) async {
+    print("request body : ${arrivalMechanicRequestModel.toJson()}");
     isLoading = true;
-    arrivalOfWinchDriverResponseModel =
+    arrivalMechanicResponseModel =
         await requestService.arrivalToCustomerLocation(
-            arrivalOfWinchDriverRequestModel, loadJwtTokenFromDB());
+            arrivalMechanicRequestModel, loadJwtTokenFromDB());
     isLoading = false;
-    if (arrivalOfWinchDriverResponseModel.msg ==
-        "You haven't arrived yet!" /*arrivalOfWinchDriverResponseModel.msg == "Alright!"*/) {
+    print(arrivalMechanicResponseModel.msg);
+    if (/*arrivalMechanicResponseModel.msg ==
+        "You haven't arrived yet!"*/
+        arrivalMechanicResponseModel.msg == "Alright!") {
       DriverARRIVED = true;
-      Provider.of<PolyLineProvider>(context, listen: false).resetPolyLine();
+      liveTrackerTimer.cancel();
+      //Provider.of<PolyLineProvider>(context, listen: false).resetPolyLine();
     }
 
     notifyListeners();
@@ -382,16 +417,16 @@ class MechanicRequestProvider extends ChangeNotifier {
     startingOfWinchTripResponseModel = await requestService.startingWinchTrip(
         startingOfWinchTripRequestModel, loadJwtTokenFromDB());
     isLoading = false;
-    if (startingOfWinchTripResponseModel.error != null) {
+    if (startingOfWinchTripResponseModel.msg == "Alright!") {
       SERVICE_STARTTED = true;
-      Provider.of<PolyLineProvider>(context, listen: false).getPlaceDirection(
-          context,
-          Provider.of<MapsProvider>(context, listen: false)
-              .customerPickUpLocation,
-          Provider.of<MapsProvider>(context, listen: false)
-              .customerDropOffLocation,
-          Provider.of<MapsProvider>(context, listen: false)
-              .googleMapController);
+      // Provider.of<PolyLineProvider>(context, listen: false).getPlaceDirection(
+      //     context,
+      //     Provider.of<MapsProvider>(context, listen: false)
+      //         .customerPickUpLocation,
+      //     Provider.of<MapsProvider>(context, listen: false)
+      //         .customerDropOffLocation,
+      //     Provider.of<MapsProvider>(context, listen: false)
+      //         .googleMapController);
     }
     notifyListeners();
   }

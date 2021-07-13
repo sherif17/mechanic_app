@@ -48,12 +48,20 @@ class GetNearestClientResponseModel {
     this.dropoffLocation,
     this.error,
     this.requestId,
+    this.CarBrand,
+    this.CarModel,
+    this.CarYear,
+    this.CarPlates,
   });
 
   Location nearestRidePickupLocation;
   Location dropoffLocation;
   String error;
   String requestId;
+  String CarBrand;
+  String CarModel;
+  int CarYear;
+  String CarPlates;
 
   factory GetNearestClientResponseModel.fromJson(Map<String, dynamic> json) =>
       GetNearestClientResponseModel(
@@ -65,6 +73,10 @@ class GetNearestClientResponseModel {
             : null,
         error: json["error"],
         requestId: json["requestId"],
+        CarBrand: json["CarBrand"],
+        CarModel: json["CarModel"],
+        CarPlates: json["CarPlates"],
+        CarYear: json["CarYear"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -72,6 +84,10 @@ class GetNearestClientResponseModel {
         "Dropoff Location": dropoffLocation.toJson(),
         "error": error,
         "requestId": requestId,
+        "CarBrand": CarBrand,
+        "CarModel": CarModel,
+        "CarPlates": CarPlates,
+        "CarYear": CarYear,
       };
 }
 

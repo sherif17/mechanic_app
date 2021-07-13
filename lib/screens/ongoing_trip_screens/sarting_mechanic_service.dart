@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:mechanic_app/screens/ongoing_trip_screens/actions_tab.dart';
 import 'package:mechanic_app/screens/ongoing_trip_screens/details_tab.dart';
 
-  class OnGoingTrip extends StatefulWidget {
+class StartingMechanicService extends StatefulWidget {
+  static String routeName = '/StartingMechanicService';
   @override
-  _OnGoingTripState createState() => _OnGoingTripState();
+  _StartingMechanicServiceState createState() => _StartingMechanicServiceState();
   }
 
-  class _OnGoingTripState extends State<OnGoingTrip> with SingleTickerProviderStateMixin {
+  class _StartingMechanicServiceState extends State<StartingMechanicService> with SingleTickerProviderStateMixin {
 
   TabController _tabController;
 
