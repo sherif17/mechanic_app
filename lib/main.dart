@@ -127,14 +127,14 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           theme: lightTheme(),
           initialRoute: //CheckingCustomerCar.routeName, //DashBoard.routeName,
-          // MECHANIC_VERIFCATION_STATE == true
-          //     ? DashBoard.routeName
-          // //     : Intro.routeName,
-          //TOKEN == "" || BACKEND_ID == ""
-          MECHANIC_VERIFCATION_STATE == "true" &&
-                  MECHANIC_VERIFCATION_STATE != null
-              ? DashBoard.routeName
-              : Intro.routeName,
+              // MECHANIC_VERIFCATION_STATE == true
+              //     ? DashBoard.routeName
+              // //     : Intro.routeName,
+              //TOKEN == "" || BACKEND_ID == ""
+              MECHANIC_VERIFCATION_STATE == "true" &&
+                      MECHANIC_VERIFCATION_STATE != null
+                  ? DashBoard.routeName
+                  : Intro.routeName,
           routes: routes,
           locale: _locale,
           supportedLocales: [
