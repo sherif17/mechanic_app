@@ -13,6 +13,7 @@ import 'package:mechanic_app/provider/upcoming_mechanic_service/mechanic_request
 import 'package:mechanic_app/screens/dash_board/dash_board.dart';
 import 'package:mechanic_app/screens/onboarding_screens/intro_screens/intro.dart';
 import 'package:mechanic_app/screens/ongoing_trip_screens/diagnosis_customer_car/checking_customer_car/checking_customer_car.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/diagnosis_customer_car/waiting_for_customer_response/waiting_for_customer_reponse.dart';
 import 'package:mechanic_app/shared_prefrences/winch_user_model.dart';
 import 'package:mechanic_app/utils/routes.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'localization/demo_localization.dart';
 import 'themes/light_theme.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:mechanic_app/screens/ongoing_trip_screens/starting_service/starting_mechanic_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -126,15 +128,16 @@ class _MyAppState extends State<MyApp> {
         child: new MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: lightTheme(),
-          initialRoute: //CheckingCustomerCar.routeName, //DashBoard.routeName,
-              // MECHANIC_VERIFCATION_STATE == true
-              //     ? DashBoard.routeName
-              // //     : Intro.routeName,
-              //TOKEN == "" || BACKEND_ID == ""
-              MECHANIC_VERIFCATION_STATE == "true" &&
-                      MECHANIC_VERIFCATION_STATE != null
-                  ? DashBoard.routeName
-                  : Intro.routeName,
+          initialRoute:
+              StartingMechanicService.routeName, //DashBoard.routeName,
+          // MECHANIC_VERIFCATION_STATE == true
+          //     ? DashBoard.routeName
+          // //     : Intro.routeName,
+          //TOKEN == "" || BACKEND_ID == ""
+          // MECHANIC_VERIFCATION_STATE == "true" &&
+          //         MECHANIC_VERIFCATION_STATE != null
+          //     ? DashBoard.routeName
+          //     : Intro.routeName,
           routes: routes,
           locale: _locale,
           supportedLocales: [

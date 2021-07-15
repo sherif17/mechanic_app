@@ -6,6 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mechanic_app/provider/maps_prepration/maps_provider.dart';
 import 'package:mechanic_app/provider/maps_prepration/polyLineProvider.dart';
 import 'package:mechanic_app/provider/upcoming_mechanic_service/mechanic_request_provider.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/diagnosis_customer_car/checking_customer_car/checking_customer_car_sheet/customer_needs.dart';
 import 'package:mechanic_app/widgets/divider.dart';
 import 'package:provider/provider.dart';
 import 'package:slider_button/slider_button.dart';
@@ -72,7 +73,7 @@ class UpcomingRequestSheet extends StatelessWidget {
                               AnimatedTextKit(
                                 animatedTexts: [
                                   ColorizeAnimatedText(
-                                    "${mechanicRequestProvider.getNearestClientResponseModel.CarBrand + " " + mechanicRequestProvider.getNearestClientResponseModel.CarModel}",
+                                    "${mechanicRequestProvider.getNearestClientResponseModel.carBrand + " " + mechanicRequestProvider.getNearestClientResponseModel.carModel}",
                                     /*"${WinchRequestProvider.upcomingRequestResponseModel.carBrand ?? "Car Brand"}-${WinchRequestProvider.upcomingRequestResponseModel.carModel ?? "Model"}",*/
                                     textStyle: colorizeTextStyle,
                                     colors: colorizeColors,
@@ -188,11 +189,11 @@ class UpcomingRequestSheet extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Text(
-                                    "${mechanicRequestProvider.getNearestClientResponseModel.CarPlates}",
+                                    "${mechanicRequestProvider.getNearestClientResponseModel.carPlates}",
                                     style: TextStyle(fontSize: 18),
                                   ),
                                   Text(
-                                    "${mechanicRequestProvider.getNearestClientResponseModel.CarYear}",
+                                    "${mechanicRequestProvider.getNearestClientResponseModel.carYear}",
                                     style: TextStyle(fontSize: 15),
                                   )
                                 ],
@@ -263,6 +264,7 @@ class UpcomingRequestSheet extends StatelessWidget {
                                     ),
                                   ),
                                 ),
+                                CustomerNeeds(),
                               ],
                             )
                           ],

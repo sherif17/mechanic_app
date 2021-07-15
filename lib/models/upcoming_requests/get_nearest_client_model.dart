@@ -45,54 +45,96 @@ String getNearestClientResponseModelToJson(
 class GetNearestClientResponseModel {
   GetNearestClientResponseModel({
     this.nearestRidePickupLocation,
-    this.dropoffLocation,
+    this.initialDiagnosis,
+    this.carBrand,
+    this.carModel,
+    this.carYear,
+    this.carPlates,
     this.error,
     this.requestId,
-    this.CarBrand,
-    this.CarModel,
-    this.CarYear,
-    this.CarPlates,
   });
 
-  Location nearestRidePickupLocation;
-  Location dropoffLocation;
+  NearestRidePickupLocation nearestRidePickupLocation;
+  List<InitialDiagnosis> initialDiagnosis;
+  String carBrand;
+  String carModel;
+  int carYear;
+  String carPlates;
   String error;
   String requestId;
-  String CarBrand;
-  String CarModel;
-  int CarYear;
-  String CarPlates;
 
   factory GetNearestClientResponseModel.fromJson(Map<String, dynamic> json) =>
       GetNearestClientResponseModel(
-        nearestRidePickupLocation: json["Nearest Ride: Pickup Location"] != null
-            ? Location.fromJson(json["Nearest Ride: Pickup Location"])
-            : null,
-        dropoffLocation: json["Dropoff Location"] != null
-            ? Location.fromJson(json["Dropoff Location"])
-            : null,
+        nearestRidePickupLocation: NearestRidePickupLocation.fromJson(
+            json["Nearest Ride: Pickup Location"]),
+        initialDiagnosis: List<InitialDiagnosis>.from(
+            json["Initial Diagnosis"].map((x) => InitialDiagnosis.fromJson(x))),
+        carBrand: json["CarBrand"],
+        carModel: json["CarModel"],
+        carYear: json["CarYear"],
+        carPlates: json["CarPlates"],
         error: json["error"],
         requestId: json["requestId"],
-        CarBrand: json["CarBrand"],
-        CarModel: json["CarModel"],
-        CarPlates: json["CarPlates"],
-        CarYear: json["CarYear"],
       );
 
   Map<String, dynamic> toJson() => {
         "Nearest Ride: Pickup Location": nearestRidePickupLocation.toJson(),
-        "Dropoff Location": dropoffLocation.toJson(),
+        "Initial Diagnosis":
+            List<dynamic>.from(initialDiagnosis.map((x) => x.toJson())),
+        "CarBrand": carBrand,
+        "CarModel": carModel,
+        "CarYear": carYear,
+        "CarPlates": carPlates,
         "error": error,
         "requestId": requestId,
-        "CarBrand": CarBrand,
-        "CarModel": CarModel,
-        "CarPlates": CarPlates,
-        "CarYear": CarYear,
       };
 }
 
-class Location {
-  Location({
+class InitialDiagnosis {
+  InitialDiagnosis({
+    this.requestCategory,
+    this.problemCategory,
+    this.problem,
+    this.subProblem,
+    this.serviceCategory,
+    this.serviceDesc,
+    this.serviceFare,
+  });
+
+  String requestCategory;
+  String problemCategory;
+  String problem;
+  String subProblem;
+  String serviceCategory;
+  String serviceDesc;
+  int serviceFare;
+
+  factory InitialDiagnosis.fromJson(Map<String, dynamic> json) =>
+      InitialDiagnosis(
+        requestCategory: json["RequestCategory"],
+        problemCategory:
+            json["ProblemCategory"] == null ? null : json["ProblemCategory"],
+        problem: json["Problem"] == null ? null : json["Problem"],
+        subProblem: json["SubProblem"] == null ? null : json["SubProblem"],
+        serviceCategory:
+            json["ServiceCategory"] == null ? null : json["ServiceCategory"],
+        serviceDesc: json["ServiceDesc"] == null ? null : json["ServiceDesc"],
+        serviceFare: json["ServiceFare"] == null ? null : json["ServiceFare"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "RequestCategory": requestCategory,
+        "ProblemCategory": problemCategory == null ? null : problemCategory,
+        "Problem": problem == null ? null : problem,
+        "SubProblem": subProblem == null ? null : subProblem,
+        "ServiceCategory": serviceCategory == null ? null : serviceCategory,
+        "ServiceDesc": serviceDesc == null ? null : serviceDesc,
+        "ServiceFare": serviceFare == null ? null : serviceFare,
+      };
+}
+
+class NearestRidePickupLocation {
+  NearestRidePickupLocation({
     this.lat,
     this.lng,
   });
@@ -100,7 +142,8 @@ class Location {
   String lat;
   String lng;
 
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
+  factory NearestRidePickupLocation.fromJson(Map<String, dynamic> json) =>
+      NearestRidePickupLocation(
         lat: json["lat"],
         lng: json["lng"],
       );

@@ -1,35 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:mechanic_app/local_db/mechanic_info_db.dart';
+import 'package:mechanic_app/provider/mechanic_service/mechanic_service_cart_provider.dart';
 import 'package:mechanic_app/provider/upcoming_mechanic_service/mechanic_request_provider.dart';
 import 'package:provider/provider.dart';
 
-class CustomerNeeds extends StatefulWidget {
-  const CustomerNeeds({key}) : super(key: key);
+class ApprovedFixes extends StatelessWidget {
+  const ApprovedFixes({key}) : super(key: key);
 
-  @override
-  _CustomerNeedsState createState() => _CustomerNeedsState();
-}
-
-class _CustomerNeedsState extends State<CustomerNeeds> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     ScrollController controller = ScrollController();
-    return Consumer<MechanicRequestProvider>(
-      builder: (context, mechanicRequestProvider, child) => Container(
+    return Consumer<MechanicServicesCartProvider>(
+      builder: (context, mechanicServicesCartProvider, child) => Container(
         height: size.height * 0.9,
         child: SingleChildScrollView(
           controller: controller,
           physics: AlwaysScrollableScrollPhysics(),
           child: Column(
             children: [
-              mechanicRequestProvider.initialDiagnosisProblemList.length > 0
-                  ? buildCustomerProblems(
-                      context, size, mechanicRequestProvider, controller)
+              mechanicServicesCartProvider.mechanicServicesSelectedList.length >
+                      0
+                  ? buildCustomerServices(
+                      context, size, mechanicServicesCartProvider, controller)
                   : Container(),
-              mechanicRequestProvider.initialDiagnosisServiceList.length > 0
-                  ? buildServicesNeeded(
-                      context, size, mechanicRequestProvider, controller)
+              mechanicServicesCartProvider.mechanicItemsSelectedList.length > 0
+                  ? buildCustomerItems(
+                      context, size, mechanicServicesCartProvider, controller)
                   : Container(),
             ],
           ),
@@ -38,10 +35,10 @@ class _CustomerNeedsState extends State<CustomerNeeds> {
     );
   }
 
-  buildCustomerProblems(
+  buildCustomerServices(
       BuildContext context,
       Size size,
-      MechanicRequestProvider mechanicRequestProvider,
+      MechanicServicesCartProvider mechanicServicesCartProvider,
       ScrollController controller) {
     return Column(
       children: [
@@ -50,7 +47,7 @@ class _CustomerNeedsState extends State<CustomerNeeds> {
           child: Align(
             alignment: Alignment.topLeft,
             child: Text(
-              "Customer Problems",
+              "Approved Services",
               style: Theme.of(context).textTheme.headline3,
             ),
           ),
@@ -58,21 +55,21 @@ class _CustomerNeedsState extends State<CustomerNeeds> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            height: size.height * 0.15,
             decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.grey.withOpacity(0.7),
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                )),
+              border: Border.all(
+                color: Colors.grey.withOpacity(0.7),
+              ),
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              ),
+            ),
             child: ListView.separated(
               shrinkWrap: true,
               controller: controller,
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.all(8),
-              itemCount:
-                  mechanicRequestProvider.initialDiagnosisProblemList.length,
+              itemCount: mechanicServicesCartProvider
+                  .mechanicServicesSelectedList.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
                   title: Align(
@@ -80,8 +77,8 @@ class _CustomerNeedsState extends State<CustomerNeeds> {
                         ? Alignment.topRight
                         : Alignment.topLeft,
                     child: Text(
-                      '${mechanicRequestProvider.initialDiagnosisProblemList[index].subProblem ?? mechanicRequestProvider.initialDiagnosisProblemList[index].problem}',
-                      style: Theme.of(context).textTheme.bodyText2,
+                      '${mechanicServicesCartProvider.mechanicServicesSelectedList[index].serviceDesc}',
+                      style: Theme.of(context).textTheme.headline6,
                     ),
                   ),
                   subtitle: Align(
@@ -91,8 +88,8 @@ class _CustomerNeedsState extends State<CustomerNeeds> {
                     child: FittedBox(
                       fit: BoxFit.fill,
                       child: Text(
-                        '${mechanicRequestProvider.initialDiagnosisProblemList[index].problem}',
-                        style: Theme.of(context).textTheme.bodyText1,
+                        '${mechanicServicesCartProvider.mechanicServicesSelectedList[index].category}',
+                        style: Theme.of(context).textTheme.bodyText2,
                       ),
                     ),
                   ),
@@ -103,7 +100,7 @@ class _CustomerNeedsState extends State<CustomerNeeds> {
                       //         .breakDownListSelectedItems[index]);
                     },
                     child: Text(
-                        '${mechanicRequestProvider.initialDiagnosisProblemList[index].problemCategory}'),
+                        '${mechanicServicesCartProvider.mechanicServicesSelectedList[index].expectedFare} EGP'),
                   ),
                 );
               },
@@ -122,10 +119,10 @@ class _CustomerNeedsState extends State<CustomerNeeds> {
     );
   }
 
-  buildServicesNeeded(
+  buildCustomerItems(
       BuildContext context,
       Size size,
-      MechanicRequestProvider mechanicRequestProvider,
+      MechanicServicesCartProvider mechanicServicesCartProvider,
       ScrollController controller) {
     return Column(
       children: [
@@ -134,7 +131,7 @@ class _CustomerNeedsState extends State<CustomerNeeds> {
           child: Align(
             alignment: Alignment.topLeft,
             child: Text(
-              "Services To be done",
+              "Approved Items",
               style: Theme.of(context).textTheme.headline3,
             ),
           ),
@@ -142,21 +139,21 @@ class _CustomerNeedsState extends State<CustomerNeeds> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            height: size.height * 0.15,
             decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.grey.withOpacity(0.7),
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                )),
+              border: Border.all(
+                color: Colors.grey.withOpacity(0.7),
+              ),
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              ),
+            ),
             child: ListView.separated(
               shrinkWrap: true,
               controller: controller,
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.all(8),
               itemCount:
-                  mechanicRequestProvider.initialDiagnosisServiceList.length,
+                  mechanicServicesCartProvider.mechanicItemsSelectedList.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
                   // onTap: () {
@@ -173,7 +170,7 @@ class _CustomerNeedsState extends State<CustomerNeeds> {
                         ? Alignment.topRight
                         : Alignment.topLeft,
                     child: Text(
-                      '${mechanicRequestProvider.initialDiagnosisServiceList[index].serviceDesc}',
+                      '${mechanicServicesCartProvider.mechanicItemsSelectedList[index].itemDesc}',
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
                   ),
@@ -184,14 +181,14 @@ class _CustomerNeedsState extends State<CustomerNeeds> {
                     child: FittedBox(
                       fit: BoxFit.fill,
                       child: Text(
-                        '${mechanicRequestProvider.initialDiagnosisServiceList[index].serviceCategory}',
+                        '${mechanicServicesCartProvider.mechanicItemsSelectedList[index].category}',
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
                     ),
                   ),
                   leading: GestureDetector(
                     child: Text(
-                        '${mechanicRequestProvider.initialDiagnosisServiceList[index].serviceFare} EGP'),
+                        '${mechanicServicesCartProvider.mechanicItemsSelectedList[index].price} EGP'),
                   ),
                 );
               },

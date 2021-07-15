@@ -57,13 +57,13 @@ class _CheckingCustomerCarSheetState extends State<CheckingCustomerCarSheet>
         mechanicRequestProvider.upcomingRequestResponseModel.lastName;
     // String customerCarPlates = "س ن ت 7932";
     String customerCarPlates =
-        mechanicRequestProvider.getNearestClientResponseModel.CarPlates;
+        mechanicRequestProvider.getNearestClientResponseModel.carPlates;
     //String customerCarBrand = "Seat";
     String customerCarBrand =
-        mechanicRequestProvider.getNearestClientResponseModel.CarBrand;
+        mechanicRequestProvider.getNearestClientResponseModel.carBrand;
     //String customerCarModel = "Ibiza";
     String customerCarModel =
-        mechanicRequestProvider.getNearestClientResponseModel.CarModel;
+        mechanicRequestProvider.getNearestClientResponseModel.carModel;
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: Consumer<MapsProvider>(
@@ -258,7 +258,9 @@ class _CheckingCustomerCarSheetState extends State<CheckingCustomerCarSheet>
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               TextButton(
-                                child: Text("Select Services & items to be made".toUpperCase(),
+                                child: Text(
+                                    "Select Services & items to be made"
+                                        .toUpperCase(),
                                     style: TextStyle(fontSize: 18)),
                                 style: ButtonStyle(
                                     padding:
@@ -269,15 +271,18 @@ class _CheckingCustomerCarSheetState extends State<CheckingCustomerCarSheet>
                                             Colors.white),
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(
-                                            Colors.blueGrey),
+                                            Color(0xFF4F5266)),
                                     shape: MaterialStateProperty.all<
                                             RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            side: BorderSide(color: Colors.green)))),
+                                            side: BorderSide(color: Colors.white)))),
                                 onPressed: () {
-                                  Navigator.pushNamedAndRemoveUntil(context, ChoosingServicesItems.routeName, (route) => false);
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      ChoosingServicesItems.routeName,
+                                      (route) => false);
                                   // mechanicRequestProvider.approveUpComingDiagnosis();
                                 },
                               ),

@@ -21,6 +21,7 @@ class LoadMechanicItemsResponseModel {
     this.itemDesc,
     this.price,
     this.v,
+    this.isChecked = false,
   });
 
   String id;
@@ -28,6 +29,7 @@ class LoadMechanicItemsResponseModel {
   String itemDesc;
   double price;
   int v;
+  bool isChecked;
 
   factory LoadMechanicItemsResponseModel.fromJson(Map<String, dynamic> json) =>
       LoadMechanicItemsResponseModel(

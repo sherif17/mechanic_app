@@ -21,6 +21,7 @@ class LoadMechanicServicesResponseModel {
     this.serviceDesc,
     this.expectedFare,
     this.v,
+    this.isChecked = false,
   });
 
   String id;
@@ -28,6 +29,7 @@ class LoadMechanicServicesResponseModel {
   String serviceDesc;
   int expectedFare;
   int v;
+  bool isChecked;
 
   factory LoadMechanicServicesResponseModel.fromJson(
           Map<String, dynamic> json) =>

@@ -4,7 +4,7 @@ import 'package:mechanic_app/screens/ongoing_trip_screens/actions_tab.dart';
 import 'package:mechanic_app/screens/ongoing_trip_screens/details_tab.dart';
 
 class StartingMechanicService extends StatefulWidget {
-  static String routeName = '/StartingMechanicService';
+  //static String routeName = '/StartingMechanicService';
   @override
   _StartingMechanicServiceState createState() => _StartingMechanicServiceState();
   }

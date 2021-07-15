@@ -6,13 +6,16 @@ import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/models/maps/address.dart';
 import 'package:mechanic_app/models/upcoming_requests/arrival_to_customer_location_model.dart';
 import 'package:mechanic_app/models/upcoming_requests/canceling_mechanic_service.dart';
+import 'package:mechanic_app/models/upcoming_requests/check_status_model.dart';
 import 'package:mechanic_app/models/upcoming_requests/ending_mechanic_service.dart';
 import 'package:mechanic_app/models/upcoming_requests/get_nearest_client_model.dart';
 import 'package:mechanic_app/models/upcoming_requests/live_tracker_model.dart';
+import 'package:mechanic_app/models/upcoming_requests/repaires_to_be_made_model.dart';
 import 'package:mechanic_app/models/upcoming_requests/respond_to_upcoming_request_model.dart';
 import 'package:mechanic_app/models/upcoming_requests/starting_mechanic_service_model.dart';
 import 'package:mechanic_app/provider/maps_prepration/maps_provider.dart';
 import 'package:mechanic_app/provider/maps_prepration/polyLineProvider.dart';
+import 'package:mechanic_app/provider/mechanic_service/mechanic_service_cart_provider.dart';
 import 'package:mechanic_app/screens/dash_board/dash_board.dart';
 import 'package:mechanic_app/screens/dash_board/home/upcoming_request/upcoming_request.dart';
 import 'package:mechanic_app/screens/ongoing_trip_screens/acceptted_service/accepted_service_map.dart';
@@ -25,6 +28,8 @@ class MechanicRequestProvider extends ChangeNotifier {
   Timer liveTrackerTimer;
   Timer searchingForCustomerTimer;
   Position mechanicCurrentPosition;
+  List<InitialDiagnosis> initialDiagnosisProblemList = [];
+  List<InitialDiagnosis> initialDiagnosisServiceList = [];
 
   bool SEARCHING_FOR_CUSTOMER = false;
   bool CUSTOMER_FOUNDED = false;
@@ -37,6 +42,8 @@ class MechanicRequestProvider extends ChangeNotifier {
   bool RATING_SUBMITTED = false;
   bool CANCELLING_SERVICE = false;
   bool isHomeMapOpened = false;
+  bool WAITING_FOR_APPROVAL = false;
+  bool CUSTOMER_RESPONSE = false;
   BuildContext cttx;
   //BuildContext ctx;
 
@@ -81,6 +88,14 @@ class MechanicRequestProvider extends ChangeNotifier {
   CancelingMechanicServiceResponseModel cancelingMechanicServiceResponseModel =
       CancelingMechanicServiceResponseModel();
   /////////////////////////////////////////////////////////////////////////////
+  // List<Repairsneeded> repairsToBeMadeList = [];
+  RepairsToBeMadeRequestModel repairsToBeMadeRequestModel =
+      RepairsToBeMadeRequestModel();
+  RepairsToBeMadeResponseModel repairsToBeMadeResponseModel =
+      RepairsToBeMadeResponseModel();
+  ////////////////////////////////////////////////////////////////////////////////////
+  CheckStatusResponseModel checkMechanicRequestStatusResponseModel =
+      CheckStatusResponseModel();
 
   getMechanicCurrentState(state, {BuildContext cttx}) async {
     mechanicCurrentState = state;
@@ -179,6 +194,7 @@ class MechanicRequestProvider extends ChangeNotifier {
     }
     if (getNearestClientResponseModel.nearestRidePickupLocation != null) {
       // PolyLineProvider.getPlaceDirection(context, MapsProvider.currentLocation, MapsProvider.customerPickUpLocation, _googleMapController):
+      getInitialDiagnosisList();
       CUSTOMER_FOUNDED = true;
       SEARCHING_FOR_CUSTOMER = false;
       notifyListeners();
@@ -290,30 +306,21 @@ class MechanicRequestProvider extends ChangeNotifier {
       print(upcomingRequestResponseModel.msg);
     notifyListeners();
   }
-
-  // endCurrentWinchService() async {
-  //   endingWinchServiceRequestModel.finalLocationLat =
-  //       winchDriverCurrentPosition.latitude.toString();
-  //   endingWinchServiceRequestModel.finalLocationLong =
-  //       winchDriverCurrentPosition.longitude.toString();
-  //   isLoading = true;
-  //   endingWinchServiceResponseModel = await requestService.endCustomerTrip(
-  //       endingWinchServiceRequestModel, loadJwtTokenFromDB());
-  //   isLoading = false;
-  //   print("live tracker stopped");
-  //   liveTrackerTimer.cancel();
-  //   SERVICE_FINISHED = true;
-  //   //SEARCHING_FOR_CUSTOMER = true;
-  //   notifyListeners();
-  //   if (endingWinchServiceResponseModel.status == "COMPLETED") {
-  //     print("live tracker stopped");
-  //     liveTrackerTimer.cancel();
-  //     SERVICE_FINISHED = true;
-  //     //SEARCHING_FOR_CUSTOMER = true;
-  //     notifyListeners();
-  //   }
-  //   notifyListeners();
-  // }
+bool endCurrentMechanicServiceIsLoading=false;
+  endCurrentMechanicService() async {
+    endCurrentMechanicServiceIsLoading = true;
+    notifyListeners();
+    endingWinchServiceResponseModel =
+        await requestService.endCustomerTrip(loadJwtTokenFromDB());
+    endCurrentMechanicServiceIsLoading = false;
+    //SEARCHING_FOR_CUSTOMER = true;
+    notifyListeners();
+    if (endingWinchServiceResponseModel.status == "COMPLETED") {
+      SERVICE_FINISHED = true;
+      notifyListeners();
+    }
+    notifyListeners();
+  }
 
   // rateCustomer(context) async {
   //   isLoading = true;
@@ -412,6 +419,20 @@ class MechanicRequestProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool sendDiagnosisToCustomerIsLoading = false;
+  sendDiagnosisToCustomer(context) async {
+    sendDiagnosisToCustomerIsLoading = true;
+    notifyListeners();
+    repairsToBeMadeRequestModel.repairsneeded =
+        await Provider.of<MechanicServicesCartProvider>(context, listen: false)
+            .combineTwoCartsWithEachOther();
+    repairsToBeMadeResponseModel =
+        await requestService.sendingMechanicDiagnosis(
+            repairsToBeMadeRequestModel, loadJwtTokenFromDB());
+    sendDiagnosisToCustomerIsLoading = false;
+    notifyListeners();
+  }
+
   startingWinchService(context) async {
     isLoading = true;
     startingOfWinchTripResponseModel = await requestService.startingWinchTrip(
@@ -447,6 +468,50 @@ class MechanicRequestProvider extends ChangeNotifier {
       CANCELLING_SERVICE = true;
       SEARCHING_FOR_CUSTOMER = true;
     }
+  }
+
+  getInitialDiagnosisList() {
+    for (var j in getNearestClientResponseModel.initialDiagnosis) {
+      if (j.requestCategory == "problem") {
+        initialDiagnosisProblemList.add(InitialDiagnosis(
+            problem: j.problem,
+            problemCategory: j.problemCategory,
+            subProblem: j.subProblem));
+      }
+      if (j.requestCategory == "service") {
+        initialDiagnosisServiceList.add(InitialDiagnosis(
+            serviceCategory: j.serviceCategory,
+            serviceDesc: j.serviceDesc,
+            serviceFare: j.serviceFare));
+      }
+    }
+  }
+
+  checkStatusForConfirmedMechanicService(context) async {
+    isLoading = true;
+    checkMechanicRequestStatusResponseModel =
+        await requestService.checkMechanicServiceStatus(loadJwtTokenFromDB());
+    isLoading = false;
+    if (checkMechanicRequestStatusResponseModel.status ==
+        "WAITING_FOR_APPROVAL") {
+      WAITING_FOR_APPROVAL = true;
+    }
+
+    if (checkMechanicRequestStatusResponseModel.status == "CUSTOMER_RESPONSE") {
+      WAITING_FOR_APPROVAL = false;
+      CUSTOMER_RESPONSE =
+          checkMechanicRequestStatusResponseModel.customerResponse;
+    }
+
+    notifyListeners();
+  }
+
+  listeningForCustomerResponse(context) {
+    checkStatusForConfirmedMechanicService(context);
+    Timer.periodic(Duration(seconds: 2), (timer) async {
+      checkStatusForConfirmedMechanicService(context);
+      if (WAITING_FOR_APPROVAL == false) timer.cancel();
+    });
   }
 
   resetAllFlags() {

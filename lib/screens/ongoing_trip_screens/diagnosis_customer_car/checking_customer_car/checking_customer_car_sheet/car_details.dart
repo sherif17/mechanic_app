@@ -122,7 +122,7 @@ class _CarDetailsState extends State<CarDetails> {
                       children: [
                         Text("Brand"),
                         Text(
-                            "${mechanicRequestProvider.getNearestClientResponseModel.CarBrand ?? "Brand"}")
+                            "${mechanicRequestProvider.getNearestClientResponseModel.carBrand ?? "Brand"}")
                       ]),
                 ),
                 Padding(
@@ -136,7 +136,7 @@ class _CarDetailsState extends State<CarDetails> {
                       children: [
                         Text("Model"),
                         Text(
-                            "${mechanicRequestProvider.getNearestClientResponseModel.CarModel ?? "Model"}")
+                            "${mechanicRequestProvider.getNearestClientResponseModel.carModel ?? "Model"}")
                       ]),
                 ),
                 Padding(
@@ -150,7 +150,7 @@ class _CarDetailsState extends State<CarDetails> {
                       children: [
                         Text("Year of production"),
                         Text(
-                            "${mechanicRequestProvider.getNearestClientResponseModel.CarYear ?? "Year"}")
+                            "${mechanicRequestProvider.getNearestClientResponseModel.carYear ?? "Year"}")
                       ]),
                 ),
                 Padding(
@@ -164,7 +164,7 @@ class _CarDetailsState extends State<CarDetails> {
                       children: [
                         Text("Car Plates"),
                         Text(
-                            "${mechanicRequestProvider.getNearestClientResponseModel.CarPlates ?? "plates"}")
+                            "${mechanicRequestProvider.getNearestClientResponseModel.carPlates ?? "plates"}")
                       ]),
                 ),
               ],

@@ -12,7 +12,9 @@ import 'package:mechanic_app/screens/onboarding_screens/intro_screens/intro.dart
 import 'package:mechanic_app/screens/ongoing_trip_screens/acceptted_service/accepted_service_map.dart';
 import 'package:mechanic_app/screens/ongoing_trip_screens/diagnosis_customer_car/checking_customer_car/checking_customer_car.dart';
 import 'package:mechanic_app/screens/ongoing_trip_screens/diagnosis_customer_car/choosing_services_items/choosing_services_itemes.dart';
-import 'package:mechanic_app/screens/ongoing_trip_screens/sarting_mechanic_service.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/diagnosis_customer_car/viewing_cart_detailes/viewing_diagnosis_cart_details.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/diagnosis_customer_car/waiting_for_customer_response/waiting_for_customer_reponse.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/starting_service/starting_mechanic_service.dart';
 
 final Map<String, WidgetBuilder> routes = {
   Intro.routeName: (context) => Intro(),
@@ -25,7 +27,12 @@ final Map<String, WidgetBuilder> routes = {
   HomeMap.routeName: (context) => HomeMap(),
   Home.routeName: (context) => Home(),
   AcceptedServiceScreen.routeName: (context) => AcceptedServiceScreen(),
-  StartingMechanicService.routeName: (context) => StartingMechanicService(),
+  //StartingMechanicService.routeName: (context) => StartingMechanicService(),
   CheckingCustomerCar.routeName: (context) => CheckingCustomerCar(),
   ChoosingServicesItems.routeName: (context) => ChoosingServicesItems(),
+  ViewingDiagnosesCartDetails.routeName: (context) =>
+      ViewingDiagnosesCartDetails(),
+  WaitingForCustomerResponse.routeName: (context) =>
+      WaitingForCustomerResponse(),
+  StartingMechanicService.routeName: (context) => StartingMechanicService(),
 };

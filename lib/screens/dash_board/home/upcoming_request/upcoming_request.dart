@@ -10,6 +10,7 @@ import 'package:mechanic_app/provider/appControlProvider.dart';
 import 'package:mechanic_app/provider/maps_prepration/maps_provider.dart';
 import 'package:mechanic_app/provider/maps_prepration/polyLineProvider.dart';
 import 'package:mechanic_app/provider/upcoming_mechanic_service/mechanic_request_provider.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/diagnosis_customer_car/checking_customer_car/checking_customer_car_sheet/customer_needs.dart';
 import 'package:mechanic_app/widgets/divider.dart';
 import 'package:provider/provider.dart';
 
@@ -149,13 +150,13 @@ class UpcomingRequest extends StatelessWidget {
                             child: Column(
                               children: [
                                 Text(
-                                  "${mechanicRequestProvider.getNearestClientResponseModel.CarBrand + " " + mechanicRequestProvider.getNearestClientResponseModel.CarModel}",
+                                  "${mechanicRequestProvider.getNearestClientResponseModel.carBrand + " " + mechanicRequestProvider.getNearestClientResponseModel.carModel}",
                                   style: TextStyle(fontSize: 18),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "${mechanicRequestProvider.getNearestClientResponseModel.CarYear.toString() + " - " + mechanicRequestProvider.getNearestClientResponseModel.CarPlates}",
+                                    "${mechanicRequestProvider.getNearestClientResponseModel.carYear.toString() + " - " + mechanicRequestProvider.getNearestClientResponseModel.carPlates}",
                                     style: TextStyle(fontSize: 15),
                                   ),
                                 )
@@ -277,6 +278,7 @@ class UpcomingRequest extends StatelessWidget {
                               ),
                             ),
                           ),
+                          CustomerNeeds(),
                         ],
                       )
                     ],

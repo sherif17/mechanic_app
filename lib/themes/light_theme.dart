@@ -34,8 +34,10 @@ ThemeData lightTheme() {
         //buttons
       ),
       headline6: base.headline6.copyWith(
-        fontSize: 23.0,
+        fontSize: 18.0,
+        fontWeight: FontWeight.bold,
         fontFamily: 'Lato',
+        color: Colors.black,
       ),
       bodyText1: base.bodyText1.copyWith(
         color: Color(0xFF4F5266),

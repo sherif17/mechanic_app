@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:mechanic_app/models/upcoming_requests/arrival_to_customer_location_model.dart';
 import 'package:mechanic_app/models/upcoming_requests/canceling_mechanic_service.dart';
+import 'package:mechanic_app/models/upcoming_requests/check_status_model.dart';
 import 'package:mechanic_app/models/upcoming_requests/ending_mechanic_service.dart';
 import 'package:mechanic_app/models/upcoming_requests/get_nearest_client_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:mechanic_app/models/upcoming_requests/live_tracker_model.dart';
+import 'package:mechanic_app/models/upcoming_requests/repaires_to_be_made_model.dart';
 import 'package:mechanic_app/models/upcoming_requests/respond_to_upcoming_request_model.dart';
 import 'package:mechanic_app/models/upcoming_requests/starting_mechanic_service_model.dart';
 
@@ -48,8 +50,8 @@ class MechanicRequestService {
   Future<EndingMechanicServiceResponseModel> endCustomerTrip(
       /* EndingWinchServiceRequestModel endingWinchServiceRequestModel,*/
       token) async {
-    var url = Uri.parse('http://161.97.155.244/api/driverMatching/EndRide');
-    final response = await http.post(
+    var url = Uri.parse('http://161.97.155.244/api/Mechanic/EndRide');
+    final response = await http.get(
       url,
       headers: {"x-auth-token": "$token"},
       /* body: endingWinchServiceRequestModel.toJson()*/
@@ -126,6 +128,25 @@ class MechanicRequestService {
     }
   }
 
+  Future<RepairsToBeMadeResponseModel> sendingMechanicDiagnosis(
+      RepairsToBeMadeRequestModel repairsToBeMadeRequestModel, token) async {
+    var url = Uri.parse('http://161.97.155.244/api/Mechanic/ChooseRepairs');
+    print("request body:${repairsToBeMadeRequestModel.toJson()}");
+    final response = await http.post(url,
+        headers: {
+          "x-auth-token": "$token",
+          // 'Content-type': 'application/json',
+          // 'Accept': 'application/json',
+        },
+        body: json.encode(repairsToBeMadeRequestModel));
+    if (response.statusCode == 200 || response.statusCode == 400) {
+      print("response.body:${response.body}");
+      return RepairsToBeMadeResponseModel.fromJson(json.decode(response.body));
+    } else {
+      throw Exception("failed to load Data");
+    }
+  }
+
   Future<CancelingMechanicServiceResponseModel> cancelMechanicService(
       token) async {
     var url = Uri.parse('http://161.97.155.244/api/Mechanic/MechanicCancel');
@@ -139,6 +160,20 @@ class MechanicRequestService {
           json.decode(response.body));
     } else {
       throw Exception("failed to load Data");
+    }
+  }
+
+  Future<CheckStatusResponseModel> checkMechanicServiceStatus(token) async {
+    var url = Uri.parse('http://161.97.155.244/api/Mechanic/checkstatus');
+    final response = await http.get(
+      url,
+      headers: {"x-auth-token": "$token"},
+    );
+    if (response.statusCode == 200 || response.statusCode == 400) {
+      print("response.body:${response.body}");
+      return CheckStatusResponseModel.fromJson(json.decode(response.body));
+    } else {
+      throw Exception("Something Wrong happenedd");
     }
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mechanic_app/provider/upcoming_mechanic_service/mechanic_request_provider.dart';
-import 'package:mechanic_app/screens/ongoing_trip_screens/sarting_mechanic_service.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/starting_service/starting_mechanic_service.dart';
 import 'package:provider/provider.dart';
 import 'package:slider_button/slider_button.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,13 +31,13 @@ class AcceptedServiceSheet extends StatelessWidget {
         mechanicRequestProvider.upcomingRequestResponseModel.lastName;
     // String customerCarPlates = "س ن ت 7932";
     String customerCarPlates =
-        mechanicRequestProvider.getNearestClientResponseModel.CarPlates;
+        mechanicRequestProvider.getNearestClientResponseModel.carPlates;
     //String customerCarBrand = "Seat";
     String customerCarBrand =
-        mechanicRequestProvider.getNearestClientResponseModel.CarBrand;
+        mechanicRequestProvider.getNearestClientResponseModel.carBrand;
     //String customerCarModel = "Ibiza";
     String customerCarModel =
-        mechanicRequestProvider.getNearestClientResponseModel.CarModel;
+        mechanicRequestProvider.getNearestClientResponseModel.carModel;
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: Consumer<MapsProvider>(
