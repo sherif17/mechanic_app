@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mechanic_app/models/phone_num_model.dart';
+import 'package:mechanic_app/models/registration_models/phone_num_model.dart';
 
 class phoneNum {
   PhoneRequestModel phoneRequestModel;

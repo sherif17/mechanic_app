@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/models/maps/address.dart';
@@ -19,8 +20,11 @@ import 'package:mechanic_app/provider/mechanic_service/mechanic_service_cart_pro
 import 'package:mechanic_app/screens/dash_board/dash_board.dart';
 import 'package:mechanic_app/screens/dash_board/home/upcoming_request/upcoming_request.dart';
 import 'package:mechanic_app/screens/ongoing_trip_screens/acceptted_service/accepted_service_map.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/diagnosis_customer_car/waiting_for_customer_response/waiting_for_customer_reponse.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/starting_service/starting_mechanic_service.dart';
 import 'package:mechanic_app/services/requesting_mechanic/mechanic_request_service.dart';
 import 'package:provider/provider.dart';
+import 'package:rating_dialog/rating_dialog.dart';
 
 class MechanicRequestProvider extends ChangeNotifier {
   bool mechanicCurrentState = false;
@@ -308,7 +312,7 @@ class MechanicRequestProvider extends ChangeNotifier {
   }
 
   bool endCurrentMechanicServiceIsLoading = false;
-  endCurrentMechanicService() async {
+  endCurrentMechanicService(context) async {
     endCurrentMechanicServiceIsLoading = true;
     notifyListeners();
     endingWinchServiceResponseModel =
@@ -318,6 +322,37 @@ class MechanicRequestProvider extends ChangeNotifier {
     notifyListeners();
     if (endingWinchServiceResponseModel.status == "COMPLETED") {
       SERVICE_FINISHED = true;
+      final _dialog = RatingDialog(
+        // your app's name?
+        title: '${endingWinchServiceResponseModel.fare} EGP',
+        // encourage your user to leave a high rating?
+        message:
+            'Tap a star to set your rating. Add more description here if you want.',
+        // your app's logo?
+        image: true
+            ? SvgPicture.asset(
+                "assets/icons/cash.svg",
+                height: MediaQuery.of(context).size.height * 0.15,
+              )
+            : CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.green)),
+        submitButton: 'Submit',
+        // onCancelled: () => print('cancelled'),
+        onSubmitted: (response) async {
+          // WinchRequestProvider.ratingForCustomerRequestModel.stars =
+          //     response.rating.toString();
+          // await WinchRequestProvider.rateCustomer(ctx);
+          Navigator.pushNamedAndRemoveUntil(
+              context, DashBoard.routeName, (route) => false);
+          final snackBar =
+              SnackBar(content: Text('Check For another request!!'));
+          ScaffoldMessenger.of(cttx).showSnackBar(snackBar);
+        },
+      );
+      showDialog(
+        context: context,
+        builder: (context) => _dialog,
+      );
       notifyListeners();
     }
     notifyListeners();
@@ -431,24 +466,24 @@ class MechanicRequestProvider extends ChangeNotifier {
         await requestService.sendingMechanicDiagnosis(
             repairsToBeMadeRequestModel, loadJwtTokenFromDB());
     sendDiagnosisToCustomerIsLoading = false;
+    if (repairsToBeMadeResponseModel.msg == "Done!") {
+      Navigator.pushNamedAndRemoveUntil(
+          context, WaitingForCustomerResponse.routeName, (route) => false);
+    }
     notifyListeners();
   }
 
+  bool startingWinchServiceIsLoading = false;
   startingWinchService(context) async {
-    isLoading = true;
+    startingWinchServiceIsLoading = true;
+    notifyListeners();
     startingOfWinchTripResponseModel = await requestService.startingWinchTrip(
         startingOfWinchTripRequestModel, loadJwtTokenFromDB());
-    isLoading = false;
+    startingWinchServiceIsLoading = false;
     if (startingOfWinchTripResponseModel.msg == "Alright!") {
       SERVICE_STARTTED = true;
-      // Provider.of<PolyLineProvider>(context, listen: false).getPlaceDirection(
-      //     context,
-      //     Provider.of<MapsProvider>(context, listen: false)
-      //         .customerPickUpLocation,
-      //     Provider.of<MapsProvider>(context, listen: false)
-      //         .customerDropOffLocation,
-      //     Provider.of<MapsProvider>(context, listen: false)
-      //         .googleMapController);
+      Navigator.pushNamedAndRemoveUntil(
+          context, StartingMechanicService.routeName, (route) => false);
     }
     notifyListeners();
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mechanic_app/provider/upcoming_mechanic_service/mechanic_request_provider.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/diagnosis_customer_car/checking_customer_car/checking_customer_car.dart';
 import 'package:mechanic_app/screens/ongoing_trip_screens/starting_service/starting_mechanic_service.dart';
 import 'package:provider/provider.dart';
 import 'package:slider_button/slider_button.dart';
@@ -260,12 +261,8 @@ class AcceptedServiceSheet extends StatelessWidget {
                                       true) {
                                     Navigator.pushNamedAndRemoveUntil(
                                         context,
-                                        StartingMechanicService.routeName,
+                                        CheckingCustomerCar.routeName,
                                         (route) => false);
-                                    // await mechanicRequestProvider
-                                    //     .startingWinchService(ctx);
-                                    // if (mechanicRequestProvider
-                                    //     .SERVICE_STARTTED = true)
                                   }
 
                                   ///Do something here

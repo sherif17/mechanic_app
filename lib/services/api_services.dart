@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
-import 'package:mechanic_app/models/files_upload_model.dart';
+import 'package:mechanic_app/models/registration_models/files_upload_model.dart';
 import 'dart:convert';
 
-import 'package:mechanic_app/models/phone_num_model.dart';
-import 'package:mechanic_app/models/user_register_model.dart';
+import 'package:mechanic_app/models/registration_models/phone_num_model.dart';
+import 'package:mechanic_app/models/registration_models/user_register_model.dart';
 
 class ApiService {
   static const String baseUrl = 'http://161.97.155.244/api/';

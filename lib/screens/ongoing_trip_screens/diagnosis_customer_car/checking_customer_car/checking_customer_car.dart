@@ -53,39 +53,6 @@ class _CheckingCustomerCarState extends State<CheckingCustomerCar> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 RipplesAnimation(),
-                // DefaultTextStyle(
-                //   style: TextStyle(
-                //       color: Colors.blueGrey,
-                //       fontWeight: FontWeight.w900,
-                //       fontSize: 22),
-                //   child: Container(
-                //     height: 50,
-                //     child: Center(
-                //       child: AnimatedTextKit(
-                //         animatedTexts: [
-                //           ScaleAnimatedText('Please Wait....',
-                //               duration: Duration(seconds: 3)),
-                //           ScaleAnimatedText('Mechanic checking Your Car Now',
-                //               duration: Duration(seconds: 3)),
-                //           ScaleAnimatedText(
-                //               'You will receive list of diagnoses',
-                //               duration: Duration(seconds: 3)),
-                //           ScaleAnimatedText('To be confirmed',
-                //               duration: Duration(seconds: 3))
-                //         ],
-                //         repeatForever: true,
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                // TextButton(
-                //     onPressed: () {
-                //       Navigator.of(context).push(PageRouteBuilder(
-                //           opaque: false,
-                //           pageBuilder: (BuildContext context, _, __) =>
-                //               ViewingComingDiagnoses()));
-                //     },
-                //     child: Text("press"))
               ],
             ),
           ),

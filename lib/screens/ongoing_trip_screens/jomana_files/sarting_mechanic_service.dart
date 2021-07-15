@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mechanic_app/screens/ongoing_trip_screens/actions_tab.dart';
-import 'package:mechanic_app/screens/ongoing_trip_screens/details_tab.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/jomana_files/actions_tab.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/jomana_files/details_tab.dart';
 
 class StartingMechanicService extends StatefulWidget {
   //static String routeName = '/StartingMechanicService';

@@ -6,14 +6,14 @@ import 'package:mechanic_app/provider/upcoming_mechanic_service/mechanic_request
 import 'package:mechanic_app/screens/ongoing_trip_screens/diagnosis_customer_car/checking_customer_car/checking_customer_car_sheet/car_details.dart';
 import 'package:mechanic_app/screens/ongoing_trip_screens/diagnosis_customer_car/checking_customer_car/checking_customer_car_sheet/customer_needs.dart';
 import 'package:mechanic_app/screens/ongoing_trip_screens/diagnosis_customer_car/choosing_services_items/choosing_services_itemes.dart';
-import 'package:mechanic_app/screens/ongoing_trip_screens/sarting_mechanic_service.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/jomana_files/sarting_mechanic_service.dart';
 import 'package:provider/provider.dart';
 import 'package:slider_button/slider_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:mechanic_app/provider/maps_prepration/maps_provider.dart';
 
-import '../../../actions_tab.dart';
-import '../../../details_tab.dart';
+import '../../../jomana_files/actions_tab.dart';
+import '../../../jomana_files/details_tab.dart';
 //import 'package:mechanic_app/provider/upcomming_winch_service/winch_request_provider.dart';
 
 class CheckingCustomerCarSheet extends StatefulWidget {

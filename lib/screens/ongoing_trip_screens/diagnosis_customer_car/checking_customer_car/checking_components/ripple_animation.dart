@@ -4,7 +4,7 @@ import 'package:flutter/animation.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mechanic_app/screens/ongoing_trip_screens/diagnosis_customer_car/checking_customer_car/checking_components/circle_painter.dart';
 import 'package:mechanic_app/screens/ongoing_trip_screens/diagnosis_customer_car/checking_customer_car/checking_components/curve_wave.dart';
-import 'package:mechanic_app/screens/ongoing_trip_screens/my_timer.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/jomana_files/my_timer.dart';
 
 class RipplesAnimation extends StatefulWidget {
   static String routeName = '/RipplesAnimation';

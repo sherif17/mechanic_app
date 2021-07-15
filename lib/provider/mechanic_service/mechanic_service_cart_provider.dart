@@ -89,12 +89,11 @@ class MechanicServicesCartProvider extends ChangeNotifier {
 
   combineTwoCartsWithEachOther() {
     for (var j in _mechanicItemsSelectedList) {
-      combinedCart
-          .add(Repairsneeded(id: j.id, category: j.category, number: "0"));
+      combinedCart.add(Repairsneeded(id: j.id, category: "item", number: "0"));
     }
     for (var j in _mechanicServicesSelectedList) {
       combinedCart
-          .add(Repairsneeded(id: j.id, category: j.category, number: "0"));
+          .add(Repairsneeded(id: j.id, category: "service", number: "0"));
     }
     return combinedCart;
   }

@@ -7,7 +7,7 @@ import 'package:http/http.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
-import 'package:mechanic_app/models/phone_num_model.dart';
+import 'package:mechanic_app/models/registration_models/phone_num_model.dart';
 import 'package:mechanic_app/screens/login_screens/confirm_user/confirm_is_that_user.dart';
 import 'package:mechanic_app/screens/login_screens/file_upload/step_three/confirmationcode.dart';
 import 'package:mechanic_app/screens/login_screens/user_register/register_body.dart';

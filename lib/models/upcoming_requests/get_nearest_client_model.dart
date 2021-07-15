@@ -65,10 +65,14 @@ class GetNearestClientResponseModel {
 
   factory GetNearestClientResponseModel.fromJson(Map<String, dynamic> json) =>
       GetNearestClientResponseModel(
-        nearestRidePickupLocation: NearestRidePickupLocation.fromJson(
-            json["Nearest Ride: Pickup Location"]),
-        initialDiagnosis: List<InitialDiagnosis>.from(
-            json["Initial Diagnosis"].map((x) => InitialDiagnosis.fromJson(x))),
+        nearestRidePickupLocation: json["Nearest Ride: Pickup Location"] != null
+            ? NearestRidePickupLocation.fromJson(
+                json["Nearest Ride: Pickup Location"])
+            : null,
+        initialDiagnosis: json["Initial Diagnosis"] != null
+            ? List<InitialDiagnosis>.from(json["Initial Diagnosis"]
+                .map((x) => InitialDiagnosis.fromJson(x)))
+            : null,
         carBrand: json["CarBrand"],
         carModel: json["CarModel"],
         carYear: json["CarYear"],

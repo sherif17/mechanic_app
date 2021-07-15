@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mechanic_app/models/service_request.dart';
 import 'package:mechanic_app/provider/appControlProvider.dart';
 import 'package:mechanic_app/provider/upcoming_mechanic_service/mechanic_request_provider.dart';
+import 'package:mechanic_app/screens/dash_board/home/tabs/centers_tabs/no_centers.dart';
 import 'package:mechanic_app/services/requesting_mechanic/mechanic_request_service.dart';
 import 'package:provider/provider.dart';
 import 'tabs/centers_tabs/centers_tab.dart';
@@ -42,7 +43,7 @@ class _HomeBodyState extends State<HomeBody>
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<MechanicRequestProvider>(context,listen: false).cttx=context;
+    Provider.of<MechanicRequestProvider>(context, listen: false).cttx = context;
     Size size = MediaQuery.of(context).size;
     DateTime time1 = DateTime.now();
     ServiceRequest serviceRequest1 = ServiceRequest(
@@ -139,7 +140,7 @@ class _HomeBodyState extends State<HomeBody>
                   // centers tab bar view widget
                   Center(
                     child: Container(
-                      child: CentersTab(),
+                      child: NoCentersTab(),
                     ),
                   ),
                 ],

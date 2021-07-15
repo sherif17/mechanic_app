@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
-import 'package:mechanic_app/models/user_register_model.dart';
+import 'package:mechanic_app/models/registration_models/user_register_model.dart';
 import 'package:mechanic_app/screens/dash_board/dash_board.dart';
 import 'package:mechanic_app/screens/login_screens/otp/componants/progress_bar.dart';
 import 'package:mechanic_app/services/api_services.dart';

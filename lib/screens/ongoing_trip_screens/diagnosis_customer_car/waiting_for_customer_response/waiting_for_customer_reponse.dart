@@ -195,7 +195,7 @@ class _WaitingForCustomerResponseState
                                       : Container(),
                                   action: () async {
                                     await mechanicRequestProvider
-                                        .endCurrentMechanicService();
+                                        .endCurrentMechanicService(context);
                                     // await mechanicRequestProvider
                                     //     .arrivedToCustomerLocation(context);
                                     // await mechanicRequestProvider

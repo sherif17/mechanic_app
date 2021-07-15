@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mechanic_app/screens/ongoing_trip_screens/my_timer.dart';
-import 'package:mechanic_app/screens/ongoing_trip_screens/service_done_button.dart';
-import 'package:mechanic_app/screens/ongoing_trip_screens/services_checklist.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/jomana_files/my_timer.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/jomana_files/service_done_button.dart';
+import 'package:mechanic_app/screens/ongoing_trip_screens/jomana_files/services_checklist.dart';
 
 import 'my_services_checklist.dart';
 
