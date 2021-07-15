@@ -306,7 +306,8 @@ class MechanicRequestProvider extends ChangeNotifier {
       print(upcomingRequestResponseModel.msg);
     notifyListeners();
   }
-bool endCurrentMechanicServiceIsLoading=false;
+
+  bool endCurrentMechanicServiceIsLoading = false;
   endCurrentMechanicService() async {
     endCurrentMechanicServiceIsLoading = true;
     notifyListeners();

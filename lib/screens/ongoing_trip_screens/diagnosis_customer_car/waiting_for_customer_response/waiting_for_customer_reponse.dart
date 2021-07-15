@@ -55,12 +55,14 @@ class _WaitingForCustomerResponseState
                 ? buildWatingForResponseView(size)
                 : mechanicRequestProvider.CUSTOMER_RESPONSE == true
                     ? buildCustomerApprovedDiagnosisView(size)
-                    : buildCustomerRejectDiagnosis(size,mechanicRequestProvider)),
+                    : buildCustomerRejectDiagnosis(
+                        size, mechanicRequestProvider)),
       ),
     );
   }
 
-  Stack buildCustomerRejectDiagnosis(Size size ,MechanicRequestProvider mechanicRequestProvider) {
+  Stack buildCustomerRejectDiagnosis(
+      Size size, MechanicRequestProvider mechanicRequestProvider) {
     return Stack(
       children: [
         Center(
@@ -186,9 +188,14 @@ class _WaitingForCustomerResponseState
 
                                 SliderButton(
                                   dismissible: true,
-                                  child:mechanicRequestProvider.endCurrentMechanicServiceIsLoading==true?CircularProgressIndicator():Container(),
+                                  child: mechanicRequestProvider
+                                              .endCurrentMechanicServiceIsLoading ==
+                                          true
+                                      ? CircularProgressIndicator()
+                                      : Container(),
                                   action: () async {
-                                    await mechanicRequestProvider.endCurrentMechanicService();
+                                    await mechanicRequestProvider
+                                        .endCurrentMechanicService();
                                     // await mechanicRequestProvider
                                     //     .arrivedToCustomerLocation(context);
                                     // await mechanicRequestProvider
