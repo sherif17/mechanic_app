@@ -52,7 +52,9 @@ class _CheckingCustomerCarState extends State<CheckingCustomerCar> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                RipplesAnimation(),
+                RipplesAnimation(
+                  state: false,
+                ),
               ],
             ),
           ),

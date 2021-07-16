@@ -42,15 +42,23 @@ class CheckStatusResponseModel {
         error: json["error"],
         status: json["Status"],
         timePassedSinceRequestAcceptance:
-            json["Time Passed Since Request Acceptance"].toDouble(),
+            json["Time Passed Since Request Acceptance"] != null
+                ? json["Time Passed Since Request Acceptance"].toDouble()
+                : null,
         firstName: json["firstName"],
         lastName: json["lastName"],
         phoneNumber: json["phoneNumber"],
-        customerLocation: CustomerLocation.fromJson(json["Customer_Location"]),
+        customerLocation: json["Customer_Location"] != null
+            ? CustomerLocation.fromJson(json["Customer_Location"])
+            : null,
         timePassedSinceDriverArrival:
-            json["Time Passed Since Driver Arrival"].toDouble(),
+            json["Time Passed Since Driver Arrival"] != null
+                ? json["Time Passed Since Driver Arrival"].toDouble()
+                : null,
         timePassedSinceServiceStart:
-            json["Time Passed Since Service Start "].toDouble(),
+            json["Time Passed Since Service Start "] != null
+                ? json["Time Passed Since Service Start "].toDouble()
+                : null,
         customerResponse: json["customerResponse"],
         fare: json["Fare"],
       );

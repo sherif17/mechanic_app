@@ -246,18 +246,21 @@ class UpcomingRequest extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(5),
-                                  child: Icon(Icons.add_location_alt_rounded),
-                                ),
-                                Text(
-                                    '${mapsProvider.customerPickUpLocation.placeName}'),
-                              ],
+                          FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: Icon(Icons.add_location_alt_rounded),
+                                  ),
+                                  Text(
+                                      '${mapsProvider.customerPickUpLocation.placeName}'),
+                                ],
+                              ),
                             ),
                           )
                         ],
@@ -268,16 +271,16 @@ class UpcomingRequest extends StatelessWidget {
                       ),
                       Column(
                         children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Car Initial Diagnosis",
-                                style: Theme.of(context).textTheme.subtitle2,
-                              ),
-                            ),
-                          ),
+                          // Align(
+                          //   alignment: Alignment.topLeft,
+                          //   child: Padding(
+                          //     padding: const EdgeInsets.all(8.0),
+                          //     child: Text(
+                          //       "Car Initial Diagnosis",
+                          //       style: Theme.of(context).textTheme.subtitle2,
+                          //     ),
+                          //   ),
+                          // ),
                           CustomerNeeds(),
                         ],
                       )
@@ -344,8 +347,14 @@ class UpcomingRequest extends StatelessWidget {
                         ),
                       ),
                       TextButton(
-                        child: Text("Accept".toUpperCase(),
-                            style: TextStyle(fontSize: 18)),
+                        child: mechanicRequestProvider
+                                    .acceptUpcomingRequestIsLoading ==
+                                false
+                            ? Text("Accept".toUpperCase(),
+                                style: TextStyle(fontSize: 18))
+                            : CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
                         style: ButtonStyle(
                             padding: MaterialStateProperty.all<EdgeInsets>(
                                 EdgeInsets.all(15)),

@@ -33,6 +33,13 @@ class _ServiceTimerState extends State<ServiceTimer> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    stopwatch.stop();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Column(

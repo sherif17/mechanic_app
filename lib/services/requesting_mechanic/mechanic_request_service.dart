@@ -51,7 +51,7 @@ class MechanicRequestService {
       /* EndingWinchServiceRequestModel endingWinchServiceRequestModel,*/
       token) async {
     var url = Uri.parse('http://161.97.155.244/api/Mechanic/EndRide');
-    final response = await http.get(
+    final response = await http.post(
       url,
       headers: {"x-auth-token": "$token"},
       /* body: endingWinchServiceRequestModel.toJson()*/
@@ -135,10 +135,11 @@ class MechanicRequestService {
     final response = await http.post(url,
         headers: {
           "x-auth-token": "$token",
-          // 'Content-type': 'application/json',
-          // 'Accept': 'application/json',
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
         },
         body: json.encode(repairsToBeMadeRequestModel));
+    print(json.encode(repairsToBeMadeRequestModel));
     if (response.statusCode == 200 || response.statusCode == 400) {
       print("response.body:${response.body}");
       return RepairsToBeMadeResponseModel.fromJson(json.decode(response.body));

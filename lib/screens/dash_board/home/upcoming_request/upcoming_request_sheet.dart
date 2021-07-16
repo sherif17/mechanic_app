@@ -242,8 +242,11 @@ class UpcomingRequestSheet extends StatelessWidget {
                                     padding: const EdgeInsets.all(5),
                                     child: Icon(Icons.add_location_alt_rounded),
                                   ),
-                                  Text(
-                                      '${mapsProvider.customerPickUpLocation.placeName}'),
+                                  FittedBox(
+                                    fit: BoxFit.fitWidth,
+                                    child: Text(
+                                        '${mapsProvider.customerPickUpLocation.placeName}'),
+                                  ),
                                 ],
                               ),
                             ),
@@ -253,18 +256,21 @@ class UpcomingRequestSheet extends StatelessWidget {
                             ),
                             Column(
                               children: [
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Car Initial Diagnosis",
-                                      style:
-                                          Theme.of(context).textTheme.subtitle2,
-                                    ),
-                                  ),
-                                ),
+                                // Align(
+                                //   alignment: Alignment.topLeft,
+                                //   child: Padding(
+                                //     padding: const EdgeInsets.all(8.0),
+                                //     child: Text(
+                                //       "Car Initial Diagnosis",
+                                //       style:
+                                //           Theme.of(context).textTheme.subtitle2,
+                                //     ),
+                                //   ),
+                                // ),
                                 CustomerNeeds(),
+                                SizedBox(
+                                  height: size.height * 0.15,
+                                ),
                               ],
                             )
                           ],
@@ -289,81 +295,86 @@ class UpcomingRequestSheet extends StatelessWidget {
               child: // Center(child: Container(child: SliderButton(action: () {}))
                   //Text("no")
                   Center(
-                child: SliderButton(
-                  //dismissible: false,
-                  action: () async {
-                    await mechanicRequestProvider
-                        .acceptUpcomingRequest(context);
-                    // await WinchRequestProvider
-                    //     .arrivedToCustomerLocation(ctx);
-                    // if (WinchRequestProvider
-                    //     .DriverARRIVED ==
-                    //     true) {
-                    //   await WinchRequestProvider
-                    //       .startingWinchService(ctx);
-                    //}
+                child: mechanicRequestProvider.acceptUpcomingRequestIsLoading ==
+                        false
+                    ? SliderButton(
+                        //dismissible: false,
+                        action: () async {
+                          await mechanicRequestProvider
+                              .acceptUpcomingRequest(context);
+                          // await WinchRequestProvider
+                          //     .arrivedToCustomerLocation(ctx);
+                          // if (WinchRequestProvider
+                          //     .DriverARRIVED ==
+                          //     true) {
+                          //   await WinchRequestProvider
+                          //       .startingWinchService(ctx);
+                          //}
 
-                    ///Do something here
-                    print("slided");
-                    //Navigator.of(context).pop();
-                  },
-                  label: Text(
-                    "Slide To Accept The Request",
-                    style: TextStyle(
-                        color: Color(0xff4a4a4a),
-                        fontWeight: FontWeight.w500,
-                        decoration: TextDecoration.none,
-                        fontSize: 17),
-                  ),
-                  // child: Container(
-                  //   // color: Colors.green,
-                  //   height: 60,
-                  //   decoration: BoxDecoration(
-                  //       // border: Border.all(
-                  //       //   color: Colors.red,
-                  //       // ),
-                  //       boxShadow: <BoxShadow>[
-                  //         BoxShadow(
-                  //             color: Colors.deepPurple.withOpacity(0.2),
-                  //             blurRadius: 15.0,
-                  //             offset: Offset(0.0, 0.5))
-                  //       ],
-                  //       color: Colors
-                  //           .green, //Color(0xFF4F5266), //Colors.blueGrey, //Theme.of(context).primaryColorLight,
-                  //       borderRadius: BorderRadius.all(
-                  //         Radius.circular(10),
-                  //       )),
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.all(8.0),
-                  //     child: CircularCountDownTimer(
-                  //       width: 40,
-                  //       height: 40,
-                  //       duration: 59,
-                  //       fillColor: Colors.grey,
-                  //       ringColor: Theme.of(context).primaryColorLight,
-                  //       //  isReverseAnimation: true,
-                  //       isReverse: true,
-                  //       backgroundColor: Theme.of(context).accentColor,
-                  //       onComplete: () {
-                  //         // Navigator.pop(context);
-                  //       },
-                  //       isTimerTextShown: true,
-                  //     ),
-                  //   ),
-                  // ),
-                  icon: Icon(
-                    Icons.arrow_right_alt_rounded,
-                    color: Colors.white,
-                    size: 60,
-                  ),
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  radius: 20,
-                  buttonColor:
-                      Colors.green.withOpacity(0.9), //Color(0xffd60000),
-                  backgroundColor: Colors.white, //Color(0xff534bae),
-                  highlightedColor: Colors.greenAccent,
-                  baseColor: Colors.green,
-                ),
+                          ///Do something here
+                          print("slided");
+                          //Navigator.of(context).pop();
+                        },
+                        label: Text(
+                          "Slide To Accept The Request",
+                          style: TextStyle(
+                              color: Color(0xff4a4a4a),
+                              fontWeight: FontWeight.w500,
+                              decoration: TextDecoration.none,
+                              fontSize: 17),
+                        ),
+                        // child: Container(
+                        //   // color: Colors.green,
+                        //   height: 60,
+                        //   decoration: BoxDecoration(
+                        //       // border: Border.all(
+                        //       //   color: Colors.red,
+                        //       // ),
+                        //       boxShadow: <BoxShadow>[
+                        //         BoxShadow(
+                        //             color: Colors.deepPurple.withOpacity(0.2),
+                        //             blurRadius: 15.0,
+                        //             offset: Offset(0.0, 0.5))
+                        //       ],
+                        //       color: Colors
+                        //           .green, //Color(0xFF4F5266), //Colors.blueGrey, //Theme.of(context).primaryColorLight,
+                        //       borderRadius: BorderRadius.all(
+                        //         Radius.circular(10),
+                        //       )),
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.all(8.0),
+                        //     child: CircularCountDownTimer(
+                        //       width: 40,
+                        //       height: 40,
+                        //       duration: 59,
+                        //       fillColor: Colors.grey,
+                        //       ringColor: Theme.of(context).primaryColorLight,
+                        //       //  isReverseAnimation: true,
+                        //       isReverse: true,
+                        //       backgroundColor: Theme.of(context).accentColor,
+                        //       onComplete: () {
+                        //         // Navigator.pop(context);
+                        //       },
+                        //       isTimerTextShown: true,
+                        //     ),
+                        //   ),
+                        // ),
+                        icon: Icon(
+                          Icons.arrow_right_alt_rounded,
+                          color: Colors.white,
+                          size: 60,
+                        ),
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        radius: 20,
+                        buttonColor:
+                            Colors.green.withOpacity(0.9), //Color(0xffd60000),
+                        backgroundColor: Colors.white, //Color(0xff534bae),
+                        highlightedColor: Colors.greenAccent,
+                        baseColor: Colors.green,
+                      )
+                    : CircularProgressIndicator(
+                        color: Colors.green,
+                      ),
               ),
             ),
           ),

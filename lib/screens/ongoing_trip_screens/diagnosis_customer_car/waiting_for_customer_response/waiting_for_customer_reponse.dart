@@ -56,13 +56,13 @@ class _WaitingForCustomerResponseState
                 : mechanicRequestProvider.CUSTOMER_RESPONSE == true
                     ? buildCustomerApprovedDiagnosisView(size)
                     : buildCustomerRejectDiagnosis(
-                        size, mechanicRequestProvider)),
+                        size, mechanicRequestProvider, context)),
       ),
     );
   }
 
-  Stack buildCustomerRejectDiagnosis(
-      Size size, MechanicRequestProvider mechanicRequestProvider) {
+  Stack buildCustomerRejectDiagnosis(Size size,
+      MechanicRequestProvider mechanicRequestProvider, BuildContext ctx) {
     return Stack(
       children: [
         Center(
@@ -186,61 +186,69 @@ class _WaitingForCustomerResponseState
                                 ),
                                 // MechanicRequestProvider.DriverARRIVED == false ?
 
-                                SliderButton(
-                                  dismissible: true,
-                                  child: mechanicRequestProvider
-                                              .endCurrentMechanicServiceIsLoading ==
-                                          true
-                                      ? CircularProgressIndicator()
-                                      : Container(),
-                                  action: () async {
-                                    await mechanicRequestProvider
-                                        .endCurrentMechanicService(context);
-                                    // await mechanicRequestProvider
-                                    //     .arrivedToCustomerLocation(context);
-                                    // await mechanicRequestProvider
-                                    //     .arrivedToCustomerLocation(
-                                    //         ctx);
-                                    // if (mechanicRequestProvider
-                                    //         .DriverARRIVED ==
-                                    //     true) {
-                                    //   Navigator
-                                    //       .pushNamedAndRemoveUntil(
-                                    //           context,
-                                    //           StartingMechanicService
-                                    //               .routeName,
-                                    //           (route) => false);
-                                    // await mechanicRequestProvider
-                                    //     .startingWinchService(ctx);
-                                    // if (mechanicRequestProvider
-                                    //     .SERVICE_STARTTED = true)
-                                    ///Do something here
-                                    print("slided");
-                                    //Navigator.of(context).pop();
-                                  },
-                                  label: Text(
-                                    "Slide To End Services",
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.w500,
-                                        decoration: TextDecoration.none,
-                                        fontSize: 17),
-                                  ),
-                                  icon: Icon(
-                                    Icons.arrow_right_alt_rounded,
-                                    color: Colors.white,
-                                    size: 60,
-                                  ),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.8,
-                                  radius: 20,
-                                  buttonColor: Colors.red
-                                      .withOpacity(0.9), //Color(0xffd60000),
-                                  backgroundColor: Colors.grey
-                                      .withOpacity(0.2), //Color(0xff534bae),
-                                  highlightedColor: Colors.black,
-                                  baseColor: Colors.red,
-                                )
+                                mechanicRequestProvider
+                                            .endCurrentMechanicServiceIsLoading ==
+                                        false
+                                    ? SliderButton(
+                                        dismissible: true,
+                                        // child: mechanicRequestProvider
+                                        //             .endCurrentMechanicServiceIsLoading ==
+                                        //         true
+                                        //     ? CircularProgressIndicator()
+                                        //     : Container(),
+                                        action: () async {
+                                          await mechanicRequestProvider
+                                              .endCurrentMechanicService(ctx);
+                                          // await mechanicRequestProvider
+                                          //     .arrivedToCustomerLocation(context);
+                                          // await mechanicRequestProvider
+                                          //     .arrivedToCustomerLocation(
+                                          //         ctx);
+                                          // if (mechanicRequestProvider
+                                          //         .DriverARRIVED ==
+                                          //     true) {
+                                          //   Navigator
+                                          //       .pushNamedAndRemoveUntil(
+                                          //           context,
+                                          //           StartingMechanicService
+                                          //               .routeName,
+                                          //           (route) => false);
+                                          // await mechanicRequestProvider
+                                          //     .startingWinchService(ctx);
+                                          // if (mechanicRequestProvider
+                                          //     .SERVICE_STARTTED = true)
+                                          ///Do something here
+                                          print("slided");
+                                          //Navigator.of(context).pop();
+                                        },
+                                        label: Text(
+                                          "Slide To End Services",
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w500,
+                                              decoration: TextDecoration.none,
+                                              fontSize: 17),
+                                        ),
+                                        icon: Icon(
+                                          Icons.arrow_right_alt_rounded,
+                                          color: Colors.white,
+                                          size: 60,
+                                        ),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.8,
+                                        radius: 20,
+                                        buttonColor: Colors.red.withOpacity(
+                                            0.9), //Color(0xffd60000),
+                                        backgroundColor: Colors.grey
+                                            .withOpacity(
+                                                0.2), //Color(0xff534bae),
+                                        highlightedColor: Colors.black,
+                                        baseColor: Colors.red,
+                                      )
+                                    : CircularProgressIndicator(
+                                        color: Colors.green,
+                                      ),
                                 //     :
                                 // CircularProgressIndicator(
                                 //         valueColor: AlwaysStoppedAnimation<Color>(
@@ -273,8 +281,8 @@ class _WaitingForCustomerResponseState
             width: size.width * 0.1,
           ),
         ),
-        Consumer<MechanicServiceProvider>(
-          builder: (context, mechanicServiceProvider, child) =>
+        Consumer<MechanicRequestProvider>(
+          builder: (context, mechanicRequestProvider, child) =>
               DraggableScrollableSheet(
             initialChildSize: 0.1,
             minChildSize: 0.1,
@@ -386,54 +394,64 @@ class _WaitingForCustomerResponseState
                                       MediaQuery.of(context).size.height * 0.02,
                                 ),
                                 // MechanicRequestProvider.DriverARRIVED == false ?
-                                SliderButton(
-                                  //dismissible: false,
-                                  action: () async {
-                                    // await mechanicRequestProvider
-                                    //     .arrivedToCustomerLocation(context);
-                                    // await mechanicRequestProvider
-                                    //     .arrivedToCustomerLocation(
-                                    //         ctx);
-                                    // if (mechanicRequestProvider
-                                    //         .DriverARRIVED ==
-                                    //     true) {
-                                    //   Navigator
-                                    //       .pushNamedAndRemoveUntil(
-                                    //           context,
-                                    //           StartingMechanicService
-                                    //               .routeName,
-                                    //           (route) => false);
-                                    // await mechanicRequestProvider
-                                    //     .startingWinchService(ctx);
-                                    // if (mechanicRequestProvider
-                                    //     .SERVICE_STARTTED = true)
-                                    ///Do something here
-                                    print("slided");
-                                    //Navigator.of(context).pop();
-                                  },
-                                  label: Text(
-                                    "Slide To Start Your Work",
-                                    style: TextStyle(
-                                        color: Color(0xff4a4a4a),
-                                        fontWeight: FontWeight.w500,
-                                        decoration: TextDecoration.none,
-                                        fontSize: 17),
-                                  ),
-                                  icon: Icon(
-                                    Icons.arrow_right_alt_rounded,
-                                    color: Colors.white,
-                                    size: 60,
-                                  ),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.8,
-                                  radius: 20,
-                                  buttonColor: Colors.green
-                                      .withOpacity(0.9), //Color(0xffd60000),
-                                  backgroundColor: Colors.grey
-                                      .withOpacity(0.2), //Color(0xff534bae),
-                                  highlightedColor: Colors.greenAccent,
-                                  baseColor: Colors.green,
-                                )
+                                mechanicRequestProvider
+                                            .startingWinchServiceIsLoading ==
+                                        false
+                                    ? SliderButton(
+                                        //dismissible: false,
+                                        action: () async {
+                                          await mechanicRequestProvider
+                                              .startingWinchService(context);
+                                          // await mechanicRequestProvider
+                                          //     .arrivedToCustomerLocation(context);
+                                          // await mechanicRequestProvider
+                                          //     .arrivedToCustomerLocation(
+                                          //         ctx);
+                                          // if (mechanicRequestProvider
+                                          //         .DriverARRIVED ==
+                                          //     true) {
+                                          //   Navigator
+                                          //       .pushNamedAndRemoveUntil(
+                                          //           context,
+                                          //           StartingMechanicService
+                                          //               .routeName,
+                                          //           (route) => false);
+                                          // await mechanicRequestProvider
+                                          //     .startingWinchService(ctx);
+                                          // if (mechanicRequestProvider
+                                          //     .SERVICE_STARTTED = true)
+                                          ///Do something here
+                                          print("slided");
+                                          //Navigator.of(context).pop();
+                                        },
+                                        label: Text(
+                                          "Slide To Start Your Work",
+                                          style: TextStyle(
+                                              color: Color(0xff4a4a4a),
+                                              fontWeight: FontWeight.w500,
+                                              decoration: TextDecoration.none,
+                                              fontSize: 17),
+                                        ),
+                                        icon: Icon(
+                                          Icons.arrow_right_alt_rounded,
+                                          color: Colors.white,
+                                          size: 60,
+                                        ),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.8,
+                                        radius: 20,
+                                        buttonColor: Colors.green.withOpacity(
+                                            0.9), //Color(0xffd60000),
+                                        backgroundColor: Colors.grey
+                                            .withOpacity(
+                                                0.2), //Color(0xff534bae),
+                                        highlightedColor: Colors.greenAccent,
+                                        baseColor: Colors.green,
+                                      )
+                                    : CircularProgressIndicator(
+                                        color: Color(0xFF4F5266),
+                                      )
                                 //     :
                                 // CircularProgressIndicator(
                                 //         valueColor: AlwaysStoppedAnimation<Color>(

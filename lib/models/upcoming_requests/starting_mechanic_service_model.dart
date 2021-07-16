@@ -26,7 +26,7 @@ class StartingMechanicServiceRequestModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "driverResponse": mechanicResponse,
+        "mechanicResponse": mechanicResponse,
       };
 }
 // To parse this JSON data, do

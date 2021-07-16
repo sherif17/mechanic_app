@@ -41,8 +41,9 @@ class AcceptedServiceSheet extends StatelessWidget {
         mechanicRequestProvider.getNearestClientResponseModel.carModel;
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
-      child: Consumer<MapsProvider>(
-        builder: (context, MapsProvider, child) => DraggableScrollableSheet(
+      child: Consumer2<MapsProvider, MechanicRequestProvider>(
+        builder: (context, MapsProvider, mechanicRequestProvider, child) =>
+            DraggableScrollableSheet(
           initialChildSize: 0.1,
           minChildSize: 0.1,
           maxChildSize: 0.32,
@@ -249,54 +250,55 @@ class AcceptedServiceSheet extends StatelessWidget {
                                 height:
                                     MediaQuery.of(context).size.height * 0.02,
                               ),
-                              // MechanicRequestProvider.DriverARRIVED == false ?
-                              SliderButton(
-                                //dismissible: false,
-                                action: () async {
-                                  // await mechanicRequestProvider
-                                  //     .arrivedToCustomerLocation(context);
-                                  await mechanicRequestProvider
-                                      .arrivedToCustomerLocation(ctx);
-                                  if (mechanicRequestProvider.DriverARRIVED ==
-                                      true) {
-                                    Navigator.pushNamedAndRemoveUntil(
-                                        context,
-                                        CheckingCustomerCar.routeName,
-                                        (route) => false);
-                                  }
+                              mechanicRequestProvider
+                                          .arrivedToCustomerLocationIsLoading ==
+                                      false
+                                  ? SliderButton(
+                                      //dismissible: false,
+                                      action: () async {
+                                        // await mechanicRequestProvider
+                                        //     .arrivedToCustomerLocation(context);
+                                        await mechanicRequestProvider
+                                            .arrivedToCustomerLocation(ctx);
+                                        if (mechanicRequestProvider
+                                                .DriverARRIVED ==
+                                            true) {
+                                          Navigator.pushNamedAndRemoveUntil(
+                                              context,
+                                              CheckingCustomerCar.routeName,
+                                              (route) => false);
+                                        }
 
-                                  ///Do something here
-                                  print("slided");
-                                  //Navigator.of(context).pop();
-                                },
-                                label: Text(
-                                  "Slide when arrive",
-                                  style: TextStyle(
-                                      color: Color(0xff4a4a4a),
-                                      fontWeight: FontWeight.w500,
-                                      decoration: TextDecoration.none,
-                                      fontSize: 17),
-                                ),
-                                icon: Icon(
-                                  Icons.arrow_right_alt_rounded,
-                                  color: Colors.white,
-                                  size: 60,
-                                ),
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                radius: 20,
-                                buttonColor: Colors.green
-                                    .withOpacity(0.9), //Color(0xffd60000),
-                                backgroundColor: Colors.grey
-                                    .withOpacity(0.2), //Color(0xff534bae),
-                                highlightedColor: Colors.greenAccent,
-                                baseColor: Colors.green,
-                              )
-                              //     :
-                              // CircularProgressIndicator(
-                              //         valueColor: AlwaysStoppedAnimation<Color>(
-                              //           Colors.red,
-                              //         ),
-                              //       )
+                                        ///Do something here
+                                        print("slided");
+                                        //Navigator.of(context).pop();
+                                      },
+                                      label: Text(
+                                        "Slide when arrive",
+                                        style: TextStyle(
+                                            color: Color(0xff4a4a4a),
+                                            fontWeight: FontWeight.w500,
+                                            decoration: TextDecoration.none,
+                                            fontSize: 17),
+                                      ),
+                                      icon: Icon(
+                                        Icons.arrow_right_alt_rounded,
+                                        color: Colors.white,
+                                        size: 60,
+                                      ),
+                                      width: MediaQuery.of(context).size.width *
+                                          0.8,
+                                      radius: 20,
+                                      buttonColor: Colors.green.withOpacity(
+                                          0.9), //Color(0xffd60000),
+                                      backgroundColor: Colors.grey.withOpacity(
+                                          0.2), //Color(0xff534bae),
+                                      highlightedColor: Colors.greenAccent,
+                                      baseColor: Colors.green,
+                                    )
+                                  : CircularProgressIndicator(
+                                      color: Colors.white,
+                                    )
                             ],
                           ),
                         ),

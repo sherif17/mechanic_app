@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/screens/dash_board/earnings/earnings.dart';
 import 'package:mechanic_app/screens/dash_board/home/home.dart';
@@ -25,6 +26,7 @@ class _DashBoard extends State<DashBoard> {
 
   @override
   Widget build(BuildContext context) {
+    print(loadJwtTokenFromDB());
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: PageStorage(

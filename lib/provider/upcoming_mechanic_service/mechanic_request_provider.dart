@@ -46,7 +46,7 @@ class MechanicRequestProvider extends ChangeNotifier {
   bool RATING_SUBMITTED = false;
   bool CANCELLING_SERVICE = false;
   bool isHomeMapOpened = false;
-  bool WAITING_FOR_APPROVAL = false;
+  bool WAITING_FOR_APPROVAL = true;
   bool CUSTOMER_RESPONSE = false;
   BuildContext cttx;
   //BuildContext ctx;
@@ -86,6 +86,7 @@ class MechanicRequestProvider extends ChangeNotifier {
   /////////////////////////////////////////////////////////////////////////////
   StartingMechanicServiceRequestModel startingOfWinchTripRequestModel =
       StartingMechanicServiceRequestModel(mechanicResponse: "Service Start");
+
   StartingMechanicServiceResponseModel startingOfWinchTripResponseModel =
       StartingMechanicServiceResponseModel();
   /////////////////////////////////////////////////////////////////////////////
@@ -187,6 +188,7 @@ class MechanicRequestProvider extends ChangeNotifier {
     getNearestClientResponseModel = await requestService.getNearestClient(
         getNearestClientRequestModel, loadJwtTokenFromDB());
     isLoading = false;
+    print(getNearestClientResponseModel.error);
     if (getNearestClientResponseModel.requestId == null &&
         getNearestClientResponseModel.error == "No client requests now") {
       // Provider.of<MapsProvider>(context, listen: false).locatePosition(context);
@@ -212,12 +214,14 @@ class MechanicRequestProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool acceptUpcomingRequestIsLoading = false;
   acceptUpcomingRequest(context) async {
-    isLoading = true;
+    acceptUpcomingRequestIsLoading = true;
+    notifyListeners();
     upcomingRequestResponseModel =
         await requestService.respondToCustomerRequest(
             upcomingRequestAcceptRequestModel, loadJwtTokenFromDB());
-    isLoading = false;
+    acceptUpcomingRequestIsLoading = false;
     if (upcomingRequestResponseModel != null) {
       RIDE_ACCEPTED = true;
       SEARCHING_FOR_CUSTOMER = false;
@@ -250,64 +254,69 @@ class MechanicRequestProvider extends ChangeNotifier {
       final snackBar = SnackBar(
           content: Text('The request was cancelled !! Check for another one'));
       ScaffoldMessenger.of(cttx).showSnackBar(snackBar);
-      Provider.of<MapsProvider>(cttx, listen: false).locatePosition(cttx);
-      SEARCHING_FOR_CUSTOMER = true;
-      CUSTOMER_FOUNDED = false;
-      Provider.of<PolyLineProvider>(cttx, listen: false).resetPolyLine();
-      searchingForCustomerTimer =
-          Timer.periodic(Duration(seconds: 10), (z) async {
-        print("start");
-        await getNearestClientToMe(cttx);
-        if (CUSTOMER_FOUNDED == true) {
-          z.cancel();
-          print("customer found");
-          print(
-              "CustomerPickUpLocation: Lat : ${getNearestClientResponseModel.nearestRidePickupLocation.lat} ,long : ${getNearestClientResponseModel.nearestRidePickupLocation.lng}");
-          print(
-              "CustomerDropOffLocation: Lat : ${getNearestClientResponseModel.nearestRidePickupLocation.lat} ,long : ${getNearestClientResponseModel.nearestRidePickupLocation.lng}");
-          Address finalPos = Address(descriptor: "PickUp ");
-          finalPos.latitude = double.parse(
-              getNearestClientResponseModel.nearestRidePickupLocation.lat);
-          finalPos.longitude = double.parse(
-              getNearestClientResponseModel.nearestRidePickupLocation.lng);
-          Provider.of<MapsProvider>(cttx, listen: false).getPickUpAddress(
-              getNearestClientResponseModel.nearestRidePickupLocation.lat,
-              getNearestClientResponseModel.nearestRidePickupLocation.lng,
-              cttx);
-          Address initial =
-              Provider.of<MapsProvider>(cttx, listen: false).currentLocation;
-          await Provider.of<PolyLineProvider>(cttx, listen: false)
-              .getPlaceDirection(
-                  cttx,
-                  initial,
-                  finalPos,
-                  Provider.of<MapsProvider>(cttx, listen: false)
-                      .googleMapController);
-          isPopRequestDataReady = true;
-          if (isHomeMapOpened == false && isPopRequestDataReady == true) {
-            Navigator.of(cttx)
-                .push(PageRouteBuilder(
-                    opaque: false,
-                    pageBuilder: (BuildContext context, _, __) =>
-                        UpcomingRequest()))
-                .then((value) {
-              print("page poped");
-              return isHomeMapOpened = false;
-            });
-          }
-          notifyListeners();
-        } else if (ALREADY_HAVE_RIDE == true) {
-          z.cancel();
-          print(getNearestClientResponseModel.error);
-          print(getNearestClientResponseModel.requestId);
-          notifyListeners();
-        } else if (SEARCHING_FOR_CUSTOMER == true) {
-          print("still searching");
-          print(getNearestClientResponseModel.error);
-        }
-      });
+      researchForanthorCustomer();
     } else
       print(upcomingRequestResponseModel.msg);
+    notifyListeners();
+  }
+
+  researchForanthorCustomer() {
+    Provider.of<MapsProvider>(cttx, listen: false).locatePosition(cttx);
+    SEARCHING_FOR_CUSTOMER = true;
+    CUSTOMER_FOUNDED = false;
+    Provider.of<PolyLineProvider>(cttx, listen: false).resetPolyLine();
+    searchingForCustomerTimer =
+        Timer.periodic(Duration(seconds: 10), (z) async {
+      print("start");
+      await getNearestClientToMe(cttx);
+      if (CUSTOMER_FOUNDED == true) {
+        z.cancel();
+        print("customer found");
+        print(
+            "CustomerPickUpLocation: Lat : ${getNearestClientResponseModel.nearestRidePickupLocation.lat} ,long : ${getNearestClientResponseModel.nearestRidePickupLocation.lng}");
+        print(
+            "CustomerDropOffLocation: Lat : ${getNearestClientResponseModel.nearestRidePickupLocation.lat} ,long : ${getNearestClientResponseModel.nearestRidePickupLocation.lng}");
+        Address finalPos = Address(descriptor: "PickUp ");
+        finalPos.latitude = double.parse(
+            getNearestClientResponseModel.nearestRidePickupLocation.lat);
+        finalPos.longitude = double.parse(
+            getNearestClientResponseModel.nearestRidePickupLocation.lng);
+        Provider.of<MapsProvider>(cttx, listen: false).getPickUpAddress(
+            getNearestClientResponseModel.nearestRidePickupLocation.lat,
+            getNearestClientResponseModel.nearestRidePickupLocation.lng,
+            cttx);
+        Address initial =
+            Provider.of<MapsProvider>(cttx, listen: false).currentLocation;
+        await Provider.of<PolyLineProvider>(cttx, listen: false)
+            .getPlaceDirection(
+                cttx,
+                initial,
+                finalPos,
+                Provider.of<MapsProvider>(cttx, listen: false)
+                    .googleMapController);
+        isPopRequestDataReady = true;
+        if (isHomeMapOpened == false && isPopRequestDataReady == true) {
+          Navigator.of(cttx)
+              .push(PageRouteBuilder(
+                  opaque: false,
+                  pageBuilder: (BuildContext context, _, __) =>
+                      UpcomingRequest()))
+              .then((value) {
+            print("page poped");
+            return isHomeMapOpened = false;
+          });
+        }
+        notifyListeners();
+      } else if (ALREADY_HAVE_RIDE == true) {
+        z.cancel();
+        print(getNearestClientResponseModel.error);
+        print(getNearestClientResponseModel.requestId);
+        notifyListeners();
+      } else if (SEARCHING_FOR_CUSTOMER == true) {
+        print("still searching");
+        print(getNearestClientResponseModel.error);
+      }
+    });
     notifyListeners();
   }
 
@@ -324,7 +333,7 @@ class MechanicRequestProvider extends ChangeNotifier {
       SERVICE_FINISHED = true;
       final _dialog = RatingDialog(
         // your app's name?
-        title: '${endingWinchServiceResponseModel.fare} EGP',
+        title: '${endingWinchServiceResponseModel.fare.ceil()} EGP',
         // encourage your user to leave a high rating?
         message:
             'Tap a star to set your rating. Add more description here if you want.',
@@ -336,17 +345,18 @@ class MechanicRequestProvider extends ChangeNotifier {
               )
             : CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.green)),
-        submitButton: 'Submit',
+        submitButton: 'Submit Rating For Mechanic',
         // onCancelled: () => print('cancelled'),
         onSubmitted: (response) async {
           // WinchRequestProvider.ratingForCustomerRequestModel.stars =
           //     response.rating.toString();
           // await WinchRequestProvider.rateCustomer(ctx);
-          Navigator.pushNamedAndRemoveUntil(
-              context, DashBoard.routeName, (route) => false);
-          final snackBar =
-              SnackBar(content: Text('Check For another request!!'));
-          ScaffoldMessenger.of(cttx).showSnackBar(snackBar);
+          // Navigator.pushNamedAndRemoveUntil(
+          //     context, DashBoard.routeName, (route) => false);
+          returnToDashBoard(context);
+          // final snackBar =
+          //     SnackBar(content: Text('Check For another request!!'));
+          // ScaffoldMessenger.of(cttx).showSnackBar(snackBar);
         },
       );
       showDialog(
@@ -370,16 +380,16 @@ class MechanicRequestProvider extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  returnToDashBoard(context) {
-    Provider.of<MapsProvider>(context, listen: false).locatePosition(context);
+  returnToDashBoard(context) async {
+    await Navigator.pushNamedAndRemoveUntil(
+        context, DashBoard.routeName, (route) => false);
+    Provider.of<MapsProvider>(cttx, listen: false).locatePosition(cttx);
     SEARCHING_FOR_CUSTOMER = true;
     CUSTOMER_FOUNDED = false;
-    Provider.of<PolyLineProvider>(context, listen: false).resetPolyLine();
-    final snackBar =
-        SnackBar(content: Text('The service was cancelled by customer !!'));
-    ScaffoldMessenger.of(cttx).showSnackBar(snackBar);
-    Navigator.pushNamedAndRemoveUntil(
-        context, DashBoard.routeName, (route) => false);
+    researchForanthorCustomer();
+    final snackBar = SnackBar(content: Text('check for another request'));
+    //ScaffoldMessenger.of(cttx).showSnackBar(snackBar);
+    Provider.of<PolyLineProvider>(cttx, listen: false).resetPolyLine();
   }
 
   trackMechanic(context) async {
@@ -388,7 +398,7 @@ class MechanicRequestProvider extends ChangeNotifier {
     liveTrackerResponseModel = await requestService.liveTracker(
         liveTrackerRequestModel, loadJwtTokenFromDB());
     await getMechanicCurrentLocation(context);
-    liveTrackerTimer = Timer.periodic(Duration(seconds: 30), (z) async {
+    liveTrackerTimer = Timer.periodic(Duration(seconds: 20), (z) async {
       await getMechanicCurrentLocation(context);
       print("live tracker request body: ${liveTrackerRequestModel.toJson()}");
       isLoading = true;
@@ -436,13 +446,15 @@ class MechanicRequestProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool arrivedToCustomerLocationIsLoading = false;
   arrivedToCustomerLocation(context) async {
+    arrivedToCustomerLocationIsLoading = true;
+    notifyListeners();
     print("request body : ${arrivalMechanicRequestModel.toJson()}");
-    isLoading = true;
     arrivalMechanicResponseModel =
         await requestService.arrivalToCustomerLocation(
             arrivalMechanicRequestModel, loadJwtTokenFromDB());
-    isLoading = false;
+    arrivedToCustomerLocationIsLoading = false;
     print(arrivalMechanicResponseModel.msg);
     if (/*arrivalMechanicResponseModel.msg ==
         "You haven't arrived yet!"*/
@@ -528,15 +540,19 @@ class MechanicRequestProvider extends ChangeNotifier {
     checkMechanicRequestStatusResponseModel =
         await requestService.checkMechanicServiceStatus(loadJwtTokenFromDB());
     isLoading = false;
+    print(checkMechanicRequestStatusResponseModel.status);
     if (checkMechanicRequestStatusResponseModel.status ==
         "WAITING_FOR_APPROVAL") {
       WAITING_FOR_APPROVAL = true;
-    }
+      notifyListeners();
+    } else
+      WAITING_FOR_APPROVAL = false;
 
     if (checkMechanicRequestStatusResponseModel.status == "CUSTOMER_RESPONSE") {
       WAITING_FOR_APPROVAL = false;
       CUSTOMER_RESPONSE =
           checkMechanicRequestStatusResponseModel.customerResponse;
+      notifyListeners();
     }
 
     notifyListeners();

@@ -20,7 +20,7 @@ class EndingMechanicServiceResponseModel {
   });
 
   String status;
-  int fare;
+  double fare;
   TotalTimeForService totalTimeForService;
 
   factory EndingMechanicServiceResponseModel.fromJson(

@@ -13,118 +13,118 @@ class ViewingDiagnosesCartDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     ScrollController controller = ScrollController();
-    return Scaffold(
-      backgroundColor: Colors.white.withOpacity(1),
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "Your diagnoses for customer car",
-          style: Theme.of(context).textTheme.headline6,
-        ),
-      ),
-      body: Consumer2<MechanicRequestProvider, MechanicServicesCartProvider>(
+    return Consumer2<MechanicRequestProvider, MechanicServicesCartProvider>(
         builder: (context, mechanicRequestProvider,
-                mechanicServicesCartProvider, child) =>
-            Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: size.height * 0),
-              child: Container(
-                height: size.height * 0.9,
-                child: SingleChildScrollView(
-                  controller: controller,
-                  physics: AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    children: [
-                      mechanicServicesCartProvider
-                                  .mechanicItemsSelectedList.length >
-                              0
-                          ? buildIItemsNeeded(context, size,
-                              mechanicServicesCartProvider, controller)
-                          : Container(),
-                      mechanicServicesCartProvider
-                                  .mechanicServicesSelectedList.length >
-                              0
-                          ? buildServicesNeeded(context, size,
-                              mechanicServicesCartProvider, controller)
-                          : Container(),
-                      buildPaymentSummery(
-                          context, mechanicServicesCartProvider),
-                    ],
+            mechanicServicesCartProvider, child) => Scaffold(
+        backgroundColor: Colors.white.withOpacity(1),
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            "Your diagnoses for customer car",
+            style: Theme.of(context).textTheme.headline6,
+          ),
+        ),
+        body:
+              Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: size.height * 0),
+                child: Container(
+                  height: size.height * 0.9,
+                  child: SingleChildScrollView(
+                    controller: controller,
+                    physics: AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        mechanicServicesCartProvider
+                                    .mechanicItemsSelectedList.length >
+                                0
+                            ? buildIItemsNeeded(context, size,
+                                mechanicServicesCartProvider, controller)
+                            : Container(),
+                        mechanicServicesCartProvider
+                                    .mechanicServicesSelectedList.length >
+                                0
+                            ? buildServicesNeeded(context, size,
+                                mechanicServicesCartProvider, controller)
+                            : Container(),
+                        buildPaymentSummery(
+                            context, mechanicServicesCartProvider),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: size.height * 0.1,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                        color: Colors.white.withOpacity(0.2),
-                        blurRadius: 15.0,
-                        offset: Offset(0.0, 0.75))
-                  ],
-                ),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      TextButton(
-                          child: Text("Add More To cart".toUpperCase(),
-                              style: TextStyle(fontSize: 15.5)),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: size.height * 0.1,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: Colors.white.withOpacity(0.2),
+                          blurRadius: 15.0,
+                          offset: Offset(0.0, 0.75))
+                    ],
+                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            child: Text("Add More To cart".toUpperCase(),
+                                style: TextStyle(fontSize: 15.5)),
+                            style: ButtonStyle(
+                                padding: MaterialStateProperty.all<EdgeInsets>(
+                                    EdgeInsets.all(16)),
+                                foregroundColor: MaterialStateProperty.all<Color>(
+                                    Theme.of(context).primaryColorDark),
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        side: BorderSide(
+                                            width: 0.7,
+                                            color: Theme.of(context)
+                                                .primaryColorDark)))),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              //mechanicRequestProvider.rejectUpComingDiagnosis();
+                            }),
+                        SizedBox(width: size.width * 0.0),
+                        TextButton(
+                          child: mechanicRequestProvider
+                                      .sendDiagnosisToCustomerIsLoading ==
+                                  false
+                              ? Text("Send to customer".toUpperCase(),
+                                  style: TextStyle(fontSize: 16))
+                              : CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
                           style: ButtonStyle(
                               padding: MaterialStateProperty.all<EdgeInsets>(
-                                  EdgeInsets.all(16)),
-                              foregroundColor: MaterialStateProperty.all<Color>(
-                                  Theme.of(context).primaryColorDark),
+                                  EdgeInsets.all(15)),
+                              foregroundColor:
+                                  MaterialStateProperty.all<Color>(Colors.white),
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color>(Colors.green),
                               shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      side: BorderSide(
-                                          width: 0.7,
-                                          color: Theme.of(context)
-                                              .primaryColorDark)))),
+                                      side: BorderSide(color: Colors.green)))),
                           onPressed: () {
-                            Navigator.pop(context);
-                            //mechanicRequestProvider.rejectUpComingDiagnosis();
-                          }),
-                      SizedBox(width: size.width * 0.0),
-                      TextButton(
-                        child: mechanicRequestProvider
-                                    .sendDiagnosisToCustomerIsLoading ==
-                                false
-                            ? Text("Send to customer".toUpperCase(),
-                                style: TextStyle(fontSize: 16))
-                            : CircularProgressIndicator(
-                                color: Colors.white,
-                              ),
-                        style: ButtonStyle(
-                            padding: MaterialStateProperty.all<EdgeInsets>(
-                                EdgeInsets.all(15)),
-                            foregroundColor:
-                                MaterialStateProperty.all<Color>(Colors.white),
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.green),
-                            shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    side: BorderSide(color: Colors.green)))),
-                        onPressed: () {
-                          mechanicRequestProvider
-                              .sendDiagnosisToCustomer(context);
-                        },
-                      ),
-                    ]),
+                            mechanicRequestProvider
+                                .sendDiagnosisToCustomer(context);
+                          },
+                        ),
+                      ]),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
     );
   }
 

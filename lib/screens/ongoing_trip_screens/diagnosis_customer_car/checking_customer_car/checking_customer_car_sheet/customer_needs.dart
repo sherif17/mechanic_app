@@ -58,7 +58,7 @@ class _CustomerNeedsState extends State<CustomerNeeds> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            height: size.height * 0.15,
+            //height: size.height * 0.15,
             decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.grey.withOpacity(0.7),
@@ -79,9 +79,12 @@ class _CustomerNeedsState extends State<CustomerNeeds> {
                     alignment: loadCurrentLangFromDB() == "en"
                         ? Alignment.topRight
                         : Alignment.topLeft,
-                    child: Text(
-                      '${mechanicRequestProvider.initialDiagnosisProblemList[index].subProblem ?? mechanicRequestProvider.initialDiagnosisProblemList[index].problem}',
-                      style: Theme.of(context).textTheme.bodyText2,
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                        '${mechanicRequestProvider.initialDiagnosisProblemList[index].subProblem ?? mechanicRequestProvider.initialDiagnosisProblemList[index].problem}',
+                        style: Theme.of(context).textTheme.bodyText2,
+                      ),
                     ),
                   ),
                   subtitle: Align(
@@ -142,7 +145,7 @@ class _CustomerNeedsState extends State<CustomerNeeds> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            height: size.height * 0.15,
+            // height: size.height * 0.15,
             decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.grey.withOpacity(0.7),
@@ -172,9 +175,12 @@ class _CustomerNeedsState extends State<CustomerNeeds> {
                     alignment: loadCurrentLangFromDB() == "en"
                         ? Alignment.topRight
                         : Alignment.topLeft,
-                    child: Text(
-                      '${mechanicRequestProvider.initialDiagnosisServiceList[index].serviceDesc}',
-                      style: Theme.of(context).textTheme.bodyText2,
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                        '${mechanicRequestProvider.initialDiagnosisServiceList[index].serviceDesc}',
+                        style: Theme.of(context).textTheme.bodyText2,
+                      ),
                     ),
                   ),
                   subtitle: Align(
