@@ -235,19 +235,19 @@ class UpcomingRequestSheet extends StatelessWidget {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(5),
-                                    child: Icon(Icons.add_location_alt_rounded),
-                                  ),
-                                  FittedBox(
-                                    fit: BoxFit.fitWidth,
-                                    child: Text(
+                              child: FittedBox(
+                                child: Row(
+                                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child:
+                                          Icon(Icons.add_location_alt_rounded),
+                                    ),
+                                    Text(
                                         '${mapsProvider.customerPickUpLocation.placeName}'),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                             Padding(

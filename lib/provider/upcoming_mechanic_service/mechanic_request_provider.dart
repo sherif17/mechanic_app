@@ -345,7 +345,7 @@ class MechanicRequestProvider extends ChangeNotifier {
               )
             : CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.green)),
-        submitButton: 'Submit Rating For Mechanic',
+        submitButton: 'Submit Rating For Customer',
         // onCancelled: () => print('cancelled'),
         onSubmitted: (response) async {
           // WinchRequestProvider.ratingForCustomerRequestModel.stars =
@@ -384,12 +384,12 @@ class MechanicRequestProvider extends ChangeNotifier {
     await Navigator.pushNamedAndRemoveUntil(
         context, DashBoard.routeName, (route) => false);
     Provider.of<MapsProvider>(cttx, listen: false).locatePosition(cttx);
+    Provider.of<PolyLineProvider>(cttx, listen: false).resetPolyLine();
     SEARCHING_FOR_CUSTOMER = true;
     CUSTOMER_FOUNDED = false;
     researchForanthorCustomer();
     final snackBar = SnackBar(content: Text('check for another request'));
     //ScaffoldMessenger.of(cttx).showSnackBar(snackBar);
-    Provider.of<PolyLineProvider>(cttx, listen: false).resetPolyLine();
   }
 
   trackMechanic(context) async {
