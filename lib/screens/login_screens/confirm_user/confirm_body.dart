@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/screens/dash_board/dash_board.dart';
 import 'package:mechanic_app/screens/login_screens/common_widgets/background.dart';
@@ -19,21 +20,21 @@ class Body extends StatefulWidget {
   _BodyState createState() => _BodyState();
 }
 
-String prefFName;
-String prefLName;
-String prefJwtToken;
-String prefPhone;
+String prefFName = loadFirstNameFromDB();
+String prefLName = loadLastNameFromDB();
+String prefJwtToken = loadJwtTokenFromDB();
+String prefPhone = loadPhoneNumberFromDB();
 // String prefWinchPlatesNum;
 // String prefWinchPlatesChar;
-String currentLang;
-String workingCity;
+String currentLang = loadCurrentLangFromDB();
+String workingCity = loadWorkingCityFromDB();
 //String prefWinchPlates;
 
 class _BodyState extends State<Body> {
   otpNavData otpResponse;
   @override
   void initState() {
-    getCurrentPrefData();
+    // getCurrentPrefData();
     // TODO: implement initState
     super.initState();
   }
@@ -68,7 +69,11 @@ class _BodyState extends State<Body> {
               press: () {
                 Map<String, dynamic> decodedToken =
                     JwtDecoder.decode(prefJwtToken);
-                setPrefBackendID(decodedToken["_id"]);
+                //setPrefBackendID(decodedToken["_id"]);
+                saveBackendIBInDB(decodedToken["_id"]);
+                saveVerificationStateInDB(decodedToken["verified"].toString());
+                saveIATInDB(decodedToken["iat"].toString());
+                printAllMechanicSavedInfoInDB();
                 Navigator.pushReplacementNamed(context, DashBoard.routeName);
               }),
           Theme(
@@ -114,36 +119,6 @@ class _BodyState extends State<Body> {
     );
   }*/
 
-  void getCurrentPrefData() {
-    getPrefFirstName().then((value) {
-      setState(() {
-        prefFName = value;
-      });
-    });
-    getPrefLastName().then((value) {
-      setState(() {
-        prefLName = value;
-      });
-    });
-    getPrefPhoneNumber().then((value) {
-      setState(() {
-        prefPhone = value;
-      });
-    });
-    getPrefJwtToken().then((value) {
-      setState(() {
-        prefJwtToken = value;
-      });
-    });
-    getPrefCurrentLang().then((value) {
-      setState(() {
-        currentLang = value;
-      });
-    });
-    getPrefWorkingCity().then((value) {
-      return workingCity = value;
-    });
-  }
 }
 
 Future buildStepperShowModalBottomSheet(BuildContext context, size) {

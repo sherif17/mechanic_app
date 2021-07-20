@@ -5,8 +5,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
-import 'package:mechanic_app/models/phone_num_model.dart';
+import 'package:mechanic_app/models/registration_models/phone_num_model.dart';
 import 'package:mechanic_app/screens/login_screens/confirm_user/confirm_is_that_user.dart';
 import 'package:mechanic_app/screens/login_screens/file_upload/step_three/confirmationcode.dart';
 import 'package:mechanic_app/screens/login_screens/user_register/register_body.dart';
@@ -42,6 +43,7 @@ class _OtpFormState extends State<OtpForm> {
   String responseID;
   String responseFName;
   String responseLName;
+  bool responseVerificationState;
   int responseIat;
   String winchPlates;
   String governorate;
@@ -103,6 +105,7 @@ class _OtpFormState extends State<OtpForm> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.ideographic,
               children: [
                 SizedBox(
                   width: getProportionateScreenWidth(45),
@@ -217,7 +220,8 @@ class _OtpFormState extends State<OtpForm> {
                       .then((value) async {
                     if (value.user != null) {
                       fireToken = FirebaseAuth.instance.currentUser.uid;
-                      setPrefFirebaseID(fireToken);
+                      // setPrefFirebaseID(fireToken);
+                      saveFirebaseIDInDB(fireToken);
                       checkFirebase = true;
                       print(checkFirebase);
                       print("Firebase Token:${fireToken}");
@@ -242,33 +246,24 @@ class _OtpFormState extends State<OtpForm> {
                     if (value.error == null) {
                       print("Response:");
                       jwtToken = value.token;
-                      setPrefJwtToken(jwtToken);
-                      print(jwtToken);
+                      saveJwtTokenInDB(jwtToken);
                       Map<String, dynamic> decodedToken =
                           JwtDecoder.decode(jwtToken);
-                      responseID = decodedToken["_id"];
-                      //setPrefBackendID(responseID);
-                      responseFName = decodedToken["firstName"];
-                      responseLName = decodedToken["lastName"];
-                      governorate = decodedToken["governorate"];
-                      setPrefWorkingCity(governorate);
-                      responseIat = decodedToken["iat"];
-                      print(responseID);
-                      print(responseLName);
-                      print(responseFName);
-                      //print(responseIat);
-                      if (responseFName != null && responseLName != null) {
+                      if (value.firstName != null &&
+                          value.lastName != null &&
+                          value.governorate != null) {
                         setState(() {
                           isApiCallProcess = false;
                         });
-                        setPrefFirstName(responseFName);
-                        setPrefLastName(responseLName);
-                        setPrefIAT(responseIat.toString());
-                        printAllWinchUserCurrentData();
+                        saveFirstNameInDB(value.firstName);
+                        saveLastNameInDB(value.lastName);
+                        saveWorkingCityInDB(value.governorate);
+                        //printAllMechanicSavedInfoInDB();
                         await Navigator.pushNamedAndRemoveUntil(context,
                             ConfirmThisUser.routeName, (route) => false);
-                      } else if (responseFName == null &&
-                          responseLName == null) {
+                      } else if (value.firstName == null &&
+                          value.lastName == null &&
+                          value.governorate == null) {
                         setState(() {
                           isApiCallProcess = false;
                         });

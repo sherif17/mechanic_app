@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
-import 'package:mechanic_app/models/phone_num_model.dart';
+import 'package:mechanic_app/models/registration_models/phone_num_model.dart';
 import 'package:mechanic_app/screens/login_screens/otp/phone_verification.dart';
 import 'package:mechanic_app/screens/login_screens/phone_number/componants/phone_number.dart';
 import 'package:mechanic_app/shared_prefrences/winch_user_model.dart';
@@ -56,6 +58,7 @@ class _PhoneFormState extends State<PhoneForm> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
               children: <Widget>[
                 Expanded(
                     flex: 3,
@@ -123,7 +126,8 @@ class _PhoneFormState extends State<PhoneForm> {
       onSaved: (newValue) {
         String numberCodeFormat = "+20${newValue}";
         phoneRequestModel.phoneNumber = numberCodeFormat;
-        setPrefPhoneNumber(numberCodeFormat);
+        //setPrefPhoneNumber(numberCodeFormat);
+        savePhoneNumberInDB(numberCodeFormat);
       },
       onChanged: (value) {
         this.phone = value;

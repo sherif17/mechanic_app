@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
-import 'package:mechanic_app/models/user_register_model.dart';
+import 'package:mechanic_app/models/registration_models/user_register_model.dart';
 import 'package:mechanic_app/screens/login_screens/file_upload/main_stepper.dart';
 import 'package:mechanic_app/screens/login_screens/otp/componants/progress_bar.dart';
 import 'package:mechanic_app/screens/login_screens/user_register/register_body.dart';
@@ -75,6 +77,7 @@ class _RegisterFormState extends State<RegisterForm> {
       child: Column(children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.ideographic,
           children: [
             Expanded(
                 child: Column(
@@ -101,11 +104,14 @@ class _RegisterFormState extends State<RegisterForm> {
           press: () async {
             if (registerValidateAndSave()) {
               print("Request body: ${winchRegisterRequestModel.toJson()}.");
-              setPrefSocialImage(null);
-              setPrefSocialEmail(null);
+              saveSocialEmailInDB(null);
+              saveSocialImageInDB(null);
+              // setPrefSocialImage(null);
+              // setPrefSocialEmail(null);
               Navigator.pushNamed(context, MainStepper.routeName,
                   arguments: LangModel(language: widget.currentLang));
-              printAllWinchUserCurrentData();
+              printAllMechanicSavedInfoInDB();
+              // printAllWinchUserCurrentData();
               /* setState(() {
                 isApiCallProcess = true;
               });
@@ -167,7 +173,7 @@ class _RegisterFormState extends State<RegisterForm> {
       onSaved: (newValue) {
         //firstName = newValue;
         winchRegisterRequestModel.firstName = newValue;
-        setPrefFirstName(newValue);
+        saveFirstNameInDB(newValue);
       },
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -205,7 +211,7 @@ class _RegisterFormState extends State<RegisterForm> {
       onSaved: (newValue) {
         //lastName = newValue;
         winchRegisterRequestModel.lastName = newValue;
-        setPrefLastName(newValue);
+        saveLastNameInDB(newValue);
       },
       onChanged: (value) {
         if (value.isNotEmpty) {

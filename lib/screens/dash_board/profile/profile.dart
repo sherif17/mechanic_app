@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mechanic_app/lang/language_list.dart';
+import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/main.dart';
 import 'package:mechanic_app/screens/dash_board/profile/profile_body.dart';
@@ -39,8 +40,9 @@ class _ProfileState extends State<Profile> {
             );
             Widget continueButton = FlatButton(
               child: Text(getTranslated(context, "Leave")),
-              onPressed: () {
-                resetAllUserCurrentData();
+              onPressed: () async {
+                // resetAllUserCurrentData();
+                await resetAllMechanicSavedInfoInDB();
                 Navigator.pushNamedAndRemoveUntil(
                     context, Intro.routeName, (route) => false);
               },
@@ -109,7 +111,7 @@ class _ProfileState extends State<Profile> {
 
   void _changeLanguage(Language language) async {
     Locale _temp = await setLocale(language.languageCode);
-    print("current lang: ${await getPrefCurrentLang()}");
+    print("current lang: ${loadCurrentLangFromDB()}");
     MyApp.setLocale(context, _temp);
   }
 }

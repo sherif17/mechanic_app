@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/screens/login_screens/phone_number/phone_form.dart';
 import 'package:mechanic_app/shared_prefrences/winch_user_model.dart';
@@ -15,21 +16,21 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   String phoneNumber = "";
 
-  String currentLang;
+  String currentLang=loadJwtTokenFromDB();
 
   @override
   void initState() {
     super.initState();
-    getCurrentPrefData();
+   // getCurrentPrefData();
   }
 
-  void getCurrentPrefData() {
-    getPrefCurrentLang().then((value) {
-      setState(() {
-        currentLang = value;
-      });
-    });
-  }
+  // void getCurrentPrefData() {
+  //   getPrefCurrentLang().then((value) {
+  //     setState(() {
+  //       currentLang = value;
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

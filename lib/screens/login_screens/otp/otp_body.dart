@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mechanic_app/local_db/mechanic_info_db.dart';
 import 'package:mechanic_app/localization/localization_constants.dart';
 import 'package:mechanic_app/screens/login_screens/otp/otp_form.dart';
 import 'package:mechanic_app/screens/login_screens/phone_number/componants/phone_number.dart';
@@ -12,21 +13,21 @@ class Otp_Body extends StatefulWidget {
 }
 
 class _Otp_BodyState extends State<Otp_Body> {
-  String currentLang;
+  String currentLang = loadCurrentLangFromDB();
 
   @override
   void initState() {
     super.initState();
-    getCurrentPrefData();
+    // getCurrentPrefData();
   }
 
-  void getCurrentPrefData() {
-    getPrefCurrentLang().then((value) {
-      setState(() {
-        currentLang = value;
-      });
-    });
-  }
+  // void getCurrentPrefData() {
+  //   getPrefCurrentLang().then((value) {
+  //     setState(() {
+  //       currentLang = value;
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
