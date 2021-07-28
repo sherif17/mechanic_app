@@ -170,25 +170,52 @@ https://user-images.githubusercontent.com/43541909/127242922-bce8f8e8-4c27-4a2d-
 
 
 .
-<a name="Starting_Winch_service"/>
-* Starting Winch service.
-    
-* Customer Start Tracking For arrival of Winch Driver
+<a name="Arrival_To_Customer_Location"/>
+* Selecting Repaires To be Made.
 
-	* Now,winch driver picked up customer car,heading to drop off location.  
+	* After , mechanic finishs checking cutomer car.
+	* Mechanaic will select repaires to be made.
+	* To send it to the customer, to take it's confirmation.
 
-	* When winch driver arrive to drop off location, That Trip will be ended. 
-   <img src="https://user-images.githubusercontent.com/43541909/126866045-282a1a69-8fac-49aa-9f98-38cc853e79db.png" width="150" height="300" align = "center" />
-   <img src="https://user-images.githubusercontent.com/43541909/126866047-c280cf39-96a5-48fe-a65f-e1d355bc0bb0.png" width="150" height="300" align = "center" />
-
+  
+ 	 <img src="https://user-images.githubusercontent.com/43541909/127244495-a1ae6bd4-9c83-4876-a1c8-81170699ab0a.png" width="150" height="300" align = "center" />
+	 <img src="https://user-images.githubusercontent.com/43541909/127244501-a4b8bc21-e6ca-4914-a7b3-f676fbd6de7b.png" width="150" height="300" align = "center" />
+      	 <img src="https://user-images.githubusercontent.com/43541909/127244507-a3771379-84f5-4e32-b382-4559bc962dcb.png" width="150" height="300" align = "center" />
+	 <img src="https://user-images.githubusercontent.com/43541909/127244512-753d45b0-ad18-4b16-a90a-dc3b409e1698.png" width="150" height="300" align = "center" />
+  
 
 .
-<a name="Arrival_To_dropOff_location"/>
-* Arrival To dropOff location.
+<a name="Arrival_To_Customer_Location"/>
+* Waiting For cusotmer approval.
 
-	When, winch driver ends that trip ,final fare will be shown with an option for rating customer
+	* After , mechanic slecting diagnosis & sending it to the customer .
+	* He is waiting for Customer reponse about this repaires if it will be acceptted or not.
+
   
- 	 <img src="https://user-images.githubusercontent.com/43541909/126866146-3feafd16-6eae-4f37-8da7-3e68b4850768.png" width="150" height="300" align = "center" />
+ 	 <img src="https://user-images.githubusercontent.com/43541909/127244738-928b736c-bab2-4c7a-930e-27109ba4eafa.png" width="150" height="300" align = "center" />
+  
+  
+  
+.
+<a name="Arrival_To_Customer_Location"/>
+* Repaires Acceptted & Service Started  .
+
+	* If , the customer accept those repaires , mechanic would be notifed by that , he will be able to start working in the customer car.
+
+ 	 <img src="https://user-images.githubusercontent.com/43541909/127244899-a95051b3-1b81-46f8-ac7e-8d4537837e34.png" width="150" height="300" align = "center" />
+	 <img src="https://user-images.githubusercontent.com/43541909/127244902-fb40e17d-1c85-4ab0-a253-916af1485a84.png" width="150" height="300" align = "center" />
+
+.
+<a name="Starting_service"/>
+* Starting Mechanic service.
+    
+* Mechanic now staart workin in the customer car
+* And customer is wating him till he finishes those repaires. 
+* When the mechanic finishs those repaires ,he will slide the buttons to end the services & the fare will be shown.
+   <img src="https://user-images.githubusercontent.com/43541909/127245123-810fb3bd-57e3-4261-b611-6a0d3ba8bdab.png" width="150" height="300" align = "center" />
+   <img src="https://user-images.githubusercontent.com/43541909/127245132-e858c825-483b-4672-82d0-5a709d1e7be3.png" width="150" height="300" align = "center" />
+
+
   
   
 ### Records  
