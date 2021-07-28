@@ -94,9 +94,14 @@ This app is developed for all Mechanics in Egypt to join us to provide Mechanic 
 
 
 
+https://user-images.githubusercontent.com/43541909/127242698-663e0960-a7ca-43a8-ad9f-8a087a70c05b.mp4
 
 
-https://user-images.githubusercontent.com/43541909/126863345-d27a5d1a-e9c0-44aa-8c07-4aa05b050b44.mp4
+
+
+
+https://user-images.githubusercontent.com/43541909/127242922-bce8f8e8-4c27-4a2d-b8d6-dce913af10ca.mp4
+
 
 
 
@@ -173,11 +178,14 @@ https://user-images.githubusercontent.com/43541909/126863345-d27a5d1a-e9c0-44aa-
 ### Records  
 
 
-https://user-images.githubusercontent.com/43541909/126866193-b9d85fb8-47b0-4bea-bbff-accda25a0220.mp4
+
+https://user-images.githubusercontent.com/43541909/127242958-9b62edf3-37fb-4e82-8814-7f9d53b79528.mp4
 
 
 
-https://user-images.githubusercontent.com/43541909/126866208-9ba5593e-9654-4f51-ad5d-101e14367df5.mp4
+
+https://user-images.githubusercontent.com/43541909/127243067-5a218f62-6dbd-49a1-844f-3163587bb848.mp4
+
 
 
 
